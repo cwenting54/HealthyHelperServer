@@ -34,7 +34,11 @@ public class SelectMealTimeRangeCategoryController extends HttpServlet {
 	}
 	
 	@Override 
-	protected void doPost(HttpServletRequest req,HttpServletResponse res) throws IOException{
+	protected void doPost(HttpServletRequest req,HttpServletResponse resp) throws IOException{
+		req.setCharacterEncoding("UTF-8");
+        resp.setContentType("application/json;charset=UTF-8");
+        resp.setCharacterEncoding("UTF-8");
+        
 		Gson gson = GsonForSqlDateAndSqlTime.gson;
 		JsonObject jsonObject = new JsonObject();
 		String result = "";
@@ -49,7 +53,7 @@ public class SelectMealTimeRangeCategoryController extends HttpServlet {
 			jsonObject.addProperty("result", false);
 			jsonObject.addProperty("errorMessage", errorMessage);
 			jsonObject.addProperty("affectedRows", affectedRows);
-			res.getWriter().write(jsonObject.toString());
+			resp.getWriter().write(jsonObject.toString());
 			return;
 		}
 		errorMessage = "";
@@ -69,7 +73,7 @@ public class SelectMealTimeRangeCategoryController extends HttpServlet {
 		jsonObject.addProperty("result", result);
 		jsonObject.addProperty("errorMessage", errorMessage);
 		jsonObject.addProperty("affectedRows", affectedRows);
-		res.getWriter().write(jsonObject.toString());
+		resp.getWriter().write(jsonObject.toString());
 		return;
 	}
 }

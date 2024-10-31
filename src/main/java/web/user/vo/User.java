@@ -1,6 +1,7 @@
 package web.user.vo;
 
 import java.sql.Timestamp;
+import java.util.Arrays;
 
 public class User {
 	private int userId;
@@ -141,4 +142,11 @@ public class User {
 		this.cPassword = cPassword;
 	}
 
+	@Override
+	public String toString() {
+		return "User [userId=" + userId + ", account=" + account + ", password=" + password + ", username=" + username
+				+ ", userEmail=" + userEmail + ", phoneno=" + phoneno + ", gender=" + gender + ", birthday=" + birthday
+				+ ", roleID=" + roleID + ", certificate=" + Arrays.toString(certificate) + ", registrationDate="
+				+ registrationDate + ", userIcon=" + Arrays.toString(userIcon) + ", cPassword=" + cPassword + "]";
+	}
 }
