@@ -42,11 +42,7 @@ public class QueryDietDiaryByDateController extends HttpServlet {
 	}
 
 	@Override 
-	protected void doGet(HttpServletRequest req,HttpServletResponse resp) throws IOException{
-		req.setCharacterEncoding("UTF-8");
-        resp.setContentType("application/json;charset=UTF-8");
-        resp.setCharacterEncoding("UTF-8");
-        
+	protected void doGet(HttpServletRequest req,HttpServletResponse res) throws IOException{
 		Gson gson = GsonForSqlDateAndSqlTime.gson;
 		JsonObject jsonObject = new JsonObject();
 		String errorMessage = "";
@@ -77,7 +73,7 @@ public class QueryDietDiaryByDateController extends HttpServlet {
 			jsonObject.addProperty("result", result);
 			jsonObject.addProperty("affectedRow", affectedRow);
 			jsonObject.addProperty("errorMessage", errorMessage);
-			resp.getWriter().write(jsonObject.toString());
+			res.getWriter().write(jsonObject.toString());
 			return;
 		}
 		
@@ -100,7 +96,7 @@ public class QueryDietDiaryByDateController extends HttpServlet {
 		jsonObject.addProperty("result", result);
 		jsonObject.addProperty("affectedRow", affectedRow);
 		jsonObject.addProperty("errorMessage", errorMessage);
-		resp.getWriter().write(jsonObject.toString());
+		res.getWriter().write(jsonObject.toString());
 		
 		return;
 	}

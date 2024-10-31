@@ -26,7 +26,7 @@ import web.dietdiary.util.datetime.DateTimeHandlerImpl;
 import web.dietdiary.util.gson.GsonForSqlDateAndSqlTime;
 import web.dietdiary.vo.DietDiary;
 
-@WebServlet("/dietDiary/query/byDateAndTime")
+@WebServlet("/dietDiary/query/byTime")
 public class QueryDietDiaryByDateAndTimeController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 

@@ -35,11 +35,7 @@ public class ChangeMealTimeRangeCategoryController extends HttpServlet {
 	}
 	
 	@Override 
-	protected void doPost(HttpServletRequest req,HttpServletResponse resp) throws IOException{
-		req.setCharacterEncoding("UTF-8");
-        resp.setContentType("application/json;charset=UTF-8");
-        resp.setCharacterEncoding("UTF-8");
-        
+	protected void doPost(HttpServletRequest req,HttpServletResponse res) throws IOException{
 		Gson gson = GsonForSqlDateAndSqlTime.gson;
 		JsonObject jsonObject = new JsonObject();
 		String errorMessage = "";
@@ -54,13 +50,13 @@ public class ChangeMealTimeRangeCategoryController extends HttpServlet {
 			errorMessage = "Unknown error!!!";
 			jsonObject.addProperty("result", false);
 			jsonObject.addProperty("errorMessage", errorMessage);
-			resp.getWriter().write(jsonObject.toString());
+			res.getWriter().write(jsonObject.toString());
 			return;
 		}
 	
 		jsonObject.addProperty("result", true);
 		jsonObject.addProperty("errorMessage", errorMessage);
-		resp.getWriter().write(jsonObject.toString());
+		res.getWriter().write(jsonObject.toString());
 		return;
 	}
 }
