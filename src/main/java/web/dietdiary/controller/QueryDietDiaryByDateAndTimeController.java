@@ -26,7 +26,7 @@ import web.dietdiary.util.datetime.DateTimeHandlerImpl;
 import web.dietdiary.util.gson.GsonForSqlDateAndSqlTime;
 import web.dietdiary.vo.DietDiary;
 
-@WebServlet("/dietDiary/query/byTime")
+@WebServlet("/dietDiary/query/byDateAndTime")
 public class QueryDietDiaryByDateAndTimeController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -42,7 +42,11 @@ public class QueryDietDiaryByDateAndTimeController extends HttpServlet {
 	}
 
 	@Override 
-	protected void doGet(HttpServletRequest req,HttpServletResponse res) throws IOException{
+	protected void doGet(HttpServletRequest req,HttpServletResponse resp) throws IOException{
+		req.setCharacterEncoding("UTF-8");
+        resp.setContentType("application/json;charset=UTF-8");
+        resp.setCharacterEncoding("UTF-8");
+        
 		Gson gson = GsonForSqlDateAndSqlTime.gson;
 		JsonObject jsonObject = new JsonObject();
 		String errorMessage = "";
@@ -62,7 +66,7 @@ public class QueryDietDiaryByDateAndTimeController extends HttpServlet {
 			jsonObject.addProperty("result", false);
 			jsonObject.addProperty("affectedRow", affectedRow);
 			jsonObject.addProperty("errorMessage", errorMessage);
-			res.getWriter().write(jsonObject.toString());
+			resp.getWriter().write(jsonObject.toString());
 			return;
 		}
 		
@@ -73,7 +77,7 @@ public class QueryDietDiaryByDateAndTimeController extends HttpServlet {
 			jsonObject.addProperty("result", result);
 			jsonObject.addProperty("affectedRow", affectedRow);
 			jsonObject.addProperty("errorMessage", errorMessage);
-			res.getWriter().write(jsonObject.toString());
+			resp.getWriter().write(jsonObject.toString());
 			return;
 		}
 		
@@ -96,7 +100,7 @@ public class QueryDietDiaryByDateAndTimeController extends HttpServlet {
 		jsonObject.addProperty("result", result);
 		jsonObject.addProperty("affectedRow", affectedRow);
 		jsonObject.addProperty("errorMessage", errorMessage);
-		res.getWriter().write(jsonObject.toString());
+		resp.getWriter().write(jsonObject.toString());
 		
 		return;
 	}
