@@ -39,7 +39,7 @@ public class PlanController extends HttpServlet {
 	private void writeText(HttpServletResponse response, String outText) throws IOException {
 		response.setContentType(CONTENT_TYPE);
 		PrintWriter out = response.getWriter();
-		out.print(outText);
+		out.write(outText);
 		// 將輸出資料列印出來除錯用
 		System.out.println("output: " + outText);
 	}
@@ -49,11 +49,19 @@ public class PlanController extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		req.setCharacterEncoding("UTF-8");
 		Gson gson = new Gson();
-		PlanWithCategory planWithCategory = gson.fromJson(req.getReader(), PlanWithCategory.class);
-		System.out.println("dataIn: " + planWithCategory.toString()); //requestIn
+		System.out.println("dataIn: " + req.toString()); //requestIn
+		try {
+			PlanWithCategory planWithCategory = gson.fromJson(req.getReader(), PlanWithCategory.class);
+			List<PlanWithCategory> planlist = planService.getUnFinishedPlan(planWithCategory);
+			if (planlist == null) {
+				writeText(resp, "");
+			}
+			writeText(resp, gson.toJson(planlist));
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("postErr: " + e.toString());
+		}
 		
-		List<PlanWithCategory> planlist = planService.getUnFinishedPlan(planWithCategory);
-		writeText(resp, gson.toJson(planlist));
 	}
 
 }
