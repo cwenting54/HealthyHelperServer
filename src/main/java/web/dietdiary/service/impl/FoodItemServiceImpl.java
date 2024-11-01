@@ -30,4 +30,18 @@ public class FoodItemServiceImpl implements FoodItemService{
 		}
 	}
 
+	@Override
+	public String update(FoodItem foodItem) {
+		try {
+			int affectedRows = 0;
+			affectedRows = this.foodItemDao.insert(foodItem);
+			if(affectedRows!=1) {
+				throw new Exception("Unknown error!!!");
+			}
+			return "";
+		}catch (Exception e) {
+			return e.getMessage().toString();
+		}
+	}
+
 }
