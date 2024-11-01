@@ -66,7 +66,7 @@ public class QueryDietDiaryByDateController extends HttpServlet {
 			jsonObject.addProperty("result", false);
 			jsonObject.addProperty("affectedRow", affectedRow);
 			jsonObject.addProperty("errorMessage", errorMessage);
-			res.getWriter().write(jsonObject.toString());
+			resp.getWriter().write(jsonObject.toString());
 			return;
 		}
 		

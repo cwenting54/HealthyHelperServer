@@ -2,10 +2,6 @@ package web.dietdiary.controller;
 
 import java.io.IOException;
 
-import java.sql.Date;
-import java.sql.Time;
-import java.sql.Timestamp;
-
 import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,25 +12,20 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
-import web.dietdiary.checker.impl.DietDiaryChecker;
-import web.dietdiary.checker.impl.DietDiaryCheckerImpl;
-import web.dietdiary.service.impl.DietDiaryService;
-import web.dietdiary.service.impl.DietDiaryServiceImpl;
-import web.dietdiary.util.gson.GsonForSqlDateAndSqlTime;
-import web.dietdiary.vo.DietDiary;
+import web.dietdiary.service.impl.FoodService;
+import web.dietdiary.service.impl.FoodServiceImpl;
+import web.dietdiary.vo.Food;
 
-@WebServlet("/dietDiary/insert/insertDietDiary")
-public class InsertDietDiaryController extends HttpServlet{
+@WebServlet("/dietDiary/food/insert")
+public class InsertFoodController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	
-	private DietDiaryService dietDiaryService;
-	private DietDiaryChecker dietDiaryChecker;
-	
+
+	private FoodService foodService;
+
 	@Override
 	public void init() throws ServletException {
 		try {
-			this.dietDiaryService = new DietDiaryServiceImpl(null);
-			this.dietDiaryChecker = new DietDiaryCheckerImpl();
+			this.foodService = new FoodServiceImpl();
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}
@@ -46,28 +37,24 @@ public class InsertDietDiaryController extends HttpServlet{
         resp.setContentType("application/json;charset=UTF-8");
         resp.setCharacterEncoding("UTF-8");
         
-		Gson gson = GsonForSqlDateAndSqlTime.gson;
+		Gson gson = new Gson();
 		JsonObject jsonObject = new JsonObject();
+		Food food;
 		String errorMessage = "";
-		boolean isValidData = true;
-		DietDiary dietDiary = gson.fromJson(req.getReader(), DietDiary.class);
-		System.out.println("Ready to deserialize.");
-		System.out.println("dietDiary:"+dietDiary.toString());
 		
-		isValidData = this.dietDiaryChecker.check(dietDiary);
-		if(!isValidData) {
-			errorMessage = "Invalid Data in DietDiary!!!";
+		food = gson.fromJson(req.getReader(), Food.class);
+		if(food == null) {
+			errorMessage = "NPE!!! foodItem is null";
 			jsonObject.addProperty("result", false);
 			jsonObject.addProperty("errorMessage", errorMessage);
-			resp.getWriter().write(jsonObject.toString());	
+			resp.getWriter().write(jsonObject.toString());
 			return;
 		}
-		errorMessage = this.dietDiaryService.insert(dietDiary);
-		 
-		if(errorMessage!="") {
+		errorMessage = this.foodService.insert(food);
+		if(errorMessage!=null) {
 			jsonObject.addProperty("result", false);
 			jsonObject.addProperty("errorMessage", errorMessage);
-			resp.getWriter().write(jsonObject.toString());		
+			resp.getWriter().write(jsonObject.toString());
 			return;
 		}
 		
