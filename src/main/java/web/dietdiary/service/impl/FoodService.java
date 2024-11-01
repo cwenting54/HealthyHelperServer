@@ -6,4 +6,5 @@ import web.dietdiary.vo.Food;
 
 public interface FoodService {
 	ArrayList<Food> listAvailableFoods();
+	
 }
