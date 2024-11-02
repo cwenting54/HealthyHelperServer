@@ -13,4 +13,6 @@ public interface BodyManagementDao {
 	int deleteBodyDataByRecordId(int recordId);
 
 	List<BodyManagement> selectByUserIdAndDateRange(int userId, Timestamp startDate, Timestamp endDate);
+
+	boolean isRecordDateExists(int integer, Timestamp recordDate);
 }

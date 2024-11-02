@@ -24,9 +24,14 @@ public class BodyManagementServiceImpl implements BodyManagementService {
 				|| bodyManagement.getWeight() <= 0) {
 			return "體重和身高不可以為0";
 		}
+		if (bodyManagementDao.isRecordDateExists(bodyManagement.getUserId(), bodyManagement.getRecordDate())) {
+	        return "該日期的紀錄已經存在，請勿重複輸入";
+	    }
+		
 		int result = bodyManagementDao.insertBodyData(bodyManagement);
 
 		return result > 0 ? null : "體重紀錄新增失敗";
+		
 	}
 
 	@Override

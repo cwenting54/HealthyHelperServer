@@ -78,7 +78,7 @@ public class BodyManagementDaoImpl<selectByUserIdAndDateRange> implements BodyMa
 
 	@Override
 	public List<BodyManagement> selectByUserIdAndDateRange(int userId, Timestamp startDate, Timestamp endDate) {
-		String sql = "SELECT * FROM bodymanagement WHERE userId = ? AND recordDate BETWEEN ? AND ? ORDER BY recordDate DESC;";
+		String sql = "select * from bodymanagement where userId = ? and recordDate between ? and ? order by recordDate desc;";
 	    
 	    try (Connection conn = ds.getConnection();
 	         PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -109,5 +109,23 @@ public class BodyManagementDaoImpl<selectByUserIdAndDateRange> implements BodyMa
 	        e.printStackTrace();
 	    }
 	    return null;
+	}
+	
+	public boolean isRecordDateExists(int userId, Timestamp recordDate) {
+	    String sql = "SELECT * FROM bodymanagement WHERE userId = ? AND recordDate = ?";
+	    try (Connection conn = ds.getConnection(); 
+	         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+	        
+	        pstmt.setInt(1, userId);
+	        pstmt.setTimestamp(2, recordDate);
+	        
+	        ResultSet rs = pstmt.executeQuery();
+	        if (rs.next()) {
+	            return rs.getInt(1) > 0;
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    return false;
 	}
 }

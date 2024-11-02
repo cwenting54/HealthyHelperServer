@@ -4,7 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -12,6 +14,7 @@ import javax.sql.DataSource;
 
 import web.achievement.dao.AchievementDao;
 import web.achievement.vo.Achievement;
+import web.user.vo.User;
 
 public class AchievementDaoImpl implements AchievementDao {
 	private DataSource ds;
@@ -38,7 +41,7 @@ public class AchievementDaoImpl implements AchievementDao {
 					list.add(achievement);
 				}
 				return list;
-			}catch (Exception e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		} catch (Exception e) {
@@ -48,39 +51,78 @@ public class AchievementDaoImpl implements AchievementDao {
 	}
 
 	@Override
-	public Achievement insertAchievement(int aTypeId) {
-		// TODO Auto-generated method stub
-		return null;
+	public int insertAchievement(Achievement achievement) {
+		String sql = "insert into achievementlist (userId, aId) values(?,?)";
+		try (Connection conn = ds.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+			User user = new User();
+			pstmt.setInt(1, user.getUserId());
+			pstmt.setInt(2, achievement.getaTypeId());
+
+			int result = pstmt.executeUpdate();
+			return result;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return -1;
 	}
 
 	@Override
 	public int selectDiaryTimesByUserID(int userId) {
-		// TODO Auto-generated method stub
-		return 0;
+		String sql = "select count(distinct createDate) from fooddiary";
+		try (Connection conn = ds.getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql);
+				ResultSet rs = pstmt.executeQuery()) {
+			if (rs.next()) {
+				int count = rs.getInt(1);
+				return count;
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return -1;
 	}
 
 	@Override
 	public int selectWeightTimesByUserID(int userId) {
-		// TODO Auto-generated method stub
-		return 0;
+		String sql = "select count(*) from bodymanagement";
+		try (Connection conn = ds.getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql);
+				ResultSet rs = pstmt.executeQuery()) {
+			if (rs.next()) {
+				int count = rs.getInt(1);
+				return count;
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return -1;
 	}
 
 	@Override
-	public List<Integer> selectFinishPlanByUserID(int userId) {
-		String sql = "select categoryId from userdietplan where userId = ? and finishstate = 1";
-		List<Integer> list = new ArrayList<>();
+	public Map<Integer, Integer> selectFinishPlanCountByUserID(int userId) {
+		String sql = "select categoryId, count(*) as count from userdietplan where userId = ? and finishstate = 1 GROUP BY categoryId";
+		Map<Integer, Integer> categoryCountMap = new HashMap<>();
+
 		try (Connection conn = ds.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
 			pstmt.setInt(1, userId);
 			try (ResultSet rs = pstmt.executeQuery()) {
 				while (rs.next()) {
 					int categoryId = rs.getInt("categoryId");
-					list.add(categoryId);
+					int count = rs.getInt("count");
+
+					categoryCountMap.put(categoryId, count);
 				}
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return list; 
+
+		return categoryCountMap;
 	}
 
 }

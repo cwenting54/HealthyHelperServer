@@ -1,5 +1,7 @@
 package web.achievement.service;
 
 public interface AchievementService {
-	int addAchievement(int aTypeId);
+	int addDieryAchievement(int aTypeId);
+	int addWeightAchievement(int aTypeId);
+	int addPanAchievement(int aTypeId);
 }

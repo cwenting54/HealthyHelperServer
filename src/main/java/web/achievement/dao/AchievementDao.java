@@ -1,17 +1,18 @@
 package web.achievement.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import web.achievement.vo.Achievement;
 
 public interface AchievementDao {
-	Achievement insertAchievement(int aTypeId);
+	int insertAchievement(Achievement achievement);
 
 	int selectDiaryTimesByUserID(int userId);
 
 	int selectWeightTimesByUserID(int userId);
 
-	List<Integer> selectFinishPlanByUserID(int userId);
+	Map<Integer, Integer> selectFinishPlanCountByUserID(int userId);
 
 	List<Achievement> selectAchievementsByUserId(int userId);
 }
