@@ -1,9 +1,7 @@
 package web.plan.service.impl;
 
-import java.util.List;
 
 import javax.naming.NamingException;
-
 import web.plan.dao.PlanDao;
 import web.plan.dao.impl.PlanDaoImpl;
 import web.plan.service.PlanService;
@@ -19,26 +17,26 @@ public class PlanServiceImpl implements PlanService{
 
 
 	@Override
-	public List<PlanWithCategory> getUnFinishedPlan(PlanWithCategory plan) {
-		Integer userID = plan.getUserId();
+	public PlanWithCategory getplan(PlanWithCategory planWithCategory) {
+		Integer userID = planWithCategory.getUserId();
 		if(userID == null)
 		{
 			System.out.println("userID is null");
 			return null;
 		}
-		Integer finishsate = plan.getFinishstate();
+		Integer finishsate = planWithCategory.getFinishstate();
 		if (finishsate == null) {
 			System.out.println("finishstate is null");
 			return null;
 		}
-		if(planDao.selectByUserIDAndFinishState(userID, finishsate) == null)
+		if(planDao.selectSingleByUserIDAndFinishState(userID, finishsate) == null)
 		{
 			System.out.println("select is null");
 			return null;
 		}
-		
-		System.out.println("selectlist is: " + planDao.selectByUserIDAndFinishState(userID, finishsate));
-		return planDao.selectByUserIDAndFinishState(userID, finishsate);
+		System.out.println("selectsingle is: " + planDao.selectSingleByUserIDAndFinishState(userID, finishsate));
+		return planDao.selectSingleByUserIDAndFinishState(userID, finishsate);
 	}
+
 
 }
