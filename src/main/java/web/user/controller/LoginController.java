@@ -36,8 +36,10 @@ public class LoginController extends HttpServlet {
 
         Gson gson = new Gson();
         User user = gson.fromJson(req.getReader(), User.class);
+        System.out.println("user:"+user);
         User loginUser = service.login(user);
-
+        System.out.println("loginUser:"+loginUser);
+        
         JsonObject respBody = new JsonObject();
         if (loginUser != null) {
         	

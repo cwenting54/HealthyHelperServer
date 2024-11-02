@@ -27,6 +27,4 @@ public class FoodItem {
 	public String toString() {
 		return "FoodItem [diaryId=" + diaryId + ", foodId=" + foodId + ", grams=" + grams + "]";
 	}	
-	
-	
 }

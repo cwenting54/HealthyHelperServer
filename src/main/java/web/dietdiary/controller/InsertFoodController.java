@@ -1,7 +1,6 @@
 package web.dietdiary.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.naming.NamingException;
 import javax.servlet.ServletException;
@@ -15,11 +14,10 @@ import com.google.gson.JsonObject;
 
 import web.dietdiary.service.impl.FoodService;
 import web.dietdiary.service.impl.FoodServiceImpl;
-import web.dietdiary.util.gson.GsonForSqlDateAndSqlTime;
 import web.dietdiary.vo.Food;
 
-@WebServlet("/dietDiary/food/query/listAllAvailableFoods")
-public class QueryFoodController extends HttpServlet {
+@WebServlet("/dietDiary/food/insert")
+public class InsertFoodController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	private FoodService foodService;
@@ -28,58 +26,41 @@ public class QueryFoodController extends HttpServlet {
 	public void init() throws ServletException {
 		try {
 			this.foodService = new FoodServiceImpl();
-			
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}
 	}
 	
 	@Override 
-	protected void doGet(HttpServletRequest req,HttpServletResponse resp) throws IOException{
+	protected void doPost(HttpServletRequest req,HttpServletResponse resp) throws IOException{
 		req.setCharacterEncoding("UTF-8");
         resp.setContentType("application/json;charset=UTF-8");
         resp.setCharacterEncoding("UTF-8");
         
+		Gson gson = new Gson();
 		JsonObject jsonObject = new JsonObject();
+		Food food;
 		String errorMessage = "";
-		String result = "";
-		int affectedRow = 0;
-		ArrayList<Food> foods = new ArrayList<Food>();
 		
-		foods = this.foodService.listAvailableFoods();
-			
-		if(foods.isEmpty()){
-			errorMessage = "";
-			result = "not found.";
-			affectedRow = 0;
-			jsonObject.addProperty("result", result);
-			jsonObject.addProperty("affectedRow", affectedRow);
+		food = gson.fromJson(req.getReader(), Food.class);
+		if(food == null) {
+			errorMessage = "NPE!!! foodItem is null";
+			jsonObject.addProperty("result", false);
+			jsonObject.addProperty("errorMessage", errorMessage);
+			resp.getWriter().write(jsonObject.toString());
+			return;
+		}
+		errorMessage = this.foodService.insert(food);
+		if(errorMessage!=null) {
+			jsonObject.addProperty("result", false);
 			jsonObject.addProperty("errorMessage", errorMessage);
 			resp.getWriter().write(jsonObject.toString());
 			return;
 		}
 		
-		result = "";
-		
-		result += "[";
-		result += "\n";
-		for(int i=0;i<foods.size();i++) {
-			Food tempFood = foods.get(i);
-			result +=  tempFood.toString();
-			result += "\n";
-		}
-		result += "]";
-		result += "\n";
-		
-		affectedRow = foods.size(); 
-				
-		errorMessage = "";
-		
-		jsonObject.addProperty("result", result);
-		jsonObject.addProperty("affectedRow", affectedRow);
+		jsonObject.addProperty("result", true);
 		jsonObject.addProperty("errorMessage", errorMessage);
 		resp.getWriter().write(jsonObject.toString());
-		
 		return;
 	}
 }

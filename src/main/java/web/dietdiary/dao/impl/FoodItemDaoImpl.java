@@ -42,11 +42,30 @@ public class FoodItemDaoImpl implements FoodItemDao {
 			foodItem.setGrams(grams);
 			
 			foodItems.add(foodItem);
-		}
-		
+		}	
 		return foodItems;
 	}
-	
+
+	@Override
+	public int insert(FoodItem foodItem) {
+		String sqlCommand = "INSERT INTO fooditem "
+				+ " (diaryId,foodId,grams)"
+				+ " VALUES "
+				+ "(?,?,?);";
+		try(
+				Connection connection = this.getConnection();
+				PreparedStatement preparedStatement = connection.prepareStatement(sqlCommand);
+		){
+			preparedStatement.setInt(1,foodItem.getDiaryId());
+			preparedStatement.setInt(2,foodItem.getFoodId());
+			preparedStatement.setDouble(3,foodItem.getGrams());
+			
+			return preparedStatement.executeUpdate();
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return -1;
+	}
 	@Override
 	public FoodItem select(int foodId) {
 		String sqlCommand = "SELECT * FROM fooditem WHERE foodID = ? ;";
@@ -67,6 +86,38 @@ public class FoodItemDaoImpl implements FoodItemDao {
 		}
 		
 		return null;
+	}
+
+	@Override
+	public int delete(FoodItem foodItem) {
+		String sqlCommand = "DELETE FROM fooditem WHERE foodId = ? ;";
+		try(
+				Connection connection = this.getConnection();
+				PreparedStatement preparedStatement = connection.prepareStatement(sqlCommand);
+		){
+			preparedStatement.setInt(1,foodItem.getFoodId());
+			return preparedStatement.executeUpdate();
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return -1;
+	}
+
+	@Override
+	public int update(FoodItem foodItem) {
+		String sqlCommand = "UPDATE fooditem SET diaryId = ?, grams = ? WHERE foodId = ? ;";
+		try(
+				Connection connection = this.getConnection();
+				PreparedStatement preparedStatement = connection.prepareStatement(sqlCommand);
+		){
+			preparedStatement.setInt(1, foodItem.getDiaryId());
+			preparedStatement.setDouble(2, foodItem.getGrams());
+			preparedStatement.setInt(3,foodItem.getFoodId());
+			return preparedStatement.executeUpdate();
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return -1;
 	}
 
 }
