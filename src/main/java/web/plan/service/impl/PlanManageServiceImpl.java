@@ -40,7 +40,7 @@ public class PlanManageServiceImpl implements PlanManageService{
 		int result = planManageDao.deleteByUserIdAndPlanIdAndFinishState(userID, userDietPlanId, finishsate);
 		
 		
-		return result> 0 ? null:"刪除錯誤";
+		return result> 0 ? null:"刪除計畫錯誤";
 	}
 
 

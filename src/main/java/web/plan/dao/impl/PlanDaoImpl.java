@@ -4,6 +4,7 @@ package web.plan.dao.impl;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,6 +54,33 @@ public class PlanDaoImpl implements PlanDao{
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+
+	@Override
+	public int insertByUserID(PlanWithCategory planWithCategory) {
+		String sql = "INSERT INTO userdietplan(categoryId,userId,startDatetime,endDatetime,finishstate,"
+				+ "fatgoal,carbongoal,proteingoal,Caloriesgoal) "
+				+ "VALUES(?,?,?,?,?,?,?,?,?);";
+		try (
+				Connection conn = ds.getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql);
+		) {
+			pstmt.setInt(1, planWithCategory.getCategoryID());
+			pstmt.setInt(2, planWithCategory.getUserId());
+			pstmt.setTimestamp(3, planWithCategory.getStartDateTime());
+			pstmt.setTimestamp(4, planWithCategory.getEndDateTime());
+			pstmt.setInt(5, planWithCategory.getFinishstate());
+			pstmt.setFloat(6, planWithCategory.getFatgoal());
+			pstmt.setFloat(7, planWithCategory.getCarbongoal());
+			pstmt.setFloat(8, planWithCategory.getProteingoal());
+			pstmt.setFloat(9, planWithCategory.getCaloriesgoal());
+			return pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return -1;
 	}
 
 }

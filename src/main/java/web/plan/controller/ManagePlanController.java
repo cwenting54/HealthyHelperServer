@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 
+import web.plan.Common;
 import web.plan.service.PlanManageService;
 import web.plan.service.impl.PlanManageServiceImpl;
 import web.plan.vo.PlanWithCategory;
@@ -21,7 +22,7 @@ import web.plan.vo.PlanWithCategory;
 @WebServlet("/Plan/Manage")
 public class ManagePlanController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private final static String CONTENT_TYPE = "application/json; charset=UTF-8";
+	//private final static String CONTENT_TYPE = "application/json; charset=UTF-8";
 	private PlanManageService planManageService;
 	
 	@Override
@@ -35,7 +36,7 @@ public class ManagePlanController extends HttpServlet {
 	}
 	
 	private void writeText(HttpServletResponse response, String outText) throws IOException {
-		response.setContentType(CONTENT_TYPE);
+		response.setContentType(Common.CONTENT_TYPE);
 		PrintWriter out = response.getWriter();
 		out.write(outText);
 		// 將輸出資料列印出來除錯用
