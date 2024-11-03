@@ -13,7 +13,6 @@ import javax.sql.DataSource;
 import web.map.dao.HealthyMapDao;
 import web.map.vo.HealthyMap;
 import web.map.vo.UserFavoriteList;
-import web.user.vo.User;
 
 public class HealthyMapDaoImpl implements HealthyMapDao {
 	private DataSource ds;
@@ -91,8 +90,48 @@ public class HealthyMapDaoImpl implements HealthyMapDao {
 	}
 
 	@Override
-	public List<UserFavoriteList> selectFavorRestaurants(int userId) {
-		String sql = "select * from userfavoritelist where userId = ?";
+	public List<HealthyMap> selectFavorRestaurantsDetail(int userId) {
+		String sql = "select u.ufid, r.rID, r.rname, r.rweb, r.rcity, r.rregion, r.raddress, "
+	               + "r.rphone, r.rrating, r.rphotoUrl, r.rlongitude, r.rlatitude "
+	               + "from userfavoritelist u "
+	               + "join restaurant r on u.rid = r.rID "
+	               + "where u.userId = ?";
+		
+		try (Connection conn = ds.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql);) {
+
+			pstmt.setInt(1, userId);
+			try (ResultSet rs = pstmt.executeQuery();) {
+				var list = new ArrayList<HealthyMap>();
+				while (rs.next()) {
+					HealthyMap healthyMap = new HealthyMap();
+					healthyMap.setUfid(rs.getInt("ufid"));
+					healthyMap.setRID(rs.getInt("rID"));
+					healthyMap.setRname(rs.getString("rname"));
+					healthyMap.setRweb(rs.getString("rweb"));
+					healthyMap.setRcity(rs.getString("rcity"));
+					healthyMap.setRregion(rs.getString("rregion"));
+					healthyMap.setRaddress(rs.getString("raddress"));
+					healthyMap.setRphone(rs.getString("rphone"));
+					healthyMap.setRrating(rs.getFloat("rrating"));
+					healthyMap.setRphotoUrl(rs.getString("rphotoUrl"));
+					healthyMap.setRlongitude(rs.getDouble("rlongitude"));
+					healthyMap.setRlatitude(rs.getDouble("rlatitude"));
+					list.add(healthyMap);
+				}
+				return list;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	@Override
+	public List<UserFavoriteList> selectUserFavorList(int userId) {
+		String sql = "select * from userfavoritelist where userid = ?";
+		
 		try (Connection conn = ds.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql);) {
 
 			pstmt.setInt(1, userId);
@@ -102,6 +141,7 @@ public class HealthyMapDaoImpl implements HealthyMapDao {
 					UserFavoriteList userFavoriteList = new UserFavoriteList();
 					userFavoriteList.setUfid(rs.getInt("ufid"));
 					userFavoriteList.setRid(rs.getInt("rid"));
+				
 					list.add(userFavoriteList);
 				}
 				return list;
@@ -144,5 +184,7 @@ public class HealthyMapDaoImpl implements HealthyMapDao {
 		}
 		return -1;
 	}
+
+	
 
 }

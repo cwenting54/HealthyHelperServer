@@ -12,13 +12,13 @@ public class HealthyMap {
     private String rphotoUrl;
     private double rlongitude;
     private double rlatitude;
-
+    private Integer ufid; 
     public HealthyMap() {
     }
 
     public HealthyMap(Integer rID, String rname, String rweb, String rcity, String rregion, 
                      String raddress, String rphone, Float rrating, String rphotoUrl, 
-                     double rlongitude, double rlatitude) {
+                     double rlongitude, double rlatitude, Integer ufid) { // 更新構造函數
         this.rID = rID;
         this.rname = rname;
         this.rweb = rweb;
@@ -30,6 +30,7 @@ public class HealthyMap {
         this.rphotoUrl = rphotoUrl;
         this.rlongitude = rlongitude;
         this.rlatitude = rlatitude;
+        this.ufid = ufid; 
     }
 
     public Integer getRID() {
@@ -119,5 +120,12 @@ public class HealthyMap {
     public void setRlatitude(double rlatitude) {
         this.rlatitude = rlatitude;
     }
-}
 
+    public Integer getUfid() { 
+        return ufid;
+    }
+
+    public void setUfid(Integer ufid) { 
+        this.ufid = ufid;
+    }
+}

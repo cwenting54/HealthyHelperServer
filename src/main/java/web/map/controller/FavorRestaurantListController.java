@@ -9,13 +9,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import web.map.service.HealthyMapService;
 import web.map.service.impl.HealthyMapServiceImpl;
+import web.map.vo.HealthyMap;
+import web.map.vo.UserFavoriteList;
 
-
-@WebServlet("/insertFavorRestaurant")
-public class InsertUserFavorRestaurantController extends HttpServlet {
+@WebServlet("/favorRestaurantList")
+public class FavorRestaurantListController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private final static String CONTENT_TYPE = "application/json; charset=UTF-8";
 	private HealthyMapService healthyMapService;
@@ -35,17 +37,20 @@ public class InsertUserFavorRestaurantController extends HttpServlet {
 		req.setCharacterEncoding("UTF-8");
 		Gson gson = new Gson();
 		JsonObject reqBody = gson.fromJson(req.getReader(), JsonObject.class);
-		int userId = reqBody.get("userid").getAsInt();
-		int rid = reqBody.get("rid").getAsInt();
+		int userId = reqBody.get("userId").getAsInt();
 		
-	    String errMsg = healthyMapService.insertUserFavorRestaurant(userId, rid);
+		List<HealthyMap> userFavoriteList = healthyMapService.selectUserFavorList(userId);
 
-	    JsonObject respBody = new JsonObject();		
-		respBody.addProperty("result", errMsg == null);
-		respBody.addProperty("errMsg", errMsg);		
-		resp.setContentType(CONTENT_TYPE);
-		resp.getWriter().write(respBody.toString());
-		System.out.println("dataOut: " + respBody.toString());
+	    JsonArray dataArray = gson.toJsonTree(userFavoriteList).getAsJsonArray();
+
+	    JsonObject respBody = new JsonObject();
+	    respBody.add("data", dataArray);
+	    respBody.addProperty("result", !dataArray.isEmpty());
+	    respBody.addProperty("errMsg", dataArray.isEmpty() ? "無資料" : null);
+
+	    resp.setContentType(CONTENT_TYPE);
+	    resp.getWriter().write(respBody.toString());
+	    System.out.println("dataOut: " + respBody.toString());
 	}
 
 }
