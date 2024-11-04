@@ -13,6 +13,7 @@ import javax.sql.DataSource;
 import web.dietdiary.vo.DietDiary;
 import web.dietdiary.vo.Food;
 import web.dietdiary.vo.FoodItem;
+import web.dietdiary.vo.FoodNameAndGrams;
 
 public class FoodDaoImpl implements FoodDao {
 
@@ -128,5 +129,48 @@ public class FoodDaoImpl implements FoodDao {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	@Override
+	public int insert(Food food) {
+		String sqlCommand = "INSERT INTO food "
+				+ " (foodname,fat,carbon,protein,fiber,sugar,sodium,calories) "
+				+ " VALUES "
+				+ "(?,?,?,?,?,?,?,?);";
+		try(
+				Connection connection = this.getConnection();
+				PreparedStatement preparedStatement = connection.prepareStatement(sqlCommand);
+		){
+			preparedStatement.setString(1, food.getFoodName());
+			preparedStatement.setDouble(2, food.getFat());
+			preparedStatement.setDouble(3, food.getCarbon());
+			preparedStatement.setDouble(4, food.getProtein());
+			preparedStatement.setDouble(5, food.getFiber());
+			preparedStatement.setDouble(6, food.getSugar());
+			preparedStatement.setDouble(7, food.getSodium());
+			preparedStatement.setDouble(8, food.getCalories());
+			
+			return preparedStatement.executeUpdate();
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return -1;
+	}
+
+	@Override
+	public int delete(Food food) {
+		String sqlCommand = "DELETE FROM food "
+				+ " WHERE foodId = ? ;";
+		try(
+				Connection connection = this.getConnection();
+				PreparedStatement preparedStatement = connection.prepareStatement(sqlCommand);
+		){
+			preparedStatement.setInt(1, food.getFoodId());
+			
+			return preparedStatement.executeUpdate();
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return -1;
 	}
 }

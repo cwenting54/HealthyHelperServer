@@ -35,7 +35,6 @@ public class UpdateController extends HttpServlet {
 		req.setCharacterEncoding("UTF-8");
         resp.setContentType("application/json;charset=UTF-8");
         resp.setCharacterEncoding("UTF-8");
-		
 		Gson gson = new Gson();
 		User user = gson.fromJson(req.getReader(), User.class);
 		String errMsg = service.userUpdate(user);

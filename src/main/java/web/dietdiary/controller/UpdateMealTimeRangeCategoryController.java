@@ -16,10 +16,11 @@ import com.google.gson.JsonObject;
 import web.dietdiary.service.impl.MealTimeRangeCategoryService;
 import web.dietdiary.service.impl.MealTimeRangeCategoryServiceImpl;
 import web.dietdiary.util.gson.GsonForSqlDateAndSqlTime;
+import web.dietdiary.vo.DietDiary;
 import web.dietdiary.vo.MealTimeRangeCategory;
 
-@WebServlet("/dietDiary/mealTimeRangeCategory/select")
-public class SelectMealTimeRangeCategoryController extends HttpServlet {
+@WebServlet("/dietDiary/mealTimeRangeCategory/update")
+public class UpdateMealTimeRangeCategoryController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	private MealTimeRangeCategoryService mealTimeRangeCategoryService;
@@ -34,45 +35,31 @@ public class SelectMealTimeRangeCategoryController extends HttpServlet {
 	}
 	
 	@Override 
-	protected void doGet(HttpServletRequest req,HttpServletResponse resp) throws IOException{
+	protected void doPost(HttpServletRequest req,HttpServletResponse resp) throws IOException{
 		req.setCharacterEncoding("UTF-8");
         resp.setContentType("application/json;charset=UTF-8");
         resp.setCharacterEncoding("UTF-8");
         
 		Gson gson = GsonForSqlDateAndSqlTime.gson;
 		JsonObject jsonObject = new JsonObject();
-		String result = "";
 		String errorMessage = "";
-		int affectedRows = 1;
-		ArrayList<MealTimeRangeCategory> mealTimeRangeCategories = new ArrayList<MealTimeRangeCategory>();
 		MealTimeRangeCategory mealTimeRangeCategory = gson.fromJson(req.getReader(), MealTimeRangeCategory.class);
-		mealTimeRangeCategories = this.mealTimeRangeCategoryService.select(mealTimeRangeCategory);
-		if(mealTimeRangeCategories == null) {
+		
+		System.out.println("Ready to deserialize.");
+		System.out.println("mealTimeRangeCategory:"+mealTimeRangeCategory);
+		
+		errorMessage = this.mealTimeRangeCategoryService.change(mealTimeRangeCategory);
+		 
+		if(errorMessage != "") {
 			errorMessage = "Unknown error!!!";
-			affectedRows = -1;
 			jsonObject.addProperty("result", false);
 			jsonObject.addProperty("errorMessage", errorMessage);
-			jsonObject.addProperty("affectedRows", affectedRows);
 			resp.getWriter().write(jsonObject.toString());
 			return;
 		}
-		errorMessage = "";
-		affectedRows = mealTimeRangeCategories.size();
-		
-		result = "";
-		
-		result += "[";
-		for(int i=0;i<mealTimeRangeCategories.size();i++) {
-			MealTimeRangeCategory tempMealTimeRangeCategory = mealTimeRangeCategories.get(i);
-			result +=  tempMealTimeRangeCategory.toString();
-			result += "\n";
-		}
-		result += "]";
-		result += "\n";
-		
-		jsonObject.addProperty("result", result);
+	
+		jsonObject.addProperty("result", true);
 		jsonObject.addProperty("errorMessage", errorMessage);
-		jsonObject.addProperty("affectedRows", affectedRows);
 		resp.getWriter().write(jsonObject.toString());
 		return;
 	}
