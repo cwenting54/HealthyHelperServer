@@ -38,7 +38,7 @@ public class UpdateDietDiaryController extends HttpServlet{
 	}
 	
 	@Override
-	protected void doGet(HttpServletRequest req,HttpServletResponse resp) throws IOException {
+	protected void doPost(HttpServletRequest req,HttpServletResponse resp) throws IOException {
 		req.setCharacterEncoding("UTF-8");
         resp.setContentType("application/json;charset=UTF-8");
         resp.setCharacterEncoding("UTF-8");
