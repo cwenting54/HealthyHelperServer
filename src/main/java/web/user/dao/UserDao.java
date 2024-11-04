@@ -7,8 +7,7 @@ public interface UserDao {
 	User selectByAccount(String account);
 	User selectByAccountAndPassword(User user);
 	int update(User user);
-//	int register(User user);
-//    User login(String account, String password);
-
+	boolean isAccountExists(String account);
+	
 
 }
