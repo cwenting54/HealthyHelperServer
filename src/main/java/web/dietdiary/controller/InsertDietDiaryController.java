@@ -41,7 +41,11 @@ public class InsertDietDiaryController extends HttpServlet{
 	}
 	
 	@Override 
-	protected void doPost(HttpServletRequest req,HttpServletResponse res) throws IOException{
+	protected void doPost(HttpServletRequest req,HttpServletResponse resp) throws IOException{
+		req.setCharacterEncoding("UTF-8");
+        resp.setContentType("application/json;charset=UTF-8");
+        resp.setCharacterEncoding("UTF-8");
+        
 		Gson gson = GsonForSqlDateAndSqlTime.gson;
 		JsonObject jsonObject = new JsonObject();
 		String errorMessage = "";
@@ -55,7 +59,7 @@ public class InsertDietDiaryController extends HttpServlet{
 			errorMessage = "Invalid Data in DietDiary!!!";
 			jsonObject.addProperty("result", false);
 			jsonObject.addProperty("errorMessage", errorMessage);
-			res.getWriter().write(jsonObject.toString());	
+			resp.getWriter().write(jsonObject.toString());	
 			return;
 		}
 		errorMessage = this.dietDiaryService.insert(dietDiary);
@@ -63,13 +67,13 @@ public class InsertDietDiaryController extends HttpServlet{
 		if(errorMessage!="") {
 			jsonObject.addProperty("result", false);
 			jsonObject.addProperty("errorMessage", errorMessage);
-			res.getWriter().write(jsonObject.toString());		
+			resp.getWriter().write(jsonObject.toString());		
 			return;
 		}
 		
 		jsonObject.addProperty("result", true);
 		jsonObject.addProperty("errorMessage", errorMessage);
-		res.getWriter().write(jsonObject.toString());
+		resp.getWriter().write(jsonObject.toString());
 		return;
 	}
 }

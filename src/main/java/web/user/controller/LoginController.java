@@ -51,6 +51,7 @@ public class LoginController extends HttpServlet {
         User loginUser = service.login(user);
         
         System.out.println(loginUser);
+
         
         JsonObject respBody = new JsonObject();
 
