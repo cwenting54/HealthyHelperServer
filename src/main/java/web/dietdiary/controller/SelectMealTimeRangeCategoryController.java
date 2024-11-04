@@ -1,6 +1,8 @@
 package web.dietdiary.controller;
 
 import java.io.IOException;
+import java.sql.Time;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import javax.naming.NamingException;
@@ -11,8 +13,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import web.dietdiary.datetime.DateTimeFormatterImpl;
 import web.dietdiary.service.impl.MealTimeRangeCategoryService;
 import web.dietdiary.service.impl.MealTimeRangeCategoryServiceImpl;
 import web.dietdiary.util.gson.GsonForSqlDateAndSqlTime;
@@ -34,20 +38,22 @@ public class SelectMealTimeRangeCategoryController extends HttpServlet {
 	}
 	
 	@Override 
-	protected void doGet(HttpServletRequest req,HttpServletResponse resp) throws IOException{
+	protected void doPost(HttpServletRequest req,HttpServletResponse resp) throws IOException{
 		req.setCharacterEncoding("UTF-8");
         resp.setContentType("application/json;charset=UTF-8");
         resp.setCharacterEncoding("UTF-8");
         
 		Gson gson = GsonForSqlDateAndSqlTime.gson;
-		JsonObject jsonObject = new JsonObject();
+		JsonArray jsonArray = new JsonArray();
+		DateTimeFormatterImpl dateTimeFormatterImpl = new DateTimeFormatterImpl();
 		String result = "";
 		String errorMessage = "";
 		int affectedRows = 1;
 		ArrayList<MealTimeRangeCategory> mealTimeRangeCategories = new ArrayList<MealTimeRangeCategory>();
-		MealTimeRangeCategory mealTimeRangeCategory = gson.fromJson(req.getReader(), MealTimeRangeCategory.class);
-		mealTimeRangeCategories = this.mealTimeRangeCategoryService.select(mealTimeRangeCategory);
+		MealTimeRangeCategory targetMealTimeRangeCategory = gson.fromJson(req.getReader(), MealTimeRangeCategory.class);
+		mealTimeRangeCategories = this.mealTimeRangeCategoryService.select(targetMealTimeRangeCategory);
 		if(mealTimeRangeCategories == null) {
+			JsonObject jsonObject = new JsonObject();
 			errorMessage = "Unknown error!!!";
 			affectedRows = -1;
 			jsonObject.addProperty("result", false);
@@ -56,24 +62,20 @@ public class SelectMealTimeRangeCategoryController extends HttpServlet {
 			resp.getWriter().write(jsonObject.toString());
 			return;
 		}
-		errorMessage = "";
-		affectedRows = mealTimeRangeCategories.size();
-		
-		result = "";
-		
-		result += "[";
-		for(int i=0;i<mealTimeRangeCategories.size();i++) {
-			MealTimeRangeCategory tempMealTimeRangeCategory = mealTimeRangeCategories.get(i);
-			result +=  tempMealTimeRangeCategory.toString();
-			result += "\n";
+		for(MealTimeRangeCategory mealTimeRangeCategory:mealTimeRangeCategories){
+			JsonObject jsonObject = new JsonObject();
+			
+			jsonObject.addProperty("userId", mealTimeRangeCategory.getUserId());
+			jsonObject.addProperty("breakfastStartTime", dateTimeFormatterImpl.TimeToString(mealTimeRangeCategory.getBreakfastStartTime()));
+			jsonObject.addProperty("breakfastEndTime", dateTimeFormatterImpl.TimeToString(mealTimeRangeCategory.getBreakfastEndTime()));
+			jsonObject.addProperty("lunchStartTime", dateTimeFormatterImpl.TimeToString(mealTimeRangeCategory.getLunchStartTime()));
+			jsonObject.addProperty("lunchEndTime", dateTimeFormatterImpl.TimeToString(mealTimeRangeCategory.getLunchEndTime()));
+			jsonObject.addProperty("dinnerStartTime", dateTimeFormatterImpl.TimeToString(mealTimeRangeCategory.getDinnerStartTime()));
+			jsonObject.addProperty("dinnerEndTime",dateTimeFormatterImpl.TimeToString(mealTimeRangeCategory.getBreakfastStartTime());
+			jsonObject.addProperty("supperStartTime", mealTimeRangeCategory.getUserId());
+			jsonObject.addProperty("supperEndTime", mealTimeRangeCategory.getUserId());
 		}
-		result += "]";
-		result += "\n";
-		
-		jsonObject.addProperty("result", result);
-		jsonObject.addProperty("errorMessage", errorMessage);
-		jsonObject.addProperty("affectedRows", affectedRows);
-		resp.getWriter().write(jsonObject.toString());
+		resp.getWriter().write(jsonArray.toString());
 		return;
 	}
 }
