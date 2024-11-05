@@ -1,7 +1,6 @@
 package web.dietdiary.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.naming.NamingException;
 import javax.servlet.ServletException;

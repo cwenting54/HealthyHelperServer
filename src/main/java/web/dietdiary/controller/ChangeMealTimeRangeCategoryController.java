@@ -1,7 +1,6 @@
 package web.dietdiary.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.naming.NamingException;
 import javax.servlet.ServletException;
@@ -16,7 +15,6 @@ import com.google.gson.JsonObject;
 import web.dietdiary.service.impl.MealTimeRangeCategoryService;
 import web.dietdiary.service.impl.MealTimeRangeCategoryServiceImpl;
 import web.dietdiary.util.gson.GsonForSqlDateAndSqlTime;
-import web.dietdiary.vo.DietDiary;
 import web.dietdiary.vo.MealTimeRangeCategory;
 
 @WebServlet("/dietDiary/mealTimeRangeCategory/change")

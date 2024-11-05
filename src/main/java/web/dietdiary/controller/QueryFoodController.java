@@ -11,14 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 
 import web.dietdiary.service.impl.FoodService;
 import web.dietdiary.service.impl.FoodServiceImpl;
-import web.dietdiary.util.gson.GsonForSqlDateAndSqlTime;
 import web.dietdiary.vo.Food;
-import web.dietdiary.vo.MealTimeRangeCategory;
 
 @WebServlet("/dietDiary/food/query/listAllAvailableFoods")
 public class QueryFoodController extends HttpServlet {

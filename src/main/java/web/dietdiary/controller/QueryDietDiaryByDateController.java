@@ -2,9 +2,6 @@ package web.dietdiary.controller;
 
 import java.io.IOException;
 
-import java.sql.Date;
-import java.sql.Time;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import javax.naming.NamingException;
@@ -15,14 +12,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 
-import web.dietdiary.constant.SqlDatePattern;
 import web.dietdiary.service.impl.DietDiaryService;
 import web.dietdiary.service.impl.DietDiaryServiceImpl;
-import web.dietdiary.util.datetime.DateTimeHandler;
-import web.dietdiary.util.datetime.DateTimeHandlerImpl;
 import web.dietdiary.util.gson.GsonForSqlDateAndSqlTime;
 import web.dietdiary.vo.DietDiary;
 

@@ -11,15 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 
-import web.dietdiary.service.impl.DietDiaryService;
-import web.dietdiary.service.impl.DietDiaryServiceImpl;
 import web.dietdiary.service.impl.FoodNameService;
 import web.dietdiary.service.impl.FoodNameServiceImpl;
-import web.dietdiary.util.gson.GsonForSqlDateAndSqlTime;
-import web.dietdiary.vo.DietDiary;
 import web.dietdiary.vo.FoodName;
 
 @WebServlet("/dietDiary/food/listAvailableFoodsName")
