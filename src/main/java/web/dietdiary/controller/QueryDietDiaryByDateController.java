@@ -48,60 +48,23 @@ public class QueryDietDiaryByDateController extends HttpServlet {
         resp.setCharacterEncoding("UTF-8");
         
 		Gson gson = GsonForSqlDateAndSqlTime.gson;
-		JsonObject jsonObject = new JsonObject();
 		String errorMessage = "";
-		String result = "";
-		int affectedRow = 0;
 		ArrayList<DietDiary> dietDiaries = new ArrayList<DietDiary>();
 		DietDiary dietDiary = gson.fromJson(req.getReader(), DietDiary.class);
 		
-		System.out.println("Ready to deserialize.");
 		System.out.println("dietDiary:"+dietDiary);
 		
 		dietDiaries = this.dietDiaryService.search(dietDiary,1);
 		 
 		if(dietDiaries == null) {
+			JsonObject jsonObject = new JsonObject();
 			errorMessage = "Unknown error!!!";
-			affectedRow = -1;
-			jsonObject.addProperty("result", false);
-			jsonObject.addProperty("affectedRow", affectedRow);
 			jsonObject.addProperty("errorMessage", errorMessage);
 			resp.getWriter().write(jsonObject.toString());
 			return;
 		}
 		
-		if(dietDiaries.isEmpty()){
-			errorMessage = "";
-			result = "not found.";
-			affectedRow = 0;
-			jsonObject.addProperty("result", result);
-			jsonObject.addProperty("affectedRow", affectedRow);
-			jsonObject.addProperty("errorMessage", errorMessage);
-			resp.getWriter().write(jsonObject.toString());
-			return;
-		}
-		
-		result = "";
-		
-		result += "[";
-		result += "\n";
-		for(int i=0;i<dietDiaries.size();i++) {
-			DietDiary tempDietDiary = dietDiaries.get(i);
-			result +=  tempDietDiary.toString();
-			result += "\n";
-		}
-		result += "]";
-		result += "\n";
-		
-		affectedRow = dietDiaries.size(); 
-				
-		errorMessage = "";
-		
-		jsonObject.addProperty("result", result);
-		jsonObject.addProperty("affectedRow", affectedRow);
-		jsonObject.addProperty("errorMessage", errorMessage);
-		resp.getWriter().write(jsonObject.toString());
-		
+		resp.getWriter().write(gson.toJson(dietDiaries));
 		return;
 	}
 }

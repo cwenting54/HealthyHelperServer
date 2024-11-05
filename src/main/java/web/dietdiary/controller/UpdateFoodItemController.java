@@ -43,7 +43,6 @@ public class UpdateFoodItemController extends HttpServlet{
 		String errorMessage = "";
 		FoodItem foodItem = gson.fromJson(req.getReader(), FoodItem.class);
 		
-		System.out.println("Ready to deserialize.");
 		System.out.println("foodItem:"+foodItem);
 		
 		errorMessage = this.foodItemService.update(foodItem);

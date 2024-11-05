@@ -11,12 +11,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import web.dietdiary.service.impl.FoodService;
 import web.dietdiary.service.impl.FoodServiceImpl;
 import web.dietdiary.util.gson.GsonForSqlDateAndSqlTime;
 import web.dietdiary.vo.Food;
+import web.dietdiary.vo.MealTimeRangeCategory;
 
 @WebServlet("/dietDiary/food/query/listAllAvailableFoods")
 public class QueryFoodController extends HttpServlet {
@@ -40,46 +42,11 @@ public class QueryFoodController extends HttpServlet {
         resp.setContentType("application/json;charset=UTF-8");
         resp.setCharacterEncoding("UTF-8");
         
-		JsonObject jsonObject = new JsonObject();
-		String errorMessage = "";
-		String result = "";
-		int affectedRow = 0;
+        Gson gson = new Gson();
 		ArrayList<Food> foods = new ArrayList<Food>();
-		
 		foods = this.foodService.listAvailableFoods();
-			
-		if(foods.isEmpty()){
-			errorMessage = "";
-			result = "not found.";
-			affectedRow = 0;
-			jsonObject.addProperty("result", result);
-			jsonObject.addProperty("affectedRow", affectedRow);
-			jsonObject.addProperty("errorMessage", errorMessage);
-			resp.getWriter().write(jsonObject.toString());
-			return;
-		}
-		
-		result = "";
-		
-		result += "[";
-		result += "\n";
-		for(int i=0;i<foods.size();i++) {
-			Food tempFood = foods.get(i);
-			result +=  tempFood.toString();
-			result += "\n";
-		}
-		result += "]";
-		result += "\n";
-		
-		affectedRow = foods.size(); 
 				
-		errorMessage = "";
-		
-		jsonObject.addProperty("result", result);
-		jsonObject.addProperty("affectedRow", affectedRow);
-		jsonObject.addProperty("errorMessage", errorMessage);
-		resp.getWriter().write(jsonObject.toString());
-		
+		resp.getWriter().write(gson.toJson(foods));
 		return;
 	}
 }

@@ -45,7 +45,6 @@ public class UpdateMealTimeRangeCategoryController extends HttpServlet {
 		String errorMessage = "";
 		MealTimeRangeCategory mealTimeRangeCategory = gson.fromJson(req.getReader(), MealTimeRangeCategory.class);
 		
-		System.out.println("Ready to deserialize.");
 		System.out.println("mealTimeRangeCategory:"+mealTimeRangeCategory);
 		
 		errorMessage = this.mealTimeRangeCategoryService.change(mealTimeRangeCategory);

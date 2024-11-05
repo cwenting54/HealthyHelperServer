@@ -57,6 +57,8 @@ public class MealTimeRangeCategoryServiceImpl implements MealTimeRangeCategorySe
 
 	@Override
 	public ArrayList<MealTimeRangeCategory> select(MealTimeRangeCategory mealTimeRangeCategory) {
-		return this.mealTimeRangeCategoryDao.selectByUserId(mealTimeRangeCategory.getUserId());
+		ArrayList<MealTimeRangeCategory> mealTimeRangeCategories = this.mealTimeRangeCategoryDao.selectByUserId(mealTimeRangeCategory.getUserId());
+		System.out.println("In MealTimeRangeCategoryServiceImpl, mealTimeRangeCategories:"+mealTimeRangeCategories.toString());
+		return mealTimeRangeCategories;
 	}
 }

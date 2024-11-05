@@ -46,22 +46,19 @@ public class SelectMealTimeRangeCategoryController extends HttpServlet {
 		Gson gson = GsonForSqlDateAndSqlTime.gson;
 		JsonArray jsonArray = new JsonArray();
 		DateTimeFormatterImpl dateTimeFormatterImpl = new DateTimeFormatterImpl();
-		String result = "";
 		String errorMessage = "";
-		int affectedRows = 1;
 		ArrayList<MealTimeRangeCategory> mealTimeRangeCategories = new ArrayList<MealTimeRangeCategory>();
 		MealTimeRangeCategory targetMealTimeRangeCategory = gson.fromJson(req.getReader(), MealTimeRangeCategory.class);
 		mealTimeRangeCategories = this.mealTimeRangeCategoryService.select(targetMealTimeRangeCategory);
 		if(mealTimeRangeCategories == null) {
 			JsonObject jsonObject = new JsonObject();
 			errorMessage = "Unknown error!!!";
-			affectedRows = -1;
 			jsonObject.addProperty("result", false);
 			jsonObject.addProperty("errorMessage", errorMessage);
-			jsonObject.addProperty("affectedRows", affectedRows);
 			resp.getWriter().write(jsonObject.toString());
 			return;
 		}
+
 		for(MealTimeRangeCategory mealTimeRangeCategory:mealTimeRangeCategories){
 			JsonObject jsonObject = new JsonObject();
 			
@@ -71,9 +68,11 @@ public class SelectMealTimeRangeCategoryController extends HttpServlet {
 			jsonObject.addProperty("lunchStartTime", dateTimeFormatterImpl.TimeToString(mealTimeRangeCategory.getLunchStartTime()));
 			jsonObject.addProperty("lunchEndTime", dateTimeFormatterImpl.TimeToString(mealTimeRangeCategory.getLunchEndTime()));
 			jsonObject.addProperty("dinnerStartTime", dateTimeFormatterImpl.TimeToString(mealTimeRangeCategory.getDinnerStartTime()));
-			jsonObject.addProperty("dinnerEndTime",dateTimeFormatterImpl.TimeToString(mealTimeRangeCategory.getBreakfastStartTime());
-			jsonObject.addProperty("supperStartTime", mealTimeRangeCategory.getUserId());
-			jsonObject.addProperty("supperEndTime", mealTimeRangeCategory.getUserId());
+			jsonObject.addProperty("dinnerEndTime",dateTimeFormatterImpl.TimeToString(mealTimeRangeCategory.getDinnerEndTime()));
+			jsonObject.addProperty("supperStartTime", dateTimeFormatterImpl.TimeToString(mealTimeRangeCategory.getSupperStartTime()));
+			jsonObject.addProperty("supperEndTime", dateTimeFormatterImpl.TimeToString(mealTimeRangeCategory.getSupperEndTime()));
+			
+			jsonArray.add(jsonObject);
 		}
 		resp.getWriter().write(jsonArray.toString());
 		return;

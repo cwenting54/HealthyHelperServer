@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
@@ -43,7 +44,7 @@ public class ListAvailableFoodsNameAndGramsController extends HttpServlet {
 			resp.setContentType("application/json;charset=UTF-8");
 			resp.setCharacterEncoding("UTF-8");
 
-			JsonArray jsonArray = new JsonArray();
+			Gson gson = new Gson();
 			ArrayList<FoodNameAndGrams> foodNameAndGramses = new ArrayList<FoodNameAndGrams>();
 			foodNameAndGramses = this.foodNameAndGramsService.listAvailableFoodsNameAndGrams();
 			
@@ -54,15 +55,8 @@ public class ListAvailableFoodsNameAndGramsController extends HttpServlet {
 				throw new Exception("Unknown exception!!!");
 			}
 			
-			for (FoodNameAndGrams foodNameAndGrams : foodNameAndGramses) {
-				JsonObject jsonObject = new JsonObject();
-	            jsonObject.addProperty("foodName", foodNameAndGrams.getFoodName());
-	            jsonObject.addProperty("grams", foodNameAndGrams.getGrams());          
-
-	            jsonArray.add(jsonObject);
-	        }
-			resp.getWriter().write(jsonArray.toString());
-			System.out.println("jsonArray: " + jsonArray.toString());
+			
+			resp.getWriter().write(gson.toJson(foodNameAndGramses));
 			return;
 		} catch (Exception e) {
 			e.printStackTrace();

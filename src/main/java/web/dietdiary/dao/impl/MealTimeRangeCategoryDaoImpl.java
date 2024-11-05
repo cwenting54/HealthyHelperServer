@@ -100,7 +100,7 @@ public class MealTimeRangeCategoryDaoImpl implements MealTimeRangeCategoryDao{
 	@Override
 	public ArrayList<MealTimeRangeCategory> selectByUserId(int userId) {
 		String sqlCommand = "SELECT * FROM mealTimeRangeCategory "
-				+ "WHERE userID = ? ;";
+				+ "WHERE userId = ? ;";
 
 		try (Connection connection = this.getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(sqlCommand);) {
@@ -110,6 +110,7 @@ public class MealTimeRangeCategoryDaoImpl implements MealTimeRangeCategoryDao{
 			if(mealTimeRangeCategories == null) {
 				throw new Exception("Unknown error!!!");
 			}
+			System.out.println("mealTimeRangeCategories:"+mealTimeRangeCategories.toString());
 			if(mealTimeRangeCategories.isEmpty()) {
 				return mealTimeRangeCategories;
 			}

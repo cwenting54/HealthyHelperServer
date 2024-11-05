@@ -45,23 +45,16 @@ public class ListAvailableFoodsNameController extends HttpServlet {
 			resp.setCharacterEncoding("UTF-8");
 
 			Gson gson = new Gson();
-			JsonArray jsonArray = new JsonArray();
-
 			ArrayList<FoodName> foodNames = new ArrayList<FoodName>();
-
+			
 			foodNames = this.foodNameService.listAvailableFoodsName();
+			
 			System.out.println("foodNames:"+foodNames.toString());
-
 			if (foodNames == null) {
 				throw new Exception("Unknown error!!!");
 			}
 
-			for (FoodName foodName : foodNames) {
-				JsonObject jsonObject = new JsonObject();
-				jsonObject.addProperty("foodname", foodName.getFoodName());
-				jsonArray.add(jsonObject);
-			}
-			resp.getWriter().write(jsonArray.toString());
+			resp.getWriter().write(gson.toJson(foodNames));
 			return;
 		} catch (Exception e) {
 			e.printStackTrace();
