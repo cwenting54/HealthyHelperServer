@@ -40,17 +40,15 @@ public class RegisterController extends HttpServlet {
         try {
             // 從請求中讀取 JSON
             JsonObject requestData = new Gson().fromJson(req.getReader(), JsonObject.class);
-            
-            // 創建 User 物件並設置基本資料
+            System.out.println("Received JSON data: " + requestData);
+          
             User user = new User();
             user.setAccount(getStringFromJson(requestData, "account"));
             user.setPassword(getStringFromJson(requestData, "password"));
             user.setUsername(getStringFromJson(requestData, "username"));
-            user.setUserEmail(getStringFromJson(requestData, "email"));
-            user.setPhoneno(getStringFromJson(requestData, "phone"));
-            
-            String errorMsg = service.register(user);
-       
+            user.setUserEmail(getStringFromJson(requestData, "userEmail"));
+            user.setPhoneno(getStringFromJson(requestData, "phoneno"));
+          //  user.setRoleID(requestData.get("roleID").getAsInt());
 
             // 處理性別
             String genderStr = getStringFromJson(requestData, "gender");
@@ -70,10 +68,11 @@ public class RegisterController extends HttpServlet {
             }
 
             // 處理生日
-            String birthDateStr = getStringFromJson(requestData, "birthDate");
+          
+            String birthDateStr = getStringFromJson(requestData, "birthday");
             if (birthDateStr != null && !birthDateStr.isEmpty()) {
                 try {
-                	Date birthday = Date.valueOf(birthDateStr);
+                    Date birthday = Date.valueOf(birthDateStr);  // 直接用 Date.valueOf() 就可以了
                     user.setBirthday(birthday);
                 } catch (IllegalArgumentException e) {
                     sendError(resp, "生日格式不正確");
@@ -82,12 +81,11 @@ public class RegisterController extends HttpServlet {
             }
 
             // 處理角色
-            String roleIdStr = getStringFromJson(requestData, "roleId");
+            String roleIdStr = getStringFromJson(requestData, "roleID");
             if (roleIdStr != null) {
                 user.setRoleID(Integer.parseInt(roleIdStr));
             }
 
-         // 處理營養師證書 (BASE64)
             if ("2".equals(roleIdStr)) {
                 String certificateBase64 = getStringFromJson(requestData, "certificate");
                 if (certificateBase64 != null && !certificateBase64.isEmpty()) {
@@ -106,7 +104,7 @@ public class RegisterController extends HttpServlet {
             }
             // 設置註冊時間
             user.setRegistrationDate(new Timestamp(System.currentTimeMillis()));
-
+            String errorMsg = service.register(user);
       
 
             JsonObject respBody = new JsonObject();

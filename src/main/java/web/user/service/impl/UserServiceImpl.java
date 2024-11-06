@@ -35,10 +35,10 @@ public class UserServiceImpl implements UserService{
 	            return "姓名必須填寫";
 	        }
 	        
-	        
-	        if (user.getUserEmail() == null || user.getUserEmail().trim().isEmpty()) {
-	            return "Email必須填寫";
-	        }
+//	        
+//	        if (user.getUserEmail() == null || user.getUserEmail().trim().isEmpty()) {
+//	            return "Email必須填寫";
+//	        }
 
 	       
 	        if (userDao.isAccountExists(user.getAccount())) {
@@ -58,20 +58,19 @@ public class UserServiceImpl implements UserService{
 	        }
 
 	        
-	        if (user.getGender() == null) {
-	            return "性別必須選擇";
-	        }
-
-	 
-	        if (user.getBirthday() == null) {
-	            return "生日必須填寫";
-	        }
+//	        if (user.getGender() == null) {
+//	            return "性別必須選擇";
+//	        }
+//
+//	 
+//	        if (user.getBirthday() == null) {
+//	            return "生日必須填寫";
+//	        }
 
 	       
-	        if (user.getRoleID() == null) {
+	        if (user.getRoleID() == null || (user.getRoleID() != 1 && user.getRoleID() != 2)) {
 	            return "使用者身分必須選擇";
 	        }
-
 	      
 	        if (user.getRoleID() == 2 && (user.getCertificate() == null || user.getCertificate().length == 0)) {
 	            return "營養師必須上傳證書";
@@ -82,7 +81,7 @@ public class UserServiceImpl implements UserService{
 	        }
 
 	     
-	        System.out.println("開始執行資料庫註冊");
+	       
 	        int result = userDao.insert(user);
 	        
 	      
@@ -173,18 +172,17 @@ public class UserServiceImpl implements UserService{
 	       return userDao.selectByAccount(account);
 	   }
 
+
+	   
 	   @Override
 	   public String userUpdate(User user) {
-	       // 先找到原有的用戶資料
 	       try {
-	           // 基本驗證
-	           if (user.getAccount() == null || user.getAccount().trim().isEmpty()) {
-	               return "帳號不能為空";
-	           }
+	           System.out.println("開始更新用戶資料：" + user.getAccount());
 
 	           // 檢查信箱格式
 	           if (user.getUserEmail() != null && !user.getUserEmail().trim().isEmpty()) {
 	               if (!user.getUserEmail().matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
+	                   System.out.println("Email格式錯誤：" + user.getUserEmail());
 	                   return "Email格式不正確";
 	               }
 	           }
@@ -192,22 +190,60 @@ public class UserServiceImpl implements UserService{
 	           // 檢查電話格式
 	           if (user.getPhoneno() != null && !user.getPhoneno().trim().isEmpty()) {
 	               if (!user.getPhoneno().matches("^09\\d{8}$")) {
+	                   System.out.println("電話格式錯誤：" + user.getPhoneno());
 	                   return "手機號碼格式不正確";
 	               }
 	           }
 
+	           // 檢查姓名
+	           if (user.getUsername() != null && user.getUsername().trim().isEmpty()) {
+	               return "姓名不能為空白";
+	           }
+
+	           // 檢查性別
+	           if (user.getGender() != null && (user.getGender() < 0 || user.getGender() > 2)) {
+	               return "性別格式不正確";
+	           }
+	           
+	           if (user.getBirthday() != null) {
+	               String birthdayStr = user.getBirthday().toString();
+	               if (!birthdayStr.matches("^\\d{4}-\\d{2}-\\d{2}$")) {
+	                   System.out.println("生日格式錯誤：" + birthdayStr);
+	                   return "生日格式不正確，應為 YYYY-MM-DD";
+	               }
+	               
+	               try {
+	                   java.sql.Date birthday = user.getBirthday();
+	                   java.sql.Date currentDate = new java.sql.Date(System.currentTimeMillis());
+	                   if (birthday.after(currentDate)) {
+	                       return "生日不能晚於今天";
+	                   }
+	               } catch (Exception e) {
+	                   return "生日格式不正確";
+	               }
+	           
+	           } 
+	           System.out.println("準備更新資料：");
+	           System.out.println("姓名：" + user.getUsername());
+	           System.out.println("Email：" + user.getUserEmail());
+	           System.out.println("電話：" + user.getPhoneno());
+	           System.out.println("性別：" + user.getGender());
+	           System.out.println("生日：" + user.getBirthday());
+
 	           // 執行更新
 	           int result = userDao.update(user);
 	           if (result > 0) {
+	               System.out.println("更新成功");
 	               return null;  // 更新成功
 	           } else {
+	               System.out.println("更新失敗");
 	               return "更新失敗";
 	           }
 	       } catch (Exception e) {
+	           System.out.println("更新過程發生錯誤: " + e.getMessage());
 	           e.printStackTrace();
 	           return "系統錯誤：" + e.getMessage();
 	       }
 	   }
-
 
 }
