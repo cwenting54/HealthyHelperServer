@@ -34,7 +34,6 @@ public class PostDaoImpl implements PostDao {
 				post.setPicture(rs.getBytes("picture"));
 				post.setPostDate(rs.getTimestamp("postDate"));
 				post.setLikePost(rs.getInt("likepost"));
-				post.setLikeComm(rs.getInt("likecomm"));
 
 				list.add(post);
 			}
@@ -62,7 +61,6 @@ public class PostDaoImpl implements PostDao {
 					post.setPicture(rs.getBytes("picture"));
 					post.setPostDate(rs.getTimestamp("postDate"));
 					post.setLikePost(rs.getInt("likepost"));
-					post.setLikeComm(rs.getInt("likecomm"));
 
 					list.add(post);
 				}

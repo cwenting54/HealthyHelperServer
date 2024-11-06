@@ -1,5 +1,6 @@
 package web.society.controller;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.List;
 
@@ -29,7 +30,7 @@ public class GetPostListController extends HttpServlet {
 	}
     }
 @Override
-protected void doGet(HttpServletRequest request, HttpServletResponse response)
+protected void doPost(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException {
     response.setContentType("application/json; charset=UTF-8");
 
@@ -43,6 +44,5 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response)
     // 將 JSON 回傳到回應中
     response.getWriter().write(json);
 }
-
 
 }
