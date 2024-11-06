@@ -27,8 +27,8 @@ public class HealthyMapServiceImpl implements HealthyMapService {
 	}
 
 	@Override
-	public List<UserFavoriteList> selectUserFavorList(int userId) {
-		return healthyMapDao.selectFavorRestaurants(userId);
+	public List<HealthyMap> selectUserFavorList(int userId) {
+		return healthyMapDao.selectFavorRestaurantsDetail(userId);
 	}
 
 	@Override
@@ -43,7 +43,7 @@ public class HealthyMapServiceImpl implements HealthyMapService {
 
 	@Override
 	public String insertUserFavorRestaurant(int userId, int rid) {
-		List<UserFavoriteList> userFavorLists = healthyMapDao.selectFavorRestaurants(userId);
+		List<UserFavoriteList> userFavorLists = healthyMapDao.selectUserFavorList(userId);
 		boolean exists = false;
 		for (UserFavoriteList favorite : userFavorLists) {
 			if (favorite.getRid() == rid) {
