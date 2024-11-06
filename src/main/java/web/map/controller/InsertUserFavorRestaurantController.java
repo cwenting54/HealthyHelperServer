@@ -9,11 +9,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import web.map.service.HealthyMapService;
 import web.map.service.impl.HealthyMapServiceImpl;
-import web.map.vo.HealthyMap;
+
 
 @WebServlet("/insertFavorRestaurant")
 public class InsertUserFavorRestaurantController extends HttpServlet {
@@ -36,7 +35,7 @@ public class InsertUserFavorRestaurantController extends HttpServlet {
 		req.setCharacterEncoding("UTF-8");
 		Gson gson = new Gson();
 		JsonObject reqBody = gson.fromJson(req.getReader(), JsonObject.class);
-		int userId = reqBody.get("userId").getAsInt();
+		int userId = reqBody.get("userid").getAsInt();
 		int rid = reqBody.get("rid").getAsInt();
 		
 	    String errMsg = healthyMapService.insertUserFavorRestaurant(userId, rid);

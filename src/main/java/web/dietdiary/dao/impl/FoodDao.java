@@ -2,7 +2,9 @@ package web.dietdiary.dao.impl;
 
 import java.util.ArrayList;
 
+
 import web.dietdiary.vo.Food;
+import web.dietdiary.vo.FoodNameAndGrams;
 
 public interface FoodDao {
 	Food selectByFoodName(String name);

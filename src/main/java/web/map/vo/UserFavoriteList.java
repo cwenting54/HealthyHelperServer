@@ -1,20 +1,17 @@
 package web.map.vo;
 
 public class UserFavoriteList {
-    private Integer ufid;   
+    private Integer ufid;  
     private Integer userid;  
-    private Integer rid;    
-
+    private Integer rid;   
 
     public UserFavoriteList() {}
-
 
     public UserFavoriteList(Integer ufid, Integer userid, Integer rid) {
         this.ufid = ufid;
         this.userid = userid;
         this.rid = rid;
     }
-
 
     public Integer getUfid() {
         return ufid;
