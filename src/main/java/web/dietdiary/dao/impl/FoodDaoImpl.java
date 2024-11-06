@@ -13,6 +13,7 @@ import javax.sql.DataSource;
 import web.dietdiary.vo.DietDiary;
 import web.dietdiary.vo.Food;
 import web.dietdiary.vo.FoodItem;
+import web.dietdiary.vo.FoodNameAndGrams;
 
 public class FoodDaoImpl implements FoodDao {
 
