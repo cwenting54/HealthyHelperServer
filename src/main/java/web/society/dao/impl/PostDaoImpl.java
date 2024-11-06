@@ -21,7 +21,7 @@ public class PostDaoImpl implements PostDao {
 
 	@Override
 	public List<Post> selectPost() {
-		String sql = "select * from post";
+		String sql = "select * from post order by postDate desc";
 		try (Connection conn = ds.getConnection();
 				PreparedStatement pstmt = conn.prepareStatement(sql);
 				ResultSet rs = pstmt.executeQuery();) {
@@ -47,11 +47,9 @@ public class PostDaoImpl implements PostDao {
 
 	@Override
 	public List<Post> selectPostByUserId(int userId) {
-		String sql = "select * from post where userId = ?";
-		try (Connection conn = ds.getConnection();
-				PreparedStatement pstmt = conn.prepareStatement(sql);
-			) {
-			try(ResultSet rs = pstmt.executeQuery();) {
+		String sql = "select * from post where userId = ? order by postDate desc";
+		try (Connection conn = ds.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql);) {
+			try (ResultSet rs = pstmt.executeQuery();) {
 				pstmt.setInt(1, userId);
 				var list = new ArrayList<Post>();
 				while (rs.next()) {
@@ -70,7 +68,7 @@ public class PostDaoImpl implements PostDao {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -79,13 +77,12 @@ public class PostDaoImpl implements PostDao {
 
 	@Override
 	public int insertPost(Post post, int userId) {
-		String sql = "insert into Post(userid, title, content, picture, postDate) values(?, ?, ?, ?, ?)";
-		try (Connection conn = ds.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql);) {		
+		String sql = "insert into post(userid, title, content, picture) values(?, ?, ?, ?)";
+		try (Connection conn = ds.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql);) {
 			pstmt.setInt(1, userId);
 			pstmt.setString(2, post.getTitle());
 			pstmt.setString(3, post.getContent());
 			pstmt.setBytes(4, post.getPicture());
-			pstmt.setTimestamp(5, post.getPostDate());
 
 			int result = pstmt.executeUpdate();
 			return result;
@@ -94,5 +91,7 @@ public class PostDaoImpl implements PostDao {
 		}
 		return -1;
 	}
+	
+
 
 }
