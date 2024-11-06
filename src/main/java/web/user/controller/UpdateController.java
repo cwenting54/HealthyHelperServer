@@ -15,20 +15,6 @@ import web.user.service.UserService;
 import web.user.service.impl.UserServiceImpl;
 import web.user.vo.User;
 
-@WebServlet("/user/update")
-public class UpdateController extends HttpServlet {
-    private static final long serialVersionUID = 1L;
-    private UserService service;
-    private Gson gson = new Gson();
-
-    @Override
-    public void init() throws ServletException {
-        try {
-            service = new UserServiceImpl();
-        } catch (NamingException e) {
-            e.printStackTrace();
-        }
-    }
 
     @WebServlet("/user/update")
     public class UpdateController extends HttpServlet {
@@ -124,5 +110,4 @@ public class UpdateController extends HttpServlet {
         }
     }
     
-}
 

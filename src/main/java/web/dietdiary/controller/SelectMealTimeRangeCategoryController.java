@@ -71,7 +71,7 @@ public class SelectMealTimeRangeCategoryController extends HttpServlet {
 			jsonObject.addProperty("lunchStartTime", dateTimeFormatterImpl.TimeToString(mealTimeRangeCategory.getLunchStartTime()));
 			jsonObject.addProperty("lunchEndTime", dateTimeFormatterImpl.TimeToString(mealTimeRangeCategory.getLunchEndTime()));
 			jsonObject.addProperty("dinnerStartTime", dateTimeFormatterImpl.TimeToString(mealTimeRangeCategory.getDinnerStartTime()));
-			jsonObject.addProperty("dinnerEndTime",dateTimeFormatterImpl.TimeToString(mealTimeRangeCategory.getBreakfastStartTime());
+			jsonObject.addProperty("dinnerEndTime",dateTimeFormatterImpl.TimeToString(mealTimeRangeCategory.getBreakfastStartTime()));
 			jsonObject.addProperty("supperStartTime", mealTimeRangeCategory.getUserId());
 			jsonObject.addProperty("supperEndTime", mealTimeRangeCategory.getUserId());
 		}
