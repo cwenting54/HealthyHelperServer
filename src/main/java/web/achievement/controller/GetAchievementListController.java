@@ -1,7 +1,6 @@
 package web.achievement.controller;
 
 import java.io.IOException;
-
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Base64;
@@ -15,8 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
-
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
@@ -40,8 +37,11 @@ public class GetAchievementListController extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType(CONTENT_TYPE);
         resp.setCharacterEncoding("UTF-8");
+        Gson gson = new Gson();
+		JsonObject reqBody = gson.fromJson(req.getReader(), JsonObject.class);
+		int userId = reqBody.get("userId").getAsInt();
 
-        List<Achievement> achievements = achievementDao.selectAchievementsByUserId(2);
+        List<Achievement> achievements = achievementDao.selectAchievementsByUserId(userId);
         JsonArray achievementsArray = new JsonArray();
 
         for (Achievement achievement : achievements) {

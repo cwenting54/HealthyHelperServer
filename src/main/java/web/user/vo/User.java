@@ -1,5 +1,6 @@
 package web.user.vo;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Arrays;
 
@@ -11,7 +12,7 @@ public class User {
 	private String userEmail;
 	private String phoneno;
 	private Integer gender;
-	private Timestamp birthday;
+	private Date birthday;
 	private Integer roleID;
 	private byte[] certificate;
 	private Timestamp registrationDate;
@@ -22,7 +23,7 @@ public class User {
 	}
 
 	public User(int userId, String account, String password, String username, String userEmail, String phoneno,
-			Integer gender, Timestamp birthday, Integer roleID, byte[] certificate, Timestamp registrationDate,
+			Integer gender, Date birthday, Integer roleID, byte[] certificate, Timestamp registrationDate,
 			byte[] userIcon) {
 		this.userId = userId;
 		this.account = account;
@@ -94,11 +95,11 @@ public class User {
 		this.gender = gender;
 	}
 
-	public Timestamp getBirthday() {
+	public Date getBirthday() {
 		return birthday;
 	}
 
-	public void setBirthday(Timestamp birthday) {
+	public void setBirthday(Date birthday) {
 		this.birthday = birthday;
 	}
 

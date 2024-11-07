@@ -8,7 +8,7 @@ public class PlanWithCategory {
 	private Timestamp startDateTime;
 	private Timestamp endDateTime;
 	private Integer finishstate;
-	private Integer categoryID;
+	private Integer categoryId;
 	private String categoryName;
 	private Float fatgoal;
 	private Float carbongoal;
@@ -29,7 +29,7 @@ public class PlanWithCategory {
 		this.startDateTime = startDateTime;
 		this.endDateTime = endDateTime;
 		this.finishstate = finishstate;
-		this.categoryID = categoryID;
+		this.categoryId = categoryID;
 		this.categoryName = categoryName;
 		this.fatgoal = fatgoal;
 		this.carbongoal = carbongoal;
@@ -78,11 +78,11 @@ public class PlanWithCategory {
 	}
 
 	public Integer getCategoryID() {
-		return categoryID;
+		return categoryId;
 	}
 
 	public void setCategoryID(Integer categoryID) {
-		this.categoryID = categoryID;
+		this.categoryId = categoryID;
 	}
 
 	public String getCategoryName() {
