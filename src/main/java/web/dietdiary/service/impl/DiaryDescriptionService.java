@@ -8,4 +8,5 @@ public interface DiaryDescriptionService {
 	int insert(DiaryDescriptionVO diaryDescriptionVO);
 	int updateById(DiaryDescriptionVO diaryDescriptionVO);
 	ArrayList<DiaryDescriptionVO> selectById(DiaryDescriptionVO diaryDescriptionVO);
+	int tryToInsert(DiaryDescriptionVO diaryDescriptionVO);
 }

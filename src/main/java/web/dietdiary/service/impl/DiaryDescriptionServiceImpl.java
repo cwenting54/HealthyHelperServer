@@ -23,12 +23,27 @@ public class DiaryDescriptionServiceImpl implements DiaryDescriptionService{
 
 	@Override
 	public int updateById(DiaryDescriptionVO diaryDescriptionVO) {
-		return this.updateById(diaryDescriptionVO);
+		return this.diaryDescriptionDao.updateById(diaryDescriptionVO);
 	}
 
 	@Override
 	public ArrayList<DiaryDescriptionVO> selectById(DiaryDescriptionVO diaryDescriptionVO) {
-		return this.selectById(diaryDescriptionVO);
+		return this.diaryDescriptionDao.selectById(diaryDescriptionVO);
+	}
+
+	@Override
+	public int tryToInsert(DiaryDescriptionVO diaryDescriptionVO) {
+		ArrayList<DiaryDescriptionVO> queriedDiaryDescriptionVO = new ArrayList<DiaryDescriptionVO>();
+		Boolean hasRecord = true;
+		int affectedRows = 1;
+		queriedDiaryDescriptionVO = this.diaryDescriptionDao.selectById(diaryDescriptionVO);
+		hasRecord = queriedDiaryDescriptionVO != null && queriedDiaryDescriptionVO.size() > 0;
+		if(hasRecord) {
+			affectedRows = this.diaryDescriptionDao.updateById(diaryDescriptionVO);
+		}else {
+			affectedRows = this.diaryDescriptionDao.insert(diaryDescriptionVO);
+		}
+		return affectedRows;
 	}
 
 }
