@@ -15,7 +15,7 @@ import com.google.gson.JsonObject;
 import web.dietdiary.service.impl.FoodItemService;
 import web.dietdiary.service.impl.FoodItemServiceImpl;
 import web.dietdiary.util.gson.GsonForSqlDateAndSqlTime;
-import web.dietdiary.vo.FoodItem;
+import web.dietdiary.vo.FoodItemVO;
 
 @WebServlet("/dietDiary/foodItem/update")
 public class UpdateFoodItemController extends HttpServlet{
@@ -41,11 +41,11 @@ public class UpdateFoodItemController extends HttpServlet{
 		Gson gson = GsonForSqlDateAndSqlTime.gson;
 		JsonObject jsonObject = new JsonObject();
 		String errorMessage = "";
-		FoodItem foodItem = gson.fromJson(req.getReader(), FoodItem.class);
+		FoodItemVO foodItemVO = gson.fromJson(req.getReader(), FoodItemVO.class);
 		
-		System.out.println("foodItem:"+foodItem);
+		System.out.println("foodItem:"+foodItemVO);
 		
-		errorMessage = this.foodItemService.update(foodItem);
+		errorMessage = this.foodItemService.update(foodItemVO);
 		 
 		if(errorMessage != "") {
 			errorMessage = "Unknown error!!!";

@@ -6,7 +6,7 @@ import javax.naming.NamingException;
 
 import web.dietdiary.dao.impl.FoodDao;
 import web.dietdiary.dao.impl.FoodDaoImpl;
-import web.dietdiary.vo.Food;
+import web.dietdiary.vo.FoodVO;
 
 public class FoodServiceImpl implements FoodService {
 
@@ -17,15 +17,15 @@ public class FoodServiceImpl implements FoodService {
 	}
 
 	@Override
-	public ArrayList<Food> listAvailableFoods() {
+	public ArrayList<FoodVO> listAvailableFoods() {
 		return this.foodDao.listAvailableFoods();
 	}
 
 	@Override
-	public String insert(Food food) {
+	public String insert(FoodVO foodVO) {
 		try {
 			int affectedRows = 0;
-			affectedRows = this.foodDao.insert(food);
+			affectedRows = this.foodDao.insert(foodVO);
 			if (affectedRows != 1) {
 				throw new Exception("Unknown error!!!");
 			}

@@ -6,7 +6,7 @@ import web.dietdiary.dao.impl.FoodDao;
 import web.dietdiary.dao.impl.FoodDaoImpl;
 import web.dietdiary.dao.impl.FoodItemDao;
 import web.dietdiary.dao.impl.FoodItemDaoImpl;
-import web.dietdiary.vo.FoodItem;
+import web.dietdiary.vo.FoodItemVO;
 
 public class FoodItemServiceImpl implements FoodItemService{
 
@@ -17,10 +17,10 @@ public class FoodItemServiceImpl implements FoodItemService{
 	}
 	
 	@Override
-	public String insert(FoodItem foodItem) {
+	public String insert(FoodItemVO foodItemVO) {
 		try {
 			int affectedRows = 0;
-			affectedRows = this.foodItemDao.insert(foodItem);
+			affectedRows = this.foodItemDao.insert(foodItemVO);
 			if(affectedRows!=1) {
 				throw new Exception("Unknown error!!!");
 			}
@@ -31,10 +31,10 @@ public class FoodItemServiceImpl implements FoodItemService{
 	}
 
 	@Override
-	public String update(FoodItem foodItem) {
+	public String update(FoodItemVO foodItemVO) {
 		try {
 			int affectedRows = 0;
-			affectedRows = this.foodItemDao.insert(foodItem);
+			affectedRows = this.foodItemDao.insert(foodItemVO);
 			if(affectedRows!=1) {
 				throw new Exception("Unknown error!!!");
 			}

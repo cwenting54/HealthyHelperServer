@@ -2,10 +2,10 @@ package web.dietdiary.dao.impl;
 
 import java.util.ArrayList;
 
-import web.dietdiary.vo.MealTimeRangeCategory;
+import web.dietdiary.vo.MealTimeRangeCategoryVO;
 
 public interface MealTimeRangeCategoryDao {
-	int insert(MealTimeRangeCategory mealTimeRangeCategory);
-	int update(MealTimeRangeCategory mealTimeRangeCategory);
-	ArrayList<MealTimeRangeCategory> selectByUserId(int userId);
+	int insert(MealTimeRangeCategoryVO mealTimeRangeCategoryVO);
+	int update(MealTimeRangeCategoryVO mealTimeRangeCategoryVO);
+	ArrayList<MealTimeRangeCategoryVO> selectByUserId(int userId);
 }

@@ -3,7 +3,7 @@ package web.dietdiary.vo;
 import java.sql.Date;
 import java.sql.Time;
 
-public class DietDiary {
+public class DietDiaryVO {
 	private int diaryId;
 	private int userId;
 	private Date createDate;
@@ -84,25 +84,25 @@ public class DietDiary {
 	}
 	
 	public boolean equals(Object object) {
-		if(object instanceof DietDiary) {
+		if(object instanceof DietDiaryVO) {
 			return false;
 		}
 		
-		DietDiary dietDiary = (DietDiary) object;
+		DietDiaryVO dietDiaryVO = (DietDiaryVO) object;
 		
-		if(!(this.getDiaryId() == dietDiary.getDiaryId())) {
+		if(!(this.getDiaryId() == dietDiaryVO.getDiaryId())) {
 			return false;
 		}
 		
-		if(!(this.getUserId() == dietDiary.getUserId())) {
+		if(!(this.getUserId() == dietDiaryVO.getUserId())) {
 			return false;
 		}
 		
-		if(!(this.getCreateDate() == dietDiary.getCreateDate())) {
+		if(!(this.getCreateDate() == dietDiaryVO.getCreateDate())) {
 			return false;
 		}
 		
-		if(!(this.getCreateTime() == dietDiary.getCreateTime())) {
+		if(!(this.getCreateTime() == dietDiaryVO.getCreateTime())) {
 			return false;
 		}
 		

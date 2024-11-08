@@ -10,10 +10,10 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
-import web.dietdiary.vo.DietDiary;
-import web.dietdiary.vo.Food;
-import web.dietdiary.vo.FoodItem;
-import web.dietdiary.vo.FoodNameAndGrams;
+import web.dietdiary.vo.DietDiaryVO;
+import web.dietdiary.vo.FoodVO;
+import web.dietdiary.vo.FoodItemVO;
+import web.dietdiary.vo.FoodNameAndGramsVO;
 
 public class FoodDaoImpl implements FoodDao {
 
@@ -30,11 +30,11 @@ public class FoodDaoImpl implements FoodDao {
 		return this.dataSource.getConnection();
 	}
 
-	private ArrayList<Food> resultSetToObjects(ResultSet resultSet) throws SQLException {
-		ArrayList<Food> foods = new ArrayList<Food>();
+	private ArrayList<FoodVO> resultSetToObjects(ResultSet resultSet) throws SQLException {
+		ArrayList<FoodVO> foodVOs = new ArrayList<FoodVO>();
 		while (resultSet.next()) {
 			
-			Food food = new Food();
+			FoodVO foodVO = new FoodVO();
 
 			int foodId = resultSet.getInt("foodID");
 			String foodName = resultSet.getString("foodname");
@@ -46,24 +46,24 @@ public class FoodDaoImpl implements FoodDao {
 			Double sodium = resultSet.getDouble("sodium");
 			Double calories = resultSet.getDouble("calories");
 
-			food.setFoodId(foodId);
-			food.setFoodName(foodName);
-			food.setFat(fat);
-			food.setCarbon(carbon);
-			food.setProtein(protein);
-			food.setFiber(fiber);
-			food.setSugar(sugar);
-			food.setSodium(sodium);
-			food.setCalories(calories);
+			foodVO.setFoodId(foodId);
+			foodVO.setFoodName(foodName);
+			foodVO.setFat(fat);
+			foodVO.setCarbon(carbon);
+			foodVO.setProtein(protein);
+			foodVO.setFiber(fiber);
+			foodVO.setSugar(sugar);
+			foodVO.setSodium(sodium);
+			foodVO.setCalories(calories);
 			
-			foods.add(food);
+			foodVOs.add(foodVO);
 		}
 		
-		return foods;
+		return foodVOs;
 	}
 
 	@Override
-	public Food selectByFoodName(String name) {
+	public FoodVO selectByFoodName(String name) {
 		String sqlCommand = "SELECT * FROM food WHERE foodname = ? ;";
 		try(
 				Connection connection = this.getConnection();
@@ -71,17 +71,17 @@ public class FoodDaoImpl implements FoodDao {
 		){
 			preparedStatement.setString(1, name);
 			ResultSet resultSet = preparedStatement.executeQuery();
-			ArrayList<Food> foods = this.resultSetToObjects(resultSet);
+			ArrayList<FoodVO> foodVOs = this.resultSetToObjects(resultSet);
 			
-			if(foods == null || foods.size() <= 0 ) {
+			if(foodVOs == null || foodVOs.size() <= 0 ) {
 				throw new Exception("There are no record found.");
 			}
 			
-			if(foods.size() != 1) {
+			if(foodVOs.size() != 1) {
 				throw new Exception("Unknown error!!!\nToo many records found.\nIt should found only one record");
 			}
 				
-			return foods.get(0);
+			return foodVOs.get(0);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -90,7 +90,7 @@ public class FoodDaoImpl implements FoodDao {
 	}
 
 	@Override
-	public Food selectByFoodId(int foodId) {
+	public FoodVO selectByFoodId(int foodId) {
 		String sqlCommand = "SELECT * FROM food WHERE foodID = ? ;";
 		try(
 				Connection connection = this.getConnection();
@@ -98,17 +98,17 @@ public class FoodDaoImpl implements FoodDao {
 		){
 			preparedStatement.setInt(1, foodId);
 			ResultSet resultSet = preparedStatement.executeQuery();
-			ArrayList<Food> foods = this.resultSetToObjects(resultSet);
+			ArrayList<FoodVO> foodVOs = this.resultSetToObjects(resultSet);
 			
-			if(foods == null || foods.size() <= 0 ) {
+			if(foodVOs == null || foodVOs.size() <= 0 ) {
 				throw new Exception("There are no record found.");
 			}
 			
-			if(foods.size() != 1) {
+			if(foodVOs.size() != 1) {
 				throw new Exception("Unknown error!!!\nToo many records found.\nIt should found only one record");
 			}
 				
-			return foods.get(0);
+			return foodVOs.get(0);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -117,7 +117,7 @@ public class FoodDaoImpl implements FoodDao {
 	}
 
 	@Override
-	public ArrayList<Food> listAvailableFoods() {
+	public ArrayList<FoodVO> listAvailableFoods() {
 		String sqlCommand = "SELECT * FROM food ;";
 		try(
 				Connection connection = this.getConnection();
@@ -132,7 +132,7 @@ public class FoodDaoImpl implements FoodDao {
 	}
 
 	@Override
-	public int insert(Food food) {
+	public int insert(FoodVO foodVO) {
 		String sqlCommand = "INSERT INTO food "
 				+ " (foodname,fat,carbon,protein,fiber,sugar,sodium,calories) "
 				+ " VALUES "
@@ -141,14 +141,14 @@ public class FoodDaoImpl implements FoodDao {
 				Connection connection = this.getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(sqlCommand);
 		){
-			preparedStatement.setString(1, food.getFoodName());
-			preparedStatement.setDouble(2, food.getFat());
-			preparedStatement.setDouble(3, food.getCarbon());
-			preparedStatement.setDouble(4, food.getProtein());
-			preparedStatement.setDouble(5, food.getFiber());
-			preparedStatement.setDouble(6, food.getSugar());
-			preparedStatement.setDouble(7, food.getSodium());
-			preparedStatement.setDouble(8, food.getCalories());
+			preparedStatement.setString(1, foodVO.getFoodName());
+			preparedStatement.setDouble(2, foodVO.getFat());
+			preparedStatement.setDouble(3, foodVO.getCarbon());
+			preparedStatement.setDouble(4, foodVO.getProtein());
+			preparedStatement.setDouble(5, foodVO.getFiber());
+			preparedStatement.setDouble(6, foodVO.getSugar());
+			preparedStatement.setDouble(7, foodVO.getSodium());
+			preparedStatement.setDouble(8, foodVO.getCalories());
 			
 			return preparedStatement.executeUpdate();
 		}catch (Exception e) {
@@ -158,14 +158,14 @@ public class FoodDaoImpl implements FoodDao {
 	}
 
 	@Override
-	public int delete(Food food) {
+	public int delete(FoodVO foodVO) {
 		String sqlCommand = "DELETE FROM food "
 				+ " WHERE foodId = ? ;";
 		try(
 				Connection connection = this.getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(sqlCommand);
 		){
-			preparedStatement.setInt(1, food.getFoodId());
+			preparedStatement.setInt(1, foodVO.getFoodId());
 			
 			return preparedStatement.executeUpdate();
 		}catch (Exception e) {

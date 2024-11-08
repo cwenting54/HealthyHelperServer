@@ -19,10 +19,10 @@ import web.dietdiary.dao.impl.NutritionDao;
 import web.dietdiary.dao.impl.NutritionDaoImpl;
 import web.dietdiary.handler.impl.NutritionHandler;
 import web.dietdiary.handler.impl.NutritionHandlerImpl;
-import web.dietdiary.vo.DietDiary;
-import web.dietdiary.vo.Food;
-import web.dietdiary.vo.FoodItem;
-import web.dietdiary.vo.Nutrition;
+import web.dietdiary.vo.DietDiaryVO;
+import web.dietdiary.vo.FoodVO;
+import web.dietdiary.vo.FoodItemVO;
+import web.dietdiary.vo.NutritionVO;
 
 public class DietDiaryServiceImpl implements DietDiaryService {
 
@@ -41,74 +41,74 @@ public class DietDiaryServiceImpl implements DietDiaryService {
 	}
 
 	@Override
-	public String insert(DietDiary dietDiary) {
+	public String insert(DietDiaryVO dietDiaryVO) {
 		String errorMessage = "";
 		boolean duplicatedDate = false;
-		ArrayList<DietDiary> dietDiaries = new ArrayList<DietDiary>();
+		ArrayList<DietDiaryVO> dietDiaryVOs = new ArrayList<DietDiaryVO>();
 		
-		dietDiaries = this.search(dietDiary, 1);
-		if(dietDiaries==null) {
+		dietDiaryVOs = this.search(dietDiaryVO, 1);
+		if(dietDiaryVOs==null) {
 			errorMessage = "Unknown error during execution of searching data!!!";
 			return errorMessage;
 		}
-		if(!dietDiaries.isEmpty()) {
+		if(!dietDiaryVOs.isEmpty()) {
 			errorMessage = "Existing error!!! The userId and createDate in foodDiary table has already exists. Can not insert it!!!";
 			return errorMessage;
 		}
 		
-		errorMessage = this.dietDiaryDao.insert(dietDiary);
+		errorMessage = this.dietDiaryDao.insert(dietDiaryVO);
 		return errorMessage;
 	}
 
 	@Override
-	public ArrayList<DietDiary> search(DietDiary dietDiary, int mode) {
+	public ArrayList<DietDiaryVO> search(DietDiaryVO dietDiaryVO, int mode) {
 		if (mode == 1) {
-			return this.searchByDate(dietDiary);
+			return this.searchByDate(dietDiaryVO);
 		} else if (mode == 2) {
-			return this.searchByTime(dietDiary);
+			return this.searchByTime(dietDiaryVO);
 		} else if (mode == 3) {
-			return this.searchByDateAndTime(dietDiary);
+			return this.searchByDateAndTime(dietDiaryVO);
 		}
 		return null;
 	}
 
 	@Override
-	public ArrayList<DietDiary> searchByDate(DietDiary dietDiary) {
-		int userId = dietDiary.getUserId();
-		Date createDate = dietDiary.getCreateDate();
+	public ArrayList<DietDiaryVO> searchByDate(DietDiaryVO dietDiaryVO) {
+		int userId = dietDiaryVO.getUserId();
+		Date createDate = dietDiaryVO.getCreateDate();
 		return this.dietDiaryDao.selectByDate(userId, createDate);
 	}
 
 	@Override
-	public ArrayList<DietDiary> searchByTime(DietDiary dietDiary) {
-		int userId = dietDiary.getUserId();
-		Time createTime = dietDiary.getCreateTime();
+	public ArrayList<DietDiaryVO> searchByTime(DietDiaryVO dietDiaryVO) {
+		int userId = dietDiaryVO.getUserId();
+		Time createTime = dietDiaryVO.getCreateTime();
 		return this.dietDiaryDao.selectByTime(userId, createTime);
 	}
 
 	@Override
-	public ArrayList<DietDiary> searchByDateAndTime(DietDiary dietDiary) {
-		int userId = dietDiary.getUserId();
-		Date createDate = dietDiary.getCreateDate();
-		Time createTime = dietDiary.getCreateTime();
+	public ArrayList<DietDiaryVO> searchByDateAndTime(DietDiaryVO dietDiaryVO) {
+		int userId = dietDiaryVO.getUserId();
+		Date createDate = dietDiaryVO.getCreateDate();
+		Time createTime = dietDiaryVO.getCreateTime();
 		return this.dietDiaryDao.selectByDateAndTime(userId, createDate, createTime);
 	}
 
 	@Override
-	public DietDiary plusNutrition(DietDiary dietDiary, Nutrition nutrition) {
-		DietDiary result = new DietDiary();
+	public DietDiaryVO plusNutrition(DietDiaryVO dietDiaryVO, NutritionVO nutritionVO) {
+		DietDiaryVO result = new DietDiaryVO();
 
-		result.setUserId(dietDiary.getUserId());
-		result.setDiaryId(dietDiary.getDiaryId());
-		result.setCreateDate(dietDiary.getCreateDate());
-		result.setCreateTime(dietDiary.getCreateTime());
-		result.setTotalFat(dietDiary.getTotalFat() + nutrition.getFat());
-		result.setTotalFiber(dietDiary.getTotalFiber() + nutrition.getFiber());
-		result.setTotalProtein(dietDiary.getTotalProtein() + nutrition.getProtein());
-		result.setTotalCarbon(dietDiary.getTotalCarbon() + nutrition.getCarbon());
-		result.setTotalSugar(dietDiary.getTotalSugar() + nutrition.getSugar());
-		result.setTotalSodium(dietDiary.getTotalSodium() + nutrition.getSodium());
-		result.setTotalCalories(dietDiary.getTotalCalories() + nutrition.getCalories());
+		result.setUserId(dietDiaryVO.getUserId());
+		result.setDiaryId(dietDiaryVO.getDiaryId());
+		result.setCreateDate(dietDiaryVO.getCreateDate());
+		result.setCreateTime(dietDiaryVO.getCreateTime());
+		result.setTotalFat(dietDiaryVO.getTotalFat() + nutritionVO.getFat());
+		result.setTotalFiber(dietDiaryVO.getTotalFiber() + nutritionVO.getFiber());
+		result.setTotalProtein(dietDiaryVO.getTotalProtein() + nutritionVO.getProtein());
+		result.setTotalCarbon(dietDiaryVO.getTotalCarbon() + nutritionVO.getCarbon());
+		result.setTotalSugar(dietDiaryVO.getTotalSugar() + nutritionVO.getSugar());
+		result.setTotalSodium(dietDiaryVO.getTotalSodium() + nutritionVO.getSodium());
+		result.setTotalCalories(dietDiaryVO.getTotalCalories() + nutritionVO.getCalories());
 
 		return result;
 	}
@@ -116,20 +116,20 @@ public class DietDiaryServiceImpl implements DietDiaryService {
 	@Override
 	public String updateDietDiary(int foodId, Date date) {
 		try {
-			FoodItem foodItem = foodItemDao.select(foodId);
-			Food food = foodDao.selectByFoodId(foodId);
-			Nutrition nutrition = nutritionDao.getNutritionFromFood(food);
-			int diaryId = foodItem.getDiaryId();
-			Double grams = foodItem.getGrams();
+			FoodItemVO foodItemVO = foodItemDao.select(foodId);
+			FoodVO foodVO = foodDao.selectByFoodId(foodId);
+			NutritionVO nutritionVO = nutritionDao.getNutritionFromFood(foodVO);
+			int diaryId = foodItemVO.getDiaryId();
+			Double grams = foodItemVO.getGrams();
 			
-			DietDiary dietDiary = dietDiaryDao.selectByDiaryIdAndDate(diaryId, date);
-			if (dietDiary == null) {
+			DietDiaryVO dietDiaryVO = dietDiaryDao.selectByDiaryIdAndDate(diaryId, date);
+			if (dietDiaryVO == null) {
 				throw new Exception("Unknown error!!!");
 			}
 
-			nutrition = nutritionHandler.multiply(nutrition, grams);
+			nutritionVO = nutritionHandler.multiply(nutritionVO, grams);
 					
-			DietDiary updatedDietDiary = this.plusNutrition(dietDiary, nutrition);
+			DietDiaryVO updatedDietDiary = this.plusNutrition(dietDiaryVO, nutritionVO);
 			this.dietDiaryDao.updateByDiaryId(updatedDietDiary);
 			
 			return "";
@@ -140,23 +140,23 @@ public class DietDiaryServiceImpl implements DietDiaryService {
 	}
 
 	@Override
-	public ArrayList<DietDiary> sort(ArrayList<DietDiary> dietDiaries, int mode, boolean isAscending) {
+	public ArrayList<DietDiaryVO> sort(ArrayList<DietDiaryVO> dietDiaryVOs, int mode, boolean isAscending) {
 		if (mode == 1) {
-			return this.sortByDate(dietDiaries,isAscending);
+			return this.sortByDate(dietDiaryVOs,isAscending);
 		}
 		return null;
 	}
 
 	@Override
-	public ArrayList<DietDiary> sortByDate(ArrayList<DietDiary> dietDiaries, boolean isAscending) {
-		DietDiary[] newDietDiaries = (DietDiary[]) dietDiaries.clone();
+	public ArrayList<DietDiaryVO> sortByDate(ArrayList<DietDiaryVO> dietDiaryVOs, boolean isAscending) {
+		DietDiaryVO[] newDietDiaries = (DietDiaryVO[]) dietDiaryVOs.clone();
 		if(isAscending) {
 			Arrays.sort(newDietDiaries);
 		}else {
 			Arrays.sort(newDietDiaries);
 			Collections.reverse(Arrays.asList(newDietDiaries));
 		}
-		ArrayList<DietDiary> result = (ArrayList<DietDiary>) Arrays.asList(newDietDiaries);
+		ArrayList<DietDiaryVO> result = (ArrayList<DietDiaryVO>) Arrays.asList(newDietDiaries);
 		return result;
 	}
 }

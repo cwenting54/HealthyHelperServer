@@ -1,10 +1,10 @@
 package web.dietdiary.dao.impl;
 
-import web.dietdiary.vo.FoodItem;
+import web.dietdiary.vo.FoodItemVO;
 
 public interface FoodItemDao {
-	FoodItem select(int foodId);
-	int insert(FoodItem foodItem);
-	int delete(FoodItem foodItem);
-	int update(FoodItem foodItem);
+	FoodItemVO select(int foodId);
+	int insert(FoodItemVO foodItemVO);
+	int delete(FoodItemVO foodItemVO);
+	int update(FoodItemVO foodItemVO);
 }

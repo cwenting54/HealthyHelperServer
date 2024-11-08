@@ -1,7 +1,7 @@
 package web.dietdiary.checker.impl;
 
-import web.dietdiary.vo.DietDiary;
+import web.dietdiary.vo.DietDiaryVO;
 
 public interface DietDiaryChecker {
-	boolean check(DietDiary dietDiary);
+	boolean check(DietDiaryVO dietDiaryVO);
 }

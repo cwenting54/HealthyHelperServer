@@ -2,11 +2,11 @@ package web.dietdiary.service.impl;
 
 import java.util.ArrayList;
 
-import web.dietdiary.vo.MealTimeRangeCategory;
+import web.dietdiary.vo.MealTimeRangeCategoryVO;
 
 public interface MealTimeRangeCategoryService {
-	String change(MealTimeRangeCategory mealTimeRangeCategory);
-	String insert(MealTimeRangeCategory mealTimeRangeCategory);
-	String update(MealTimeRangeCategory mealTimeRangeCategory);
-	ArrayList<MealTimeRangeCategory> select(MealTimeRangeCategory mealTimeRangeCategory);
+	String change(MealTimeRangeCategoryVO mealTimeRangeCategoryVO);
+	String insert(MealTimeRangeCategoryVO mealTimeRangeCategoryVO);
+	String update(MealTimeRangeCategoryVO mealTimeRangeCategoryVO);
+	ArrayList<MealTimeRangeCategoryVO> select(MealTimeRangeCategoryVO mealTimeRangeCategoryVO);
 }

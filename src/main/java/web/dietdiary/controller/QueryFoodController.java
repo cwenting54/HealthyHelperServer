@@ -14,7 +14,7 @@ import com.google.gson.Gson;
 
 import web.dietdiary.service.impl.FoodService;
 import web.dietdiary.service.impl.FoodServiceImpl;
-import web.dietdiary.vo.Food;
+import web.dietdiary.vo.FoodVO;
 
 @WebServlet("/dietDiary/food/query/listAllAvailableFoods")
 public class QueryFoodController extends HttpServlet {
@@ -39,10 +39,10 @@ public class QueryFoodController extends HttpServlet {
         resp.setCharacterEncoding("UTF-8");
         
         Gson gson = new Gson();
-		ArrayList<Food> foods = new ArrayList<Food>();
-		foods = this.foodService.listAvailableFoods();
+		ArrayList<FoodVO> foodVOs = new ArrayList<FoodVO>();
+		foodVOs = this.foodService.listAvailableFoods();
 				
-		resp.getWriter().write(gson.toJson(foods));
+		resp.getWriter().write(gson.toJson(foodVOs));
 		return;
 	}
 }

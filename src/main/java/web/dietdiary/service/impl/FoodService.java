@@ -2,9 +2,9 @@ package web.dietdiary.service.impl;
 
 import java.util.ArrayList;
 
-import web.dietdiary.vo.Food;
+import web.dietdiary.vo.FoodVO;
 
 public interface FoodService {
-	ArrayList<Food> listAvailableFoods();
-	String insert(Food food);
+	ArrayList<FoodVO> listAvailableFoods();
+	String insert(FoodVO foodVO);
 }

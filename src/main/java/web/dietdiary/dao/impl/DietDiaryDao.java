@@ -4,17 +4,17 @@ import java.sql.Date;
 import java.sql.Time;
 import java.util.ArrayList;
 
-import web.dietdiary.vo.DietDiary;
-import web.dietdiary.vo.Nutrition;
+import web.dietdiary.vo.DietDiaryVO;
+import web.dietdiary.vo.NutritionVO;
 
 public interface DietDiaryDao {
-	String insert(DietDiary dietDiary);
+	String insert(DietDiaryVO dietDiaryVO);
 	
-	ArrayList<DietDiary> selectByTime(int userId,Time time);
-	ArrayList<DietDiary> selectByDate(int userId,Date date);
-	ArrayList<DietDiary> selectByDateAndTime(int userId,Date date,Time time);
+	ArrayList<DietDiaryVO> selectByTime(int userId,Time time);
+	ArrayList<DietDiaryVO> selectByDate(int userId,Date date);
+	ArrayList<DietDiaryVO> selectByDateAndTime(int userId,Date date,Time time);
 		
-	int updateByDiaryId(DietDiary dietDiary);
+	int updateByDiaryId(DietDiaryVO dietDiaryVO);
 	
-	DietDiary selectByDiaryIdAndDate(int diaryId, Date date);
+	DietDiaryVO selectByDiaryIdAndDate(int diaryId, Date date);
 }

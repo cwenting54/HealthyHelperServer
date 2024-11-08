@@ -6,7 +6,7 @@ import javax.naming.NamingException;
 
 import web.dietdiary.dao.impl.MealTimeRangeCategoryDao;
 import web.dietdiary.dao.impl.MealTimeRangeCategoryDaoImpl;
-import web.dietdiary.vo.MealTimeRangeCategory;
+import web.dietdiary.vo.MealTimeRangeCategoryVO;
 
 public class MealTimeRangeCategoryServiceImpl implements MealTimeRangeCategoryService {
 
@@ -17,23 +17,23 @@ public class MealTimeRangeCategoryServiceImpl implements MealTimeRangeCategorySe
 	}
 	
 	@Override
-	public String change(MealTimeRangeCategory mealTimeRangeCategory) {
+	public String change(MealTimeRangeCategoryVO mealTimeRangeCategoryVO) {
 		String errorMessage = "";
-		ArrayList<MealTimeRangeCategory> newMealTimeRangeCategory = new ArrayList<MealTimeRangeCategory>();
-		newMealTimeRangeCategory = this.mealTimeRangeCategoryDao.selectByUserId(mealTimeRangeCategory.getUserId());
+		ArrayList<MealTimeRangeCategoryVO> newMealTimeRangeCategory = new ArrayList<MealTimeRangeCategoryVO>();
+		newMealTimeRangeCategory = this.mealTimeRangeCategoryDao.selectByUserId(mealTimeRangeCategoryVO.getUserId());
 		if(newMealTimeRangeCategory.isEmpty()) {
-			errorMessage = this.insert(mealTimeRangeCategory);
+			errorMessage = this.insert(mealTimeRangeCategoryVO);
 			return errorMessage;
 		}
-		errorMessage = this.update(mealTimeRangeCategory);
+		errorMessage = this.update(mealTimeRangeCategoryVO);
 		return errorMessage;
 	}
 
 	@Override
-	public String insert(MealTimeRangeCategory mealTimeRangeCategory) {
+	public String insert(MealTimeRangeCategoryVO mealTimeRangeCategoryVO) {
 		String errorMessage = "";
 		int affectedRows = 1;
-		affectedRows = this.mealTimeRangeCategoryDao.insert(mealTimeRangeCategory);
+		affectedRows = this.mealTimeRangeCategoryDao.insert(mealTimeRangeCategoryVO);
 		if(affectedRows != 1) {
 			errorMessage = "Unknown error";
 			return errorMessage;
@@ -43,10 +43,10 @@ public class MealTimeRangeCategoryServiceImpl implements MealTimeRangeCategorySe
 	}
 
 	@Override
-	public String update(MealTimeRangeCategory mealTimeRangeCategory) {
+	public String update(MealTimeRangeCategoryVO mealTimeRangeCategoryVO) {
 		String errorMessage = "";
 		int affectedRows = 1;
-		affectedRows = this.mealTimeRangeCategoryDao.update(mealTimeRangeCategory);
+		affectedRows = this.mealTimeRangeCategoryDao.update(mealTimeRangeCategoryVO);
 		if(affectedRows != 1) {
 			errorMessage = "Unknown error";
 			return errorMessage;
@@ -56,9 +56,9 @@ public class MealTimeRangeCategoryServiceImpl implements MealTimeRangeCategorySe
 	}
 
 	@Override
-	public ArrayList<MealTimeRangeCategory> select(MealTimeRangeCategory mealTimeRangeCategory) {
-		ArrayList<MealTimeRangeCategory> mealTimeRangeCategories = this.mealTimeRangeCategoryDao.selectByUserId(mealTimeRangeCategory.getUserId());
-		System.out.println("In MealTimeRangeCategoryServiceImpl, mealTimeRangeCategories:"+mealTimeRangeCategories.toString());
-		return mealTimeRangeCategories;
+	public ArrayList<MealTimeRangeCategoryVO> select(MealTimeRangeCategoryVO mealTimeRangeCategoryVO) {
+		ArrayList<MealTimeRangeCategoryVO> mealTimeRangeCategoryVOs = this.mealTimeRangeCategoryDao.selectByUserId(mealTimeRangeCategoryVO.getUserId());
+		System.out.println("In MealTimeRangeCategoryServiceImpl, mealTimeRangeCategories:"+mealTimeRangeCategoryVOs.toString());
+		return mealTimeRangeCategoryVOs;
 	}
 }

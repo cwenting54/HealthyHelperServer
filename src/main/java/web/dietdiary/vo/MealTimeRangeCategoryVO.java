@@ -2,7 +2,7 @@ package web.dietdiary.vo;
 
 import java.sql.Time;
 
-public class MealTimeRangeCategory {
+public class MealTimeRangeCategoryVO {
 	private int userId;
 	private Time breakfastStartTime;
 	private Time breakfastEndTime;

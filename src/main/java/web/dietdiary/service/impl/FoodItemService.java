@@ -1,8 +1,8 @@
 package web.dietdiary.service.impl;
 
-import web.dietdiary.vo.FoodItem;
+import web.dietdiary.vo.FoodItemVO;
 
 public interface FoodItemService {
-	String insert(FoodItem foodItem);
-	String update(FoodItem foodItem);
+	String insert(FoodItemVO foodItemVO);
+	String update(FoodItemVO foodItemVO);
 }

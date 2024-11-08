@@ -1,6 +1,6 @@
 package web.dietdiary.vo;
 
-public class FoodItem {
+public class FoodItemVO {
 	private int diaryId;
 	private int foodId;
 	private Double grams;

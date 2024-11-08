@@ -21,7 +21,7 @@ import web.dietdiary.checker.impl.DietDiaryCheckerImpl;
 import web.dietdiary.service.impl.DietDiaryService;
 import web.dietdiary.service.impl.DietDiaryServiceImpl;
 import web.dietdiary.util.gson.GsonForSqlDateAndSqlTime;
-import web.dietdiary.vo.DietDiary;
+import web.dietdiary.vo.DietDiaryVO;
 
 @WebServlet("/dietDiary/insert/insertDietDiary")
 public class InsertDietDiaryController extends HttpServlet{
@@ -50,11 +50,11 @@ public class InsertDietDiaryController extends HttpServlet{
 		JsonObject jsonObject = new JsonObject();
 		String errorMessage = "";
 		boolean isValidData = true;
-		DietDiary dietDiary = gson.fromJson(req.getReader(), DietDiary.class);
+		DietDiaryVO dietDiaryVO = gson.fromJson(req.getReader(), DietDiaryVO.class);
 		System.out.println("Ready to deserialize.");
-		System.out.println("dietDiary:"+dietDiary.toString());
+		System.out.println("dietDiary:"+dietDiaryVO.toString());
 		
-		isValidData = this.dietDiaryChecker.check(dietDiary);
+		isValidData = this.dietDiaryChecker.check(dietDiaryVO);
 		if(!isValidData) {
 			errorMessage = "Invalid Data in DietDiary!!!";
 			jsonObject.addProperty("result", false);
@@ -62,7 +62,7 @@ public class InsertDietDiaryController extends HttpServlet{
 			resp.getWriter().write(jsonObject.toString());	
 			return;
 		}
-		errorMessage = this.dietDiaryService.insert(dietDiary);
+		errorMessage = this.dietDiaryService.insert(dietDiaryVO);
 		 
 		if(errorMessage!="") {
 			jsonObject.addProperty("result", false);

@@ -10,7 +10,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
-import web.dietdiary.vo.FoodItem;
+import web.dietdiary.vo.FoodItemVO;
 
 public class FoodItemDaoImpl implements FoodItemDao {
 
@@ -27,27 +27,27 @@ public class FoodItemDaoImpl implements FoodItemDao {
 		return this.dataSource.getConnection();
 	}
 	
-	private ArrayList<FoodItem> resultSetToObjects(ResultSet resultSet) throws SQLException{
-		ArrayList<FoodItem> foodItems = new ArrayList<FoodItem>();
+	private ArrayList<FoodItemVO> resultSetToObjects(ResultSet resultSet) throws SQLException{
+		ArrayList<FoodItemVO> foodItemVOs = new ArrayList<FoodItemVO>();
 		while(resultSet.next()) {
 			
 			int diaryId = resultSet.getInt("diaryID");
 			int foodId = resultSet.getInt("foodID");
 			Double grams = resultSet.getDouble("grams");
 			
-			FoodItem foodItem = new FoodItem();
+			FoodItemVO foodItemVO = new FoodItemVO();
 			
-			foodItem.setDiaryId(diaryId);
-			foodItem.setFoodId(foodId);
-			foodItem.setGrams(grams);
+			foodItemVO.setDiaryId(diaryId);
+			foodItemVO.setFoodId(foodId);
+			foodItemVO.setGrams(grams);
 			
-			foodItems.add(foodItem);
+			foodItemVOs.add(foodItemVO);
 		}	
-		return foodItems;
+		return foodItemVOs;
 	}
 
 	@Override
-	public int insert(FoodItem foodItem) {
+	public int insert(FoodItemVO foodItemVO) {
 		String sqlCommand = "INSERT INTO fooditem "
 				+ " (diaryId,foodId,grams)"
 				+ " VALUES "
@@ -56,9 +56,9 @@ public class FoodItemDaoImpl implements FoodItemDao {
 				Connection connection = this.getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(sqlCommand);
 		){
-			preparedStatement.setInt(1,foodItem.getDiaryId());
-			preparedStatement.setInt(2,foodItem.getFoodId());
-			preparedStatement.setDouble(3,foodItem.getGrams());
+			preparedStatement.setInt(1,foodItemVO.getDiaryId());
+			preparedStatement.setInt(2,foodItemVO.getFoodId());
+			preparedStatement.setDouble(3,foodItemVO.getGrams());
 			
 			return preparedStatement.executeUpdate();
 		}catch (Exception e) {
@@ -67,7 +67,7 @@ public class FoodItemDaoImpl implements FoodItemDao {
 		return -1;
 	}
 	@Override
-	public FoodItem select(int foodId) {
+	public FoodItemVO select(int foodId) {
 		String sqlCommand = "SELECT * FROM fooditem WHERE foodID = ? ;";
 		try(
 				Connection connection = this.getConnection();
@@ -75,12 +75,12 @@ public class FoodItemDaoImpl implements FoodItemDao {
 		){
 				preparedStatement.setInt(1,foodId);
 				ResultSet resultSet = preparedStatement.executeQuery();
-				ArrayList<FoodItem> foodItems = this.resultSetToObjects(resultSet);
-				System.out.println("foodItems:"+foodItems);
-				if(foodItems == null || foodItems.isEmpty()) {
+				ArrayList<FoodItemVO> foodItemVOs = this.resultSetToObjects(resultSet);
+				System.out.println("foodItems:"+foodItemVOs);
+				if(foodItemVOs == null || foodItemVOs.isEmpty()) {
 					throw new Exception("Unknown error during execution of sql statement.");
 				}
-				return foodItems.get(0);
+				return foodItemVOs.get(0);
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -89,13 +89,13 @@ public class FoodItemDaoImpl implements FoodItemDao {
 	}
 
 	@Override
-	public int delete(FoodItem foodItem) {
+	public int delete(FoodItemVO foodItemVO) {
 		String sqlCommand = "DELETE FROM fooditem WHERE foodId = ? ;";
 		try(
 				Connection connection = this.getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(sqlCommand);
 		){
-			preparedStatement.setInt(1,foodItem.getFoodId());
+			preparedStatement.setInt(1,foodItemVO.getFoodId());
 			return preparedStatement.executeUpdate();
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -104,15 +104,15 @@ public class FoodItemDaoImpl implements FoodItemDao {
 	}
 
 	@Override
-	public int update(FoodItem foodItem) {
+	public int update(FoodItemVO foodItemVO) {
 		String sqlCommand = "UPDATE fooditem SET diaryId = ?, grams = ? WHERE foodId = ? ;";
 		try(
 				Connection connection = this.getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(sqlCommand);
 		){
-			preparedStatement.setInt(1, foodItem.getDiaryId());
-			preparedStatement.setDouble(2, foodItem.getGrams());
-			preparedStatement.setInt(3,foodItem.getFoodId());
+			preparedStatement.setInt(1, foodItemVO.getDiaryId());
+			preparedStatement.setDouble(2, foodItemVO.getGrams());
+			preparedStatement.setInt(3,foodItemVO.getFoodId());
 			return preparedStatement.executeUpdate();
 		}catch (Exception e) {
 			e.printStackTrace();

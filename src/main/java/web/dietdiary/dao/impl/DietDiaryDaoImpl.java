@@ -12,8 +12,8 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
-import web.dietdiary.vo.DietDiary;
-import web.dietdiary.vo.Nutrition;
+import web.dietdiary.vo.DietDiaryVO;
+import web.dietdiary.vo.NutritionVO;
 
 public class DietDiaryDaoImpl implements DietDiaryDao {
 
@@ -30,8 +30,8 @@ public class DietDiaryDaoImpl implements DietDiaryDao {
 		return this.dataSource.getConnection();
 	}
 
-	private ArrayList<DietDiary> resultSetToObjects(ResultSet resultSet) throws SQLException {
-		ArrayList<DietDiary> dietDiaries = new ArrayList<DietDiary>();
+	private ArrayList<DietDiaryVO> resultSetToObjects(ResultSet resultSet) throws SQLException {
+		ArrayList<DietDiaryVO> dietDiaryVOs = new ArrayList<DietDiaryVO>();
 		while (resultSet.next()) {
 
 			int diaryId = resultSet.getInt("diaryID");
@@ -46,45 +46,45 @@ public class DietDiaryDaoImpl implements DietDiaryDao {
 			Double totalSodium = resultSet.getDouble("totalsodium");
 			Double totalCalories = resultSet.getDouble("totalcalories");
 
-			DietDiary dietDiary = new DietDiary();
+			DietDiaryVO dietDiaryVO = new DietDiaryVO();
 
-			dietDiary.setDiaryId(diaryId);
-			dietDiary.setUserId(userId);
-			dietDiary.setCreateDate(createDate);
-			dietDiary.setCreateTime(createTime);
-			dietDiary.setTotalFat(totalFat);
-			dietDiary.setTotalCarbon(totalCarbon);
-			dietDiary.setTotalProtein(totalProtein);
-			dietDiary.setTotalFiber(totalFiber);
-			dietDiary.setTotalSugar(totalSugar);
-			dietDiary.setTotalSodium(totalSodium);
-			dietDiary.setTotalCalories(totalCalories);
+			dietDiaryVO.setDiaryId(diaryId);
+			dietDiaryVO.setUserId(userId);
+			dietDiaryVO.setCreateDate(createDate);
+			dietDiaryVO.setCreateTime(createTime);
+			dietDiaryVO.setTotalFat(totalFat);
+			dietDiaryVO.setTotalCarbon(totalCarbon);
+			dietDiaryVO.setTotalProtein(totalProtein);
+			dietDiaryVO.setTotalFiber(totalFiber);
+			dietDiaryVO.setTotalSugar(totalSugar);
+			dietDiaryVO.setTotalSodium(totalSodium);
+			dietDiaryVO.setTotalCalories(totalCalories);
 
-			dietDiaries.add(dietDiary);
+			dietDiaryVOs.add(dietDiaryVO);
 		}
 
-		return dietDiaries;
+		return dietDiaryVOs;
 	}
 
 	@Override
-	public String insert(DietDiary dietDiary) {
+	public String insert(DietDiaryVO dietDiaryVO) {
 		String sqlCommand = "INSERT INTO fooddiary "
 				+ "(diaryID,userID,createdate,createtime,totalFat,totalCarbon,totalFiber,totalSugar,totalSodium,totalProtein,totalCalories) "
 				+ " VALUES " + "(?,?,?,?,?,?,?,?,?,?,?)";
 
 		try (Connection connection = this.getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(sqlCommand);) {
-			preparedStatement.setInt(1, dietDiary.getDiaryId());
-			preparedStatement.setInt(2, dietDiary.getUserId());
-			preparedStatement.setDate(3, dietDiary.getCreateDate());
-			preparedStatement.setTime(4, dietDiary.getCreateTime());
-			preparedStatement.setDouble(5, dietDiary.getTotalFat());
-			preparedStatement.setDouble(6, dietDiary.getTotalCarbon());
-			preparedStatement.setDouble(7, dietDiary.getTotalFiber());
-			preparedStatement.setDouble(8, dietDiary.getTotalSugar());
-			preparedStatement.setDouble(9, dietDiary.getTotalSodium());
-			preparedStatement.setDouble(10, dietDiary.getTotalProtein());
-			preparedStatement.setDouble(11, dietDiary.getTotalCalories());
+			preparedStatement.setInt(1, dietDiaryVO.getDiaryId());
+			preparedStatement.setInt(2, dietDiaryVO.getUserId());
+			preparedStatement.setDate(3, dietDiaryVO.getCreateDate());
+			preparedStatement.setTime(4, dietDiaryVO.getCreateTime());
+			preparedStatement.setDouble(5, dietDiaryVO.getTotalFat());
+			preparedStatement.setDouble(6, dietDiaryVO.getTotalCarbon());
+			preparedStatement.setDouble(7, dietDiaryVO.getTotalFiber());
+			preparedStatement.setDouble(8, dietDiaryVO.getTotalSugar());
+			preparedStatement.setDouble(9, dietDiaryVO.getTotalSodium());
+			preparedStatement.setDouble(10, dietDiaryVO.getTotalProtein());
+			preparedStatement.setDouble(11, dietDiaryVO.getTotalCalories());
 
 			int affectedRow = preparedStatement.executeUpdate();
 
@@ -100,7 +100,7 @@ public class DietDiaryDaoImpl implements DietDiaryDao {
 	}
 
 	@Override
-	public ArrayList<DietDiary> selectByTime(int userId, Time time) {
+	public ArrayList<DietDiaryVO> selectByTime(int userId, Time time) {
 		String sqlCommand = "SELECT * FROM fooddiary WHERE" + " userId = ? AND createtime = ? ;";
 		try (Connection connection = this.getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(sqlCommand);) {
@@ -117,7 +117,7 @@ public class DietDiaryDaoImpl implements DietDiaryDao {
 	}
 
 	@Override
-	public ArrayList<DietDiary> selectByDate(int userId, Date date) {
+	public ArrayList<DietDiaryVO> selectByDate(int userId, Date date) {
 		String sqlCommand = "SELECT * FROM fooddiary WHERE" + " userId = ? AND createdate = ? ;";
 		try (Connection connection = this.getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(sqlCommand);) {
@@ -127,13 +127,13 @@ public class DietDiaryDaoImpl implements DietDiaryDao {
 
 			ResultSet resultSet = preparedStatement.executeQuery();
 
-			ArrayList<DietDiary> dietDiaries = resultSetToObjects(resultSet);
+			ArrayList<DietDiaryVO> dietDiaryVOs = resultSetToObjects(resultSet);
 
-			if (dietDiaries == null) {
+			if (dietDiaryVOs == null) {
 				throw new Exception("Unknown error during execution of sql statement.");
 			}
 
-			return dietDiaries;
+			return dietDiaryVOs;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -141,7 +141,7 @@ public class DietDiaryDaoImpl implements DietDiaryDao {
 	}
 
 	@Override
-	public ArrayList<DietDiary> selectByDateAndTime(int userId, Date date, Time time) {
+	public ArrayList<DietDiaryVO> selectByDateAndTime(int userId, Date date, Time time) {
 		String sqlCommand = "SELECT * FROM fooddiary WHERE" + " userId = ? AND createdate = ? AND createtime = ? ;";
 		try (Connection connection = this.getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(sqlCommand);) {
@@ -152,13 +152,13 @@ public class DietDiaryDaoImpl implements DietDiaryDao {
 
 			ResultSet resultSet = preparedStatement.executeQuery();
 
-			ArrayList<DietDiary> dietDiaries = resultSetToObjects(resultSet);
+			ArrayList<DietDiaryVO> dietDiaryVOs = resultSetToObjects(resultSet);
 
-			if (dietDiaries == null) {
+			if (dietDiaryVOs == null) {
 				throw new Exception("Unknown error during execution of sql statement.");
 			}
 
-			return dietDiaries;
+			return dietDiaryVOs;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -166,7 +166,7 @@ public class DietDiaryDaoImpl implements DietDiaryDao {
 	}
 
 	@Override
-	public DietDiary selectByDiaryIdAndDate(int diaryId, Date date) {
+	public DietDiaryVO selectByDiaryIdAndDate(int diaryId, Date date) {
 		String sqlCommand = "SELECT * FROM fooddiary WHERE" + " diaryID = ? AND createdate = ? ;";
 		try (Connection connection = this.getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(sqlCommand);) {
@@ -176,12 +176,12 @@ public class DietDiaryDaoImpl implements DietDiaryDao {
 
 			ResultSet resultSet = preparedStatement.executeQuery();
 
-			ArrayList<DietDiary> dietDiaries = resultSetToObjects(resultSet);
+			ArrayList<DietDiaryVO> dietDiaryVOs = resultSetToObjects(resultSet);
 
-			if (dietDiaries == null || dietDiaries.size() != 1) {
+			if (dietDiaryVOs == null || dietDiaryVOs.size() != 1) {
 				throw new Exception("Unknown error during execution of sql statement.");
 			}
-			return dietDiaries.get(0);
+			return dietDiaryVOs.get(0);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -189,7 +189,7 @@ public class DietDiaryDaoImpl implements DietDiaryDao {
 	}
 
 	@Override
-	public int updateByDiaryId(DietDiary dietDiary) {
+	public int updateByDiaryId(DietDiaryVO dietDiaryVO) {
 		String sqlCommand = "UPDATE fooddiary SET " + "totalfat = ? , " + "totalcarbon = ? , " + "totalprotein = ? , "
 				+ "totalfiber = ? , " + "totalsugar = ? ," + "totalsodium = ? " + "WHERE" + " diaryID = ? AND "
 				+ "createdate = ? ;";
@@ -197,15 +197,15 @@ public class DietDiaryDaoImpl implements DietDiaryDao {
 		try (Connection connection = this.getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(sqlCommand);) {
 
-			preparedStatement.setDouble(1, dietDiary.getTotalFat());
-			preparedStatement.setDouble(2, dietDiary.getTotalCarbon());
-			preparedStatement.setDouble(3, dietDiary.getTotalProtein());
-			preparedStatement.setDouble(4, dietDiary.getTotalFiber());
-			preparedStatement.setDouble(5, dietDiary.getTotalSugar());
-			preparedStatement.setDouble(6, dietDiary.getTotalSodium());
+			preparedStatement.setDouble(1, dietDiaryVO.getTotalFat());
+			preparedStatement.setDouble(2, dietDiaryVO.getTotalCarbon());
+			preparedStatement.setDouble(3, dietDiaryVO.getTotalProtein());
+			preparedStatement.setDouble(4, dietDiaryVO.getTotalFiber());
+			preparedStatement.setDouble(5, dietDiaryVO.getTotalSugar());
+			preparedStatement.setDouble(6, dietDiaryVO.getTotalSodium());
 
-			preparedStatement.setInt(7, dietDiary.getDiaryId());
-			preparedStatement.setDate(8, dietDiary.getCreateDate());
+			preparedStatement.setInt(7, dietDiaryVO.getDiaryId());
+			preparedStatement.setDate(8, dietDiaryVO.getCreateDate());
 
 			System.out.println("sqlCommand:"+sqlCommand);
 			int affectedRows = preparedStatement.executeUpdate();

@@ -14,7 +14,7 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 import web.dietdiary.vo.DiaryDescriptionVO;
-import web.dietdiary.vo.DietDiary;
+import web.dietdiary.vo.DietDiaryVO;
 
 public class DiaryDescriptionDaoImpl implements DiaryDescriptionDao {
 

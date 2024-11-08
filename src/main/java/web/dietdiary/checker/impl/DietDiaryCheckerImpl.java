@@ -1,30 +1,30 @@
 package web.dietdiary.checker.impl;
 
-import web.dietdiary.vo.DietDiary;
+import web.dietdiary.vo.DietDiaryVO;
 
 public class DietDiaryCheckerImpl implements DietDiaryChecker{
 
 	@Override
-	public boolean check(DietDiary dietDiary) {
-		if(dietDiary.getTotalFat() <= 0.0) {
+	public boolean check(DietDiaryVO dietDiaryVO) {
+		if(dietDiaryVO.getTotalFat() <= 0.0) {
 			return false;
 		}
-		if(dietDiary.getTotalCarbon() <= 0.0) {
+		if(dietDiaryVO.getTotalCarbon() <= 0.0) {
 			return false;
 		}
-		if(dietDiary.getTotalFiber() <= 0.0) {
+		if(dietDiaryVO.getTotalFiber() <= 0.0) {
 			return false;
 		}
-		if(dietDiary.getTotalProtein() <= 0.0) {
+		if(dietDiaryVO.getTotalProtein() <= 0.0) {
 			return false;
 		}
-		if(dietDiary.getTotalSodium() <= 0.0) {
+		if(dietDiaryVO.getTotalSodium() <= 0.0) {
 			return false;
 		}
-		if(dietDiary.getTotalSugar() <= 0.0) {
+		if(dietDiaryVO.getTotalSugar() <= 0.0) {
 			return false;
 		}
-		if(dietDiary.getTotalCalories() <= 0.0) {
+		if(dietDiaryVO.getTotalCalories() <= 0.0) {
 			return false;
 		}
 		return true;

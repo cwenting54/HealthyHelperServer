@@ -3,13 +3,13 @@ package web.dietdiary.dao.impl;
 import java.util.ArrayList;
 
 
-import web.dietdiary.vo.Food;
-import web.dietdiary.vo.FoodNameAndGrams;
+import web.dietdiary.vo.FoodVO;
+import web.dietdiary.vo.FoodNameAndGramsVO;
 
 public interface FoodDao {
-	Food selectByFoodName(String name);
-	Food selectByFoodId(int foodId);
-	ArrayList<Food> listAvailableFoods();
-	int insert(Food food);
-	int delete(Food food);
+	FoodVO selectByFoodName(String name);
+	FoodVO selectByFoodId(int foodId);
+	ArrayList<FoodVO> listAvailableFoods();
+	int insert(FoodVO foodVO);
+	int delete(FoodVO foodVO);
 }

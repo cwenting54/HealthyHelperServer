@@ -14,7 +14,7 @@ import com.google.gson.Gson;
 
 import web.dietdiary.service.impl.FoodNameService;
 import web.dietdiary.service.impl.FoodNameServiceImpl;
-import web.dietdiary.vo.FoodName;
+import web.dietdiary.vo.FoodNameVO;
 
 @WebServlet("/dietDiary/food/listAvailableFoodsName")
 public class ListAvailableFoodsNameController extends HttpServlet {
@@ -39,16 +39,16 @@ public class ListAvailableFoodsNameController extends HttpServlet {
 			resp.setCharacterEncoding("UTF-8");
 
 			Gson gson = new Gson();
-			ArrayList<FoodName> foodNames = new ArrayList<FoodName>();
+			ArrayList<FoodNameVO> foodNameVOs = new ArrayList<FoodNameVO>();
 			
-			foodNames = this.foodNameService.listAvailableFoodsName();
+			foodNameVOs = this.foodNameService.listAvailableFoodsName();
 			
-			System.out.println("foodNames:"+foodNames.toString());
-			if (foodNames == null) {
+			System.out.println("foodNames:"+foodNameVOs.toString());
+			if (foodNameVOs == null) {
 				throw new Exception("Unknown error!!!");
 			}
 
-			resp.getWriter().write(gson.toJson(foodNames));
+			resp.getWriter().write(gson.toJson(foodNameVOs));
 			return;
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -18,7 +18,7 @@ import web.dietdiary.datetime.DateTimeFormatterImpl;
 import web.dietdiary.service.impl.MealTimeRangeCategoryService;
 import web.dietdiary.service.impl.MealTimeRangeCategoryServiceImpl;
 import web.dietdiary.util.gson.GsonForSqlDateAndSqlTime;
-import web.dietdiary.vo.MealTimeRangeCategory;
+import web.dietdiary.vo.MealTimeRangeCategoryVO;
 
 @WebServlet("/dietDiary/mealTimeRangeCategory/select")
 public class SelectMealTimeRangeCategoryController extends HttpServlet {
@@ -45,10 +45,10 @@ public class SelectMealTimeRangeCategoryController extends HttpServlet {
 		JsonArray jsonArray = new JsonArray();
 		DateTimeFormatterImpl dateTimeFormatterImpl = new DateTimeFormatterImpl();
 		String errorMessage = "";
-		ArrayList<MealTimeRangeCategory> mealTimeRangeCategories = new ArrayList<MealTimeRangeCategory>();
-		MealTimeRangeCategory targetMealTimeRangeCategory = gson.fromJson(req.getReader(), MealTimeRangeCategory.class);
-		mealTimeRangeCategories = this.mealTimeRangeCategoryService.select(targetMealTimeRangeCategory);
-		if(mealTimeRangeCategories == null) {
+		ArrayList<MealTimeRangeCategoryVO> mealTimeRangeCategoryVOs = new ArrayList<MealTimeRangeCategoryVO>();
+		MealTimeRangeCategoryVO targetMealTimeRangeCategory = gson.fromJson(req.getReader(), MealTimeRangeCategoryVO.class);
+		mealTimeRangeCategoryVOs = this.mealTimeRangeCategoryService.select(targetMealTimeRangeCategory);
+		if(mealTimeRangeCategoryVOs == null) {
 			JsonObject jsonObject = new JsonObject();
 			errorMessage = "Unknown error!!!";
 			jsonObject.addProperty("result", false);
@@ -57,18 +57,18 @@ public class SelectMealTimeRangeCategoryController extends HttpServlet {
 			return;
 		}
 
-		for(MealTimeRangeCategory mealTimeRangeCategory:mealTimeRangeCategories){
+		for(MealTimeRangeCategoryVO mealTimeRangeCategoryVO:mealTimeRangeCategoryVOs){
 			JsonObject jsonObject = new JsonObject();
 			
-			jsonObject.addProperty("userId", mealTimeRangeCategory.getUserId());
-			jsonObject.addProperty("breakfastStartTime", dateTimeFormatterImpl.TimeToString(mealTimeRangeCategory.getBreakfastStartTime()));
-			jsonObject.addProperty("breakfastEndTime", dateTimeFormatterImpl.TimeToString(mealTimeRangeCategory.getBreakfastEndTime()));
-			jsonObject.addProperty("lunchStartTime", dateTimeFormatterImpl.TimeToString(mealTimeRangeCategory.getLunchStartTime()));
-			jsonObject.addProperty("lunchEndTime", dateTimeFormatterImpl.TimeToString(mealTimeRangeCategory.getLunchEndTime()));
-			jsonObject.addProperty("dinnerStartTime", dateTimeFormatterImpl.TimeToString(mealTimeRangeCategory.getDinnerStartTime()));
-			jsonObject.addProperty("dinnerEndTime",dateTimeFormatterImpl.TimeToString(mealTimeRangeCategory.getDinnerEndTime()));
-			jsonObject.addProperty("supperStartTime", dateTimeFormatterImpl.TimeToString(mealTimeRangeCategory.getSupperStartTime()));
-			jsonObject.addProperty("supperEndTime", dateTimeFormatterImpl.TimeToString(mealTimeRangeCategory.getSupperEndTime()));
+			jsonObject.addProperty("userId", mealTimeRangeCategoryVO.getUserId());
+			jsonObject.addProperty("breakfastStartTime", dateTimeFormatterImpl.TimeToString(mealTimeRangeCategoryVO.getBreakfastStartTime()));
+			jsonObject.addProperty("breakfastEndTime", dateTimeFormatterImpl.TimeToString(mealTimeRangeCategoryVO.getBreakfastEndTime()));
+			jsonObject.addProperty("lunchStartTime", dateTimeFormatterImpl.TimeToString(mealTimeRangeCategoryVO.getLunchStartTime()));
+			jsonObject.addProperty("lunchEndTime", dateTimeFormatterImpl.TimeToString(mealTimeRangeCategoryVO.getLunchEndTime()));
+			jsonObject.addProperty("dinnerStartTime", dateTimeFormatterImpl.TimeToString(mealTimeRangeCategoryVO.getDinnerStartTime()));
+			jsonObject.addProperty("dinnerEndTime",dateTimeFormatterImpl.TimeToString(mealTimeRangeCategoryVO.getDinnerEndTime()));
+			jsonObject.addProperty("supperStartTime", dateTimeFormatterImpl.TimeToString(mealTimeRangeCategoryVO.getSupperStartTime()));
+			jsonObject.addProperty("supperEndTime", dateTimeFormatterImpl.TimeToString(mealTimeRangeCategoryVO.getSupperEndTime()));
 			
 			jsonArray.add(jsonObject);
 		}

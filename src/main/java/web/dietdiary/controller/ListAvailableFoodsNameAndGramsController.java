@@ -14,7 +14,7 @@ import com.google.gson.Gson;
 
 import web.dietdiary.service.impl.FoodNameAndGramsService;
 import web.dietdiary.service.impl.FoodNameAndGramsServiceImpl;
-import web.dietdiary.vo.FoodNameAndGrams;
+import web.dietdiary.vo.FoodNameAndGramsVO;
 
 @WebServlet("/dietDiary/foodName/listAvailableFoodsNameAndGrams")
 public class ListAvailableFoodsNameAndGramsController extends HttpServlet {
@@ -40,7 +40,7 @@ public class ListAvailableFoodsNameAndGramsController extends HttpServlet {
 			resp.setCharacterEncoding("UTF-8");
 
 			Gson gson = new Gson();
-			ArrayList<FoodNameAndGrams> foodNameAndGramses = new ArrayList<FoodNameAndGrams>();
+			ArrayList<FoodNameAndGramsVO> foodNameAndGramses = new ArrayList<FoodNameAndGramsVO>();
 			foodNameAndGramses = this.foodNameAndGramsService.listAvailableFoodsNameAndGrams();
 			
 			System.out.println("Ready to deserialize data.");

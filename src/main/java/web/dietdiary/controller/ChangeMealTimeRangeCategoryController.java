@@ -15,7 +15,7 @@ import com.google.gson.JsonObject;
 import web.dietdiary.service.impl.MealTimeRangeCategoryService;
 import web.dietdiary.service.impl.MealTimeRangeCategoryServiceImpl;
 import web.dietdiary.util.gson.GsonForSqlDateAndSqlTime;
-import web.dietdiary.vo.MealTimeRangeCategory;
+import web.dietdiary.vo.MealTimeRangeCategoryVO;
 
 @WebServlet("/dietDiary/mealTimeRangeCategory/change")
 public class ChangeMealTimeRangeCategoryController extends HttpServlet {
@@ -41,12 +41,12 @@ public class ChangeMealTimeRangeCategoryController extends HttpServlet {
 		Gson gson = GsonForSqlDateAndSqlTime.gson;
 		JsonObject jsonObject = new JsonObject();
 		String errorMessage = "";
-		MealTimeRangeCategory mealTimeRangeCategory = gson.fromJson(req.getReader(), MealTimeRangeCategory.class);
+		MealTimeRangeCategoryVO mealTimeRangeCategoryVO = gson.fromJson(req.getReader(), MealTimeRangeCategoryVO.class);
 		
 		System.out.println("Ready to deserialize.");
-		System.out.println("mealTimeRangeCategory:"+mealTimeRangeCategory);
+		System.out.println("mealTimeRangeCategory:"+mealTimeRangeCategoryVO);
 		
-		errorMessage = this.mealTimeRangeCategoryService.change(mealTimeRangeCategory);
+		errorMessage = this.mealTimeRangeCategoryService.change(mealTimeRangeCategoryVO);
 		 
 		if(errorMessage != "") {
 			errorMessage = "Unknown error!!!";
