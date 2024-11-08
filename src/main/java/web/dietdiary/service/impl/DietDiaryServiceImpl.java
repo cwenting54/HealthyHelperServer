@@ -32,7 +32,7 @@ public class DietDiaryServiceImpl implements DietDiaryService {
 	private NutritionDao nutritionDao;
 	private NutritionHandler nutritionHandler;
 
-	public DietDiaryServiceImpl(DietDiaryDao dietDiaryDao) throws NamingException {
+	public DietDiaryServiceImpl() throws NamingException {
 		this.dietDiaryDao = new DietDiaryDaoImpl(null);
 		this.foodItemDao = new FoodItemDaoImpl(null);
 		this.foodDao = new FoodDaoImpl(null);

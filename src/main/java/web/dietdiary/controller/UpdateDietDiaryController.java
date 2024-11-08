@@ -30,7 +30,7 @@ public class UpdateDietDiaryController extends HttpServlet{
 	@Override
 	public void init() throws ServletException {
 		try {
-			this.dietDiaryService = new DietDiaryServiceImpl(null);
+			this.dietDiaryService = new DietDiaryServiceImpl();
 			this.dietDiaryChecker = new DietDiaryCheckerImpl();
 		} catch (NamingException e) {
 			e.printStackTrace();

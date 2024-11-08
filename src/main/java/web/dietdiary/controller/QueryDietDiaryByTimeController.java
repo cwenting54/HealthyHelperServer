@@ -35,7 +35,7 @@ public class QueryDietDiaryByTimeController extends HttpServlet {
 	@Override
 	public void init() throws ServletException {
 		try {
-			this.dietDiaryService = new DietDiaryServiceImpl(null);
+			this.dietDiaryService = new DietDiaryServiceImpl();
 			
 		} catch (NamingException e) {
 			e.printStackTrace();
