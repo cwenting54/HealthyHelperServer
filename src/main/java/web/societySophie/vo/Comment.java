@@ -9,17 +9,21 @@ public class Comment {
     private String reply;
     private Timestamp commDate;
     private Integer likeComm;
+    private String userName;
+    private String photoUrl;   
 
-    public Comment() {
+	public Comment() {
     }
 
-    public Comment(Integer commentId, Integer userId, Integer postId, String reply, Timestamp commDate, Integer likeComm) {
+    public Comment(Integer commentId, Integer userId, Integer postId, String reply, Timestamp commDate, Integer likeComm, String userName, String photoUrl) {
         this.commentId = commentId;
         this.userId = userId;
         this.postId = postId;
         this.reply = reply;
         this.commDate = commDate;
         this.likeComm = likeComm;
+        this.userName = userName;
+        this.photoUrl = photoUrl;
     }
 
     public Integer getCommentId() {
@@ -69,5 +73,20 @@ public class Comment {
     public void setLikeComm(Integer likeComm) {
         this.likeComm = likeComm;
     }
+    public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public String getPhotoUrl() {
+		return photoUrl;
+	}
+
+	public void setPhotoUrl(String photoUrl) {
+		this.photoUrl = photoUrl;
+	}
 }
 

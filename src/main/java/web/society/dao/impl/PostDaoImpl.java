@@ -28,6 +28,7 @@ public class PostDaoImpl implements PostDao {
 			var list = new ArrayList<Post>();
 			while (rs.next()) {
 				Post post = new Post();
+				post.setPostId(rs.getInt("postId"));
 				post.setUserId(rs.getInt("userId"));
 				post.setTitle(rs.getString("title"));
 				post.setContent(rs.getString("content"));
@@ -53,6 +54,7 @@ public class PostDaoImpl implements PostDao {
 				var list = new ArrayList<Post>();
 				while (rs.next()) {
 					Post post = new Post();
+					post.setPostId(rs.getInt("postId"));
 					post.setUserId(rs.getInt("userId"));
 					post.setTitle(rs.getString("title"));
 					post.setContent(rs.getString("content"));

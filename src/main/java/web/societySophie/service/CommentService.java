@@ -6,7 +6,7 @@ import java.util.Optional;
 import web.societySophie.vo.Comment;
 
 public interface CommentService {
-	List<Comment> selectComment(int postId);
+	List<Comment> selectComment();
 
 	String insertComment(Comment comment, int userId, int postId);
 
