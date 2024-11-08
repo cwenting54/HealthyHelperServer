@@ -39,10 +39,9 @@ public class QueryFoodController extends HttpServlet {
         resp.setCharacterEncoding("UTF-8");
         
         Gson gson = new Gson();
-		ArrayList<FoodVO> foodVOs = new ArrayList<FoodVO>();
-		foodVOs = this.foodService.listAvailableFoods();
-				
-		resp.getWriter().write(gson.toJson(foodVOs));
+		ArrayList<FoodVO> foods = new ArrayList<FoodVO>();
+		foods = this.foodService.listAvailableFoods();
+		resp.getWriter().write(gson.toJson(foods));
 		return;
 	}
 }

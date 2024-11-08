@@ -6,17 +6,18 @@ import java.util.ArrayList;
 import web.dietdiary.vo.DietDiaryVO;
 import web.dietdiary.vo.NutritionVO;
 
+
 public interface DietDiaryService {
-	public ArrayList<DietDiaryVO> search(DietDiaryVO dietDiaryVO, int mode);
-	public ArrayList<DietDiaryVO> searchByDate(DietDiaryVO dietDiaryVO);
-	public ArrayList<DietDiaryVO> searchByTime(DietDiaryVO dietDiaryVO);
-	public ArrayList<DietDiaryVO> searchByDateAndTime(DietDiaryVO dietDiaryVO);
+	public ArrayList<DietDiaryVO> search(DietDiaryVO dietDiary, int mode);
+	public ArrayList<DietDiaryVO> searchByDate(DietDiaryVO dietDiary);
+	public ArrayList<DietDiaryVO> searchByTime(DietDiaryVO dietDiary);
+	public ArrayList<DietDiaryVO> searchByDateAndTime(DietDiaryVO dietDiary);
 		
-	public DietDiaryVO plusNutrition(DietDiaryVO dietDiaryVO, NutritionVO nutritionVO);
+	public DietDiaryVO plusNutrition(DietDiaryVO dietDiary, NutritionVO nutrition);
 	public String updateDietDiary(int foodId, Date date);
-	public String insert(DietDiaryVO dietDiaryVO);
+	public String insert(DietDiaryVO dietDiary);
 	
-	public ArrayList<DietDiaryVO> sort(ArrayList<DietDiaryVO> dietDiaryVOs, int mode,boolean isAscending);
-	public ArrayList<DietDiaryVO> sortByDate(ArrayList<DietDiaryVO> dietDiaryVOs,boolean isAscending);
+	public ArrayList<DietDiaryVO> sort(ArrayList<DietDiaryVO> dietDiaries, int mode,boolean isAscending);
+	public ArrayList<DietDiaryVO> sortByDate(ArrayList<DietDiaryVO> dietDiaries,boolean isAscending);
 
 }

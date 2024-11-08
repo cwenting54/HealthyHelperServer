@@ -39,18 +39,16 @@ public class InsertFoodItemController extends HttpServlet {
         
 		Gson gson = new Gson();
 		JsonObject jsonObject = new JsonObject();
-		FoodItemVO foodItemVO;
 		String errorMessage = "";
-		
-		foodItemVO = gson.fromJson(req.getReader(), FoodItemVO.class);
-		if(foodItemVO == null) {
+		FoodItemVO foodItem = gson.fromJson(req.getReader(), FoodItemVO.class);
+		if(foodItem == null) {
 			errorMessage = "NPE!!! foodItem is null";
 			jsonObject.addProperty("result", false);
 			jsonObject.addProperty("errorMessage", errorMessage);
 			resp.getWriter().write(jsonObject.toString());
 			return;
 		}
-		errorMessage = this.foodItemService.insert(foodItemVO);
+		errorMessage = this.foodItemService.insert(foodItem);
 		if(errorMessage!=null) {
 			jsonObject.addProperty("result", false);
 			jsonObject.addProperty("errorMessage", errorMessage);

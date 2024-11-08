@@ -5,26 +5,26 @@ import web.dietdiary.vo.DietDiaryVO;
 public class DietDiaryCheckerImpl implements DietDiaryChecker{
 
 	@Override
-	public boolean check(DietDiaryVO dietDiaryVO) {
-		if(dietDiaryVO.getTotalFat() <= 0.0) {
+	public boolean check(DietDiaryVO dietDiary) {
+		if(dietDiary.getTotalFat() <= 0.0) {
 			return false;
 		}
-		if(dietDiaryVO.getTotalCarbon() <= 0.0) {
+		if(dietDiary.getTotalCarbon() <= 0.0) {
 			return false;
 		}
-		if(dietDiaryVO.getTotalFiber() <= 0.0) {
+		if(dietDiary.getTotalFiber() <= 0.0) {
 			return false;
 		}
-		if(dietDiaryVO.getTotalProtein() <= 0.0) {
+		if(dietDiary.getTotalProtein() <= 0.0) {
 			return false;
 		}
-		if(dietDiaryVO.getTotalSodium() <= 0.0) {
+		if(dietDiary.getTotalSodium() <= 0.0) {
 			return false;
 		}
-		if(dietDiaryVO.getTotalSugar() <= 0.0) {
+		if(dietDiary.getTotalSugar() <= 0.0) {
 			return false;
 		}
-		if(dietDiaryVO.getTotalCalories() <= 0.0) {
+		if(dietDiary.getTotalCalories() <= 0.0) {
 			return false;
 		}
 		return true;

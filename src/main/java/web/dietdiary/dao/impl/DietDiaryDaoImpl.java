@@ -13,7 +13,7 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 import web.dietdiary.vo.DietDiaryVO;
-import web.dietdiary.vo.NutritionVO;
+
 
 public class DietDiaryDaoImpl implements DietDiaryDao {
 
@@ -31,9 +31,9 @@ public class DietDiaryDaoImpl implements DietDiaryDao {
 	}
 
 	private ArrayList<DietDiaryVO> resultSetToObjects(ResultSet resultSet) throws SQLException {
-		ArrayList<DietDiaryVO> dietDiaryVOs = new ArrayList<DietDiaryVO>();
+		ArrayList<DietDiaryVO> dietDiaries = new ArrayList<DietDiaryVO>();
 		while (resultSet.next()) {
-
+			
 			int diaryId = resultSet.getInt("diaryID");
 			int userId = resultSet.getInt("userID");
 			Date createDate = resultSet.getDate("createdate");
@@ -60,20 +60,33 @@ public class DietDiaryDaoImpl implements DietDiaryDao {
 			dietDiaryVO.setTotalSodium(totalSodium);
 			dietDiaryVO.setTotalCalories(totalCalories);
 
-			dietDiaryVOs.add(dietDiaryVO);
+			dietDiaryVO.setDiaryId(diaryId);
+			dietDiaryVO.setUserId(userId);
+			dietDiaryVO.setCreateDate(createDate);
+			dietDiaryVO.setCreateTime(createTime);
+			dietDiaryVO.setTotalFat(totalFat);
+			dietDiaryVO.setTotalCarbon(totalCarbon);
+			dietDiaryVO.setTotalProtein(totalProtein);
+			dietDiaryVO.setTotalFiber(totalFiber);
+			dietDiaryVO.setTotalSugar(totalSugar);
+			dietDiaryVO.setTotalSodium(totalSodium);
+			dietDiaryVO.setTotalCalories(totalCalories);
+
+			dietDiaries.add(dietDiaryVO);
 		}
 
-		return dietDiaryVOs;
+		return dietDiaries;
 	}
 
 	@Override
 	public String insert(DietDiaryVO dietDiaryVO) {
 		String sqlCommand = "INSERT INTO fooddiary "
-				+ "(diaryID,userID,createdate,createtime,totalFat,totalCarbon,totalFiber,totalSugar,totalSodium,totalProtein,totalCalories) "
-				+ " VALUES " + "(?,?,?,?,?,?,?,?,?,?,?)";
+				+ "(diaryID,userID,createdate,createtime,getMealCategoryId,totalFat,totalCarbon,totalFiber,totalSugar,totalSodium,totalProtein,totalCalories) "
+				+ " VALUES " + "(?,?,?,?,?,?,?,?,?,?,?,?)";
 
 		try (Connection connection = this.getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(sqlCommand);) {
+			
 			preparedStatement.setInt(1, dietDiaryVO.getDiaryId());
 			preparedStatement.setInt(2, dietDiaryVO.getUserId());
 			preparedStatement.setDate(3, dietDiaryVO.getCreateDate());
@@ -87,7 +100,6 @@ public class DietDiaryDaoImpl implements DietDiaryDao {
 			preparedStatement.setDouble(11, dietDiaryVO.getTotalCalories());
 
 			int affectedRow = preparedStatement.executeUpdate();
-
 			if (affectedRow != 1) {
 				throw new Exception("Unknown error during execution of sql statement.");
 			}
@@ -127,13 +139,13 @@ public class DietDiaryDaoImpl implements DietDiaryDao {
 
 			ResultSet resultSet = preparedStatement.executeQuery();
 
-			ArrayList<DietDiaryVO> dietDiaryVOs = resultSetToObjects(resultSet);
+			ArrayList<DietDiaryVO> dietDiaries = resultSetToObjects(resultSet);
 
-			if (dietDiaryVOs == null) {
+			if (dietDiaries == null) {
 				throw new Exception("Unknown error during execution of sql statement.");
 			}
 
-			return dietDiaryVOs;
+			return dietDiaries;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -152,13 +164,13 @@ public class DietDiaryDaoImpl implements DietDiaryDao {
 
 			ResultSet resultSet = preparedStatement.executeQuery();
 
-			ArrayList<DietDiaryVO> dietDiaryVOs = resultSetToObjects(resultSet);
+			ArrayList<DietDiaryVO> dietDiaries = resultSetToObjects(resultSet);
 
-			if (dietDiaryVOs == null) {
+			if (dietDiaries == null) {
 				throw new Exception("Unknown error during execution of sql statement.");
 			}
 
-			return dietDiaryVOs;
+			return dietDiaries;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -176,12 +188,12 @@ public class DietDiaryDaoImpl implements DietDiaryDao {
 
 			ResultSet resultSet = preparedStatement.executeQuery();
 
-			ArrayList<DietDiaryVO> dietDiaryVOs = resultSetToObjects(resultSet);
+			ArrayList<DietDiaryVO> dietDiaries = resultSetToObjects(resultSet);
 
-			if (dietDiaryVOs == null || dietDiaryVOs.size() != 1) {
+			if (dietDiaries == null || dietDiaries.size() != 1) {
 				throw new Exception("Unknown error during execution of sql statement.");
 			}
-			return dietDiaryVOs.get(0);
+			return dietDiaries.get(0);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

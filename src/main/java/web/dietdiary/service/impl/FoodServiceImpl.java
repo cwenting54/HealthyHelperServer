@@ -22,10 +22,10 @@ public class FoodServiceImpl implements FoodService {
 	}
 
 	@Override
-	public String insert(FoodVO foodVO) {
+	public String insert(FoodVO food) {
 		try {
 			int affectedRows = 0;
-			affectedRows = this.foodDao.insert(foodVO);
+			affectedRows = this.foodDao.insert(food);
 			if (affectedRows != 1) {
 				throw new Exception("Unknown error!!!");
 			}

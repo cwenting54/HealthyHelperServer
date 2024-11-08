@@ -42,14 +42,14 @@ public class QueryDietDiaryByDateAndTimeController extends HttpServlet {
         
 		Gson gson = GsonForSqlDateAndSqlTime.gson;
 		String errorMessage = "";
-		ArrayList<DietDiaryVO> dietDiaryVOs = new ArrayList<DietDiaryVO>();
-		DietDiaryVO dietDiaryVO = gson.fromJson(req.getReader(), DietDiaryVO.class);
+		ArrayList<DietDiaryVO> dietDiaries = new ArrayList<DietDiaryVO>();
+		DietDiaryVO dietDiary = gson.fromJson(req.getReader(), DietDiaryVO.class);
 		
-		System.out.println("dietDiary:"+dietDiaryVO);
+		System.out.println("dietDiary:"+dietDiary);
 		
-		dietDiaryVOs = this.dietDiaryService.search(dietDiaryVO,2);
+		dietDiaries = this.dietDiaryService.search(dietDiary,2);
 		 
-		if(dietDiaryVOs == null) {
+		if(dietDiaries == null) {
 			JsonObject jsonObject = new JsonObject();
 			errorMessage = "Unknown error!!!";
 			jsonObject.addProperty("errorMessage", errorMessage);
@@ -57,7 +57,7 @@ public class QueryDietDiaryByDateAndTimeController extends HttpServlet {
 			return;
 		}
 		
-		resp.getWriter().write(gson.toJson(dietDiaryVOs));
+		resp.getWriter().write(gson.toJson(dietDiaries));
 		return;
 	}
 }

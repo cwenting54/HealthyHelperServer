@@ -5,16 +5,15 @@ import java.sql.Time;
 import java.util.ArrayList;
 
 import web.dietdiary.vo.DietDiaryVO;
-import web.dietdiary.vo.NutritionVO;
 
 public interface DietDiaryDao {
-	String insert(DietDiaryVO dietDiaryVO);
+	String insert(DietDiaryVO dietDiary);
 	
 	ArrayList<DietDiaryVO> selectByTime(int userId,Time time);
 	ArrayList<DietDiaryVO> selectByDate(int userId,Date date);
 	ArrayList<DietDiaryVO> selectByDateAndTime(int userId,Date date,Time time);
 		
-	int updateByDiaryId(DietDiaryVO dietDiaryVO);
+	int updateByDiaryId(DietDiaryVO dietDiary);
 	
 	DietDiaryVO selectByDiaryIdAndDate(int diaryId, Date date);
 }

@@ -1,20 +1,15 @@
 package web.dietdiary.dao.impl;
 
-import java.sql.Blob;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Time;
 import java.util.ArrayList;
-
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 import web.dietdiary.vo.DiaryDescriptionVO;
-import web.dietdiary.vo.DietDiaryVO;
 
 public class DiaryDescriptionDaoImpl implements DiaryDescriptionDao {
 

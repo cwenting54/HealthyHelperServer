@@ -41,11 +41,9 @@ public class UpdateMealTimeRangeCategoryController extends HttpServlet {
 		Gson gson = GsonForSqlDateAndSqlTime.gson;
 		JsonObject jsonObject = new JsonObject();
 		String errorMessage = "";
-		MealTimeRangeCategoryVO mealTimeRangeCategoryVO = gson.fromJson(req.getReader(), MealTimeRangeCategoryVO.class);
-		
-		System.out.println("mealTimeRangeCategory:"+mealTimeRangeCategoryVO);
-		
-		errorMessage = this.mealTimeRangeCategoryService.change(mealTimeRangeCategoryVO);
+		MealTimeRangeCategoryVO mealTimeRangeCategory = gson.fromJson(req.getReader(), MealTimeRangeCategoryVO.class);
+		System.out.println("mealTimeRangeCategory:"+mealTimeRangeCategory);
+		errorMessage = this.mealTimeRangeCategoryService.change(mealTimeRangeCategory);
 		 
 		if(errorMessage != "") {
 			errorMessage = "Unknown error!!!";

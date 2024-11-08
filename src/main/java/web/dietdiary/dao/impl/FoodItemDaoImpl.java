@@ -12,6 +12,7 @@ import javax.sql.DataSource;
 
 import web.dietdiary.vo.FoodItemVO;
 
+
 public class FoodItemDaoImpl implements FoodItemDao {
 
 	private DataSource dataSource;
@@ -28,26 +29,26 @@ public class FoodItemDaoImpl implements FoodItemDao {
 	}
 	
 	private ArrayList<FoodItemVO> resultSetToObjects(ResultSet resultSet) throws SQLException{
-		ArrayList<FoodItemVO> foodItemVOs = new ArrayList<FoodItemVO>();
+		ArrayList<FoodItemVO> foodItems = new ArrayList<FoodItemVO>();
 		while(resultSet.next()) {
 			
 			int diaryId = resultSet.getInt("diaryID");
 			int foodId = resultSet.getInt("foodID");
 			Double grams = resultSet.getDouble("grams");
 			
-			FoodItemVO foodItemVO = new FoodItemVO();
+			FoodItemVO foodItem = new FoodItemVO();
 			
-			foodItemVO.setDiaryId(diaryId);
-			foodItemVO.setFoodId(foodId);
-			foodItemVO.setGrams(grams);
+			foodItem.setDiaryId(diaryId);
+			foodItem.setFoodId(foodId);
+			foodItem.setGrams(grams);
 			
-			foodItemVOs.add(foodItemVO);
+			foodItems.add(foodItem);
 		}	
-		return foodItemVOs;
+		return foodItems;
 	}
 
 	@Override
-	public int insert(FoodItemVO foodItemVO) {
+	public int insert(FoodItemVO foodItem) {
 		String sqlCommand = "INSERT INTO fooditem "
 				+ " (diaryId,foodId,grams)"
 				+ " VALUES "
@@ -56,9 +57,9 @@ public class FoodItemDaoImpl implements FoodItemDao {
 				Connection connection = this.getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(sqlCommand);
 		){
-			preparedStatement.setInt(1,foodItemVO.getDiaryId());
-			preparedStatement.setInt(2,foodItemVO.getFoodId());
-			preparedStatement.setDouble(3,foodItemVO.getGrams());
+			preparedStatement.setInt(1,foodItem.getDiaryId());
+			preparedStatement.setInt(2,foodItem.getFoodId());
+			preparedStatement.setDouble(3,foodItem.getGrams());
 			
 			return preparedStatement.executeUpdate();
 		}catch (Exception e) {
@@ -75,12 +76,12 @@ public class FoodItemDaoImpl implements FoodItemDao {
 		){
 				preparedStatement.setInt(1,foodId);
 				ResultSet resultSet = preparedStatement.executeQuery();
-				ArrayList<FoodItemVO> foodItemVOs = this.resultSetToObjects(resultSet);
-				System.out.println("foodItems:"+foodItemVOs);
-				if(foodItemVOs == null || foodItemVOs.isEmpty()) {
+				ArrayList<FoodItemVO> foodItems = this.resultSetToObjects(resultSet);
+				System.out.println("foodItems:"+foodItems);
+				if(foodItems == null || foodItems.isEmpty()) {
 					throw new Exception("Unknown error during execution of sql statement.");
 				}
-				return foodItemVOs.get(0);
+				return foodItems.get(0);
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -89,13 +90,13 @@ public class FoodItemDaoImpl implements FoodItemDao {
 	}
 
 	@Override
-	public int delete(FoodItemVO foodItemVO) {
+	public int delete(FoodItemVO foodItem) {
 		String sqlCommand = "DELETE FROM fooditem WHERE foodId = ? ;";
 		try(
 				Connection connection = this.getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(sqlCommand);
 		){
-			preparedStatement.setInt(1,foodItemVO.getFoodId());
+			preparedStatement.setInt(1,foodItem.getFoodId());
 			return preparedStatement.executeUpdate();
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -104,20 +105,19 @@ public class FoodItemDaoImpl implements FoodItemDao {
 	}
 
 	@Override
-	public int update(FoodItemVO foodItemVO) {
+	public int update(FoodItemVO foodItem) {
 		String sqlCommand = "UPDATE fooditem SET diaryId = ?, grams = ? WHERE foodId = ? ;";
 		try(
 				Connection connection = this.getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(sqlCommand);
 		){
-			preparedStatement.setInt(1, foodItemVO.getDiaryId());
-			preparedStatement.setDouble(2, foodItemVO.getGrams());
-			preparedStatement.setInt(3,foodItemVO.getFoodId());
+			preparedStatement.setInt(1, foodItem.getDiaryId());
+			preparedStatement.setDouble(2, foodItem.getGrams());
+			preparedStatement.setInt(3,foodItem.getFoodId());
 			return preparedStatement.executeUpdate();
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
 		return -1;
 	}
-
 }

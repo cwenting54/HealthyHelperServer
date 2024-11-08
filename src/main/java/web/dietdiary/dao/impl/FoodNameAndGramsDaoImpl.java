@@ -12,6 +12,7 @@ import javax.sql.DataSource;
 
 import web.dietdiary.vo.FoodNameAndGramsVO;
 
+
 public class FoodNameAndGramsDaoImpl implements FoodNameAndGramsDao{
 
 	private DataSource dataSource;
@@ -34,12 +35,12 @@ public class FoodNameAndGramsDaoImpl implements FoodNameAndGramsDao{
 			String foodName = resultSet.getString("foodName");
 			Double grams = resultSet.getDouble("gram");
 			
-			FoodNameAndGramsVO foodNameAndGramsVO = new FoodNameAndGramsVO();
+			FoodNameAndGramsVO foodNameAndGrams = new FoodNameAndGramsVO();
 			
-			foodNameAndGramsVO.setFoodName(foodName);
-			foodNameAndGramsVO.setGrams(grams);
+			foodNameAndGrams.setFoodName(foodName);
+			foodNameAndGrams.setGrams(grams);
 			
-			foodNameAndGramses.add(foodNameAndGramsVO);
+			foodNameAndGramses.add(foodNameAndGrams);
 		}	
 		return foodNameAndGramses;
 	}

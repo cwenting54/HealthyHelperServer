@@ -39,16 +39,16 @@ public class ListAvailableFoodsNameController extends HttpServlet {
 			resp.setCharacterEncoding("UTF-8");
 
 			Gson gson = new Gson();
-			ArrayList<FoodNameVO> foodNameVOs = new ArrayList<FoodNameVO>();
+			ArrayList<FoodNameVO> foodNames = new ArrayList<FoodNameVO>();
 			
-			foodNameVOs = this.foodNameService.listAvailableFoodsName();
+			foodNames = this.foodNameService.listAvailableFoodsName();
 			
-			System.out.println("foodNames:"+foodNameVOs.toString());
-			if (foodNameVOs == null) {
+			System.out.println("foodNames:"+foodNames.toString());
+			if (foodNames == null) {
 				throw new Exception("Unknown error!!!");
 			}
 
-			resp.getWriter().write(gson.toJson(foodNameVOs));
+			resp.getWriter().write(gson.toJson(foodNames));
 			return;
 		} catch (Exception e) {
 			e.printStackTrace();

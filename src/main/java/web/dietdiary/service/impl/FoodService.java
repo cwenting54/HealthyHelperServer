@@ -6,5 +6,5 @@ import web.dietdiary.vo.FoodVO;
 
 public interface FoodService {
 	ArrayList<FoodVO> listAvailableFoods();
-	String insert(FoodVO foodVO);
+	String insert(FoodVO food);
 }

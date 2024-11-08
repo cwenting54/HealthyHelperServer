@@ -13,7 +13,6 @@ import javax.naming.NameAlreadyBoundException;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
-import web.dietdiary.vo.DietDiaryVO;
 import web.dietdiary.vo.MealTimeRangeCategoryVO;
 
 public class MealTimeRangeCategoryDaoImpl implements MealTimeRangeCategoryDao{
@@ -32,9 +31,9 @@ public class MealTimeRangeCategoryDaoImpl implements MealTimeRangeCategoryDao{
 	}
 	
 	private ArrayList<MealTimeRangeCategoryVO> resultSetToObjects(ResultSet resultSet) throws SQLException {
-		ArrayList<MealTimeRangeCategoryVO> mealTimeRangeCategoryVOs = new ArrayList<MealTimeRangeCategoryVO>();
+		ArrayList<MealTimeRangeCategoryVO> mealTimeRangeCategories = new ArrayList<MealTimeRangeCategoryVO>();
 		while (resultSet.next()) {
-			MealTimeRangeCategoryVO mealTimeRangeCategoryVO = new MealTimeRangeCategoryVO();
+			MealTimeRangeCategoryVO mealTimeRangeCategory = new MealTimeRangeCategoryVO();
 
 			int userId = resultSet.getInt("userID");
 			Time breakfastStartTime = resultSet.getTime("breakfastStartTime");
@@ -46,24 +45,24 @@ public class MealTimeRangeCategoryDaoImpl implements MealTimeRangeCategoryDao{
 			Time supperStartTime = resultSet.getTime("supperStartTime");
 			Time supperEndTime = resultSet.getTime("supperEndTime");
 			
-			mealTimeRangeCategoryVO.setUserId(userId);
-			mealTimeRangeCategoryVO.setBreakfastStartTime(breakfastStartTime);
-			mealTimeRangeCategoryVO.setBreakfastEndTime(breakfastEndTime);
-			mealTimeRangeCategoryVO.setLunchStartTime(lunchStartTime);
-			mealTimeRangeCategoryVO.setLunchEndTime(lunchEndTime);
-			mealTimeRangeCategoryVO.setDinnerStartTime(dinnerStartTime);
-			mealTimeRangeCategoryVO.setDinnerEndTime(dinnerEndTime);
-			mealTimeRangeCategoryVO.setSupperStartTime(supperStartTime);
-			mealTimeRangeCategoryVO.setSupperEndTime(supperEndTime);
+			mealTimeRangeCategory.setUserId(userId);
+			mealTimeRangeCategory.setBreakfastStartTime(breakfastStartTime);
+			mealTimeRangeCategory.setBreakfastEndTime(breakfastEndTime);
+			mealTimeRangeCategory.setLunchStartTime(lunchStartTime);
+			mealTimeRangeCategory.setLunchEndTime(lunchEndTime);
+			mealTimeRangeCategory.setDinnerStartTime(dinnerStartTime);
+			mealTimeRangeCategory.setDinnerEndTime(dinnerEndTime);
+			mealTimeRangeCategory.setSupperStartTime(supperStartTime);
+			mealTimeRangeCategory.setSupperEndTime(supperEndTime);
 			
-			mealTimeRangeCategoryVOs.add(mealTimeRangeCategoryVO);
+			mealTimeRangeCategories.add(mealTimeRangeCategory);
 		}
 		
-		return mealTimeRangeCategoryVOs;
+		return mealTimeRangeCategories;
 	}
 	
 	@Override
-	public int insert(MealTimeRangeCategoryVO mealTimeRangeCategoryVO) {
+	public int insert(MealTimeRangeCategoryVO mealTimeRangeCategory) {
 		String sqlCommand = "INSERT INTO mealTimeRangeCategory "
 				+ "(userId,breakfastStartTime,breakfastEndTime,lunchStartTime,lunchEndTime,dinnerStartTime,dinnerEndTime,supperStartTime,supperEndTime)"
 				+ "VALUES "
@@ -72,15 +71,15 @@ public class MealTimeRangeCategoryDaoImpl implements MealTimeRangeCategoryDao{
 		try (Connection connection = this.getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(sqlCommand);) {
 
-			preparedStatement.setInt(1, mealTimeRangeCategoryVO.getUserId());
-			preparedStatement.setTime(2, mealTimeRangeCategoryVO.getBreakfastStartTime());
-			preparedStatement.setTime(3, mealTimeRangeCategoryVO.getBreakfastEndTime());
-			preparedStatement.setTime(4, mealTimeRangeCategoryVO.getLunchStartTime());
-			preparedStatement.setTime(5, mealTimeRangeCategoryVO.getLunchEndTime());
-			preparedStatement.setTime(6, mealTimeRangeCategoryVO.getLunchEndTime());
-			preparedStatement.setTime(7, mealTimeRangeCategoryVO.getDinnerEndTime());
-			preparedStatement.setTime(8, mealTimeRangeCategoryVO.getSupperStartTime());
-			preparedStatement.setTime(9, mealTimeRangeCategoryVO.getSupperEndTime());
+			preparedStatement.setInt(1, mealTimeRangeCategory.getUserId());
+			preparedStatement.setTime(2, mealTimeRangeCategory.getBreakfastStartTime());
+			preparedStatement.setTime(3, mealTimeRangeCategory.getBreakfastEndTime());
+			preparedStatement.setTime(4, mealTimeRangeCategory.getLunchStartTime());
+			preparedStatement.setTime(5, mealTimeRangeCategory.getLunchEndTime());
+			preparedStatement.setTime(6, mealTimeRangeCategory.getLunchEndTime());
+			preparedStatement.setTime(7, mealTimeRangeCategory.getDinnerEndTime());
+			preparedStatement.setTime(8, mealTimeRangeCategory.getSupperStartTime());
+			preparedStatement.setTime(9, mealTimeRangeCategory.getSupperEndTime());
 
 			System.out.println("sqlCommand:"+sqlCommand);
 			int affectedRows = preparedStatement.executeUpdate();
@@ -106,18 +105,18 @@ public class MealTimeRangeCategoryDaoImpl implements MealTimeRangeCategoryDao{
 				PreparedStatement preparedStatement = connection.prepareStatement(sqlCommand);) {
 			preparedStatement.setInt(1,userId);
 			ResultSet resultSet = preparedStatement.executeQuery();
-			ArrayList<MealTimeRangeCategoryVO> mealTimeRangeCategoryVOs = this.resultSetToObjects(resultSet);
-			if(mealTimeRangeCategoryVOs == null) {
+			ArrayList<MealTimeRangeCategoryVO> mealTimeRangeCategories = this.resultSetToObjects(resultSet);
+			if(mealTimeRangeCategories == null) {
 				throw new Exception("Unknown error!!!");
 			}
-			System.out.println("mealTimeRangeCategories:"+mealTimeRangeCategoryVOs.toString());
-			if(mealTimeRangeCategoryVOs.isEmpty()) {
-				return mealTimeRangeCategoryVOs;
+			System.out.println("mealTimeRangeCategories:"+mealTimeRangeCategories.toString());
+			if(mealTimeRangeCategories.isEmpty()) {
+				return mealTimeRangeCategories;
 			}
-			if(mealTimeRangeCategoryVOs.size()!=1) {
+			if(mealTimeRangeCategories.size()!=1) {
 				throw new Exception("Error!!! Duplicated record!!!");
 			}
-			return mealTimeRangeCategoryVOs;
+			return mealTimeRangeCategories;
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -126,7 +125,7 @@ public class MealTimeRangeCategoryDaoImpl implements MealTimeRangeCategoryDao{
 	}
 
 	@Override
-	public int update(MealTimeRangeCategoryVO mealTimeRangeCategoryVO) {
+	public int update(MealTimeRangeCategoryVO mealTimeRangeCategory) {
 		String sqlCommand = "UPDATE mealTimeRangeCategory SET "
 				+ "breakfastStartTime = ? ,"
 				+ "breakfastEndTime = ? ,"
@@ -142,15 +141,15 @@ public class MealTimeRangeCategoryDaoImpl implements MealTimeRangeCategoryDao{
 		try (Connection connection = this.getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(sqlCommand);) {
 			
-			Time breakfastStartTime = mealTimeRangeCategoryVO.getBreakfastEndTime();
-			Time breakfastEndTime = mealTimeRangeCategoryVO.getBreakfastEndTime();
-			Time lunchStartTime = mealTimeRangeCategoryVO.getLunchStartTime();
-			Time lunchEndTime = mealTimeRangeCategoryVO.getLunchEndTime();
-			Time dinnerStartTime = mealTimeRangeCategoryVO.getDinnerStartTime();
-			Time dinnerEndTime = mealTimeRangeCategoryVO.getDinnerEndTime();
-			Time supperStartTime = mealTimeRangeCategoryVO.getSupperStartTime();
-			Time supperEndTime = mealTimeRangeCategoryVO.getSupperEndTime();
-			int userId = mealTimeRangeCategoryVO.getUserId();
+			Time breakfastStartTime = mealTimeRangeCategory.getBreakfastEndTime();
+			Time breakfastEndTime = mealTimeRangeCategory.getBreakfastEndTime();
+			Time lunchStartTime = mealTimeRangeCategory.getLunchStartTime();
+			Time lunchEndTime = mealTimeRangeCategory.getLunchEndTime();
+			Time dinnerStartTime = mealTimeRangeCategory.getDinnerStartTime();
+			Time dinnerEndTime = mealTimeRangeCategory.getDinnerEndTime();
+			Time supperStartTime = mealTimeRangeCategory.getSupperStartTime();
+			Time supperEndTime = mealTimeRangeCategory.getSupperEndTime();
+			int userId = mealTimeRangeCategory.getUserId();
 			
 			preparedStatement.setTime(1,breakfastStartTime);
 			preparedStatement.setTime(2,breakfastEndTime);

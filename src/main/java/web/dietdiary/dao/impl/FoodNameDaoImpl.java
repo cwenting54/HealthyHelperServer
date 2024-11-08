@@ -11,9 +11,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
-import web.dietdiary.vo.FoodVO;
 import web.dietdiary.vo.FoodNameVO;
-import web.dietdiary.vo.MealTimeRangeCategoryVO;
 
 public class FoodNameDaoImpl implements FoodNameDao{
 
@@ -31,17 +29,17 @@ public class FoodNameDaoImpl implements FoodNameDao{
 	}
 	
 	private ArrayList<FoodNameVO> resultSetToObjects(ResultSet resultSet) throws SQLException {
-		ArrayList<FoodNameVO> foodNameVOs = new ArrayList<FoodNameVO>();
+		ArrayList<FoodNameVO> foodNames = new ArrayList<FoodNameVO>();
 		while (resultSet.next()) {
-			FoodNameVO foodNameVO = new FoodNameVO();
+			FoodNameVO foodName = new FoodNameVO();
 
 			String name = resultSet.getString("foodname");
 			
-			foodNameVO.setFoodName(name);
+			foodName.setFoodName(name);
 			
-			foodNameVOs.add(foodNameVO);
+			foodNames.add(foodName);
 		}
-		return foodNameVOs;
+		return foodNames;
 	}
 
 	
@@ -60,5 +58,4 @@ public class FoodNameDaoImpl implements FoodNameDao{
 		}
 		return null;
 	}
-
 }

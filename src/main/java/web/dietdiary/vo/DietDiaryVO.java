@@ -83,39 +83,11 @@ public class DietDiaryVO {
 		this.totalCalories = totalCalories;
 	}
 	
-	public boolean equals(Object object) {
-		if(object instanceof DietDiaryVO) {
-			return false;
-		}
-		
-		DietDiaryVO dietDiaryVO = (DietDiaryVO) object;
-		
-		if(!(this.getDiaryId() == dietDiaryVO.getDiaryId())) {
-			return false;
-		}
-		
-		if(!(this.getUserId() == dietDiaryVO.getUserId())) {
-			return false;
-		}
-		
-		if(!(this.getCreateDate() == dietDiaryVO.getCreateDate())) {
-			return false;
-		}
-		
-		if(!(this.getCreateTime() == dietDiaryVO.getCreateTime())) {
-			return false;
-		}
-		
-		return true;
-	}
-	
 	@Override
 	public String toString() {
-		return "DietDiary [diaryId=" + diaryId + ", userId=" + userId + ", createDate=" + createDate + ", createTime="
+		return "DietDiaryVO [diaryId=" + diaryId + ", userId=" + userId + ", createDate=" + createDate + ", createTime="
 				+ createTime + ", totalFat=" + totalFat + ", totalCarbon=" + totalCarbon + ", totalProtein="
 				+ totalProtein + ", totalFiber=" + totalFiber + ", totalSugar=" + totalSugar + ", totalSodium="
 				+ totalSodium + ", totalCalories=" + totalCalories + "]";
 	}
-
-	
 }

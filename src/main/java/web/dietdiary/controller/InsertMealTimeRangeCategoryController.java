@@ -42,9 +42,8 @@ public class InsertMealTimeRangeCategoryController extends HttpServlet {
 		JsonObject jsonObject = new JsonObject();
 		String result = "";
 		String errorMessage = "";
-		MealTimeRangeCategoryVO mealTimeRangeCategoryVO;
-		mealTimeRangeCategoryVO = gson.fromJson(req.getReader(), MealTimeRangeCategoryVO.class);
-		errorMessage = this.mealTimeRangeCategoryService.insert(mealTimeRangeCategoryVO);
+		MealTimeRangeCategoryVO mealTimeRangeCategory = gson.fromJson(req.getReader(), MealTimeRangeCategoryVO.class);
+		errorMessage = this.mealTimeRangeCategoryService.insert(mealTimeRangeCategory);
 
 		if (errorMessage != "") {
 			jsonObject.addProperty("result", false);

@@ -17,10 +17,10 @@ public class FoodItemServiceImpl implements FoodItemService{
 	}
 	
 	@Override
-	public String insert(FoodItemVO foodItemVO) {
+	public String insert(FoodItemVO foodItem) {
 		try {
 			int affectedRows = 0;
-			affectedRows = this.foodItemDao.insert(foodItemVO);
+			affectedRows = this.foodItemDao.insert(foodItem);
 			if(affectedRows!=1) {
 				throw new Exception("Unknown error!!!");
 			}
@@ -31,10 +31,10 @@ public class FoodItemServiceImpl implements FoodItemService{
 	}
 
 	@Override
-	public String update(FoodItemVO foodItemVO) {
+	public String update(FoodItemVO foodItem) {
 		try {
 			int affectedRows = 0;
-			affectedRows = this.foodItemDao.insert(foodItemVO);
+			affectedRows = this.foodItemDao.insert(foodItem);
 			if(affectedRows!=1) {
 				throw new Exception("Unknown error!!!");
 			}

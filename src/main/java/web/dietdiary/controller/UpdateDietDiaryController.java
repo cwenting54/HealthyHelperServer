@@ -47,11 +47,11 @@ public class UpdateDietDiaryController extends HttpServlet{
 		JsonObject jsonObject = new JsonObject();
 		String errorMessage = "";
 		boolean isValidData = true;
-		DietDiaryVO dietDiaryVO = gson.fromJson(req.getReader(), DietDiaryVO.class);
+		DietDiaryVO dietDiary = gson.fromJson(req.getReader(), DietDiaryVO.class);
 		System.out.println("Ready to deserialize.");
-		System.out.println("DietDiary:"+dietDiaryVO.toString());
+		System.out.println("DietDiary:"+dietDiary.toString());
 		
-		isValidData = dietDiaryChecker.check(dietDiaryVO);
+		isValidData = dietDiaryChecker.check(dietDiary);
 		if(!isValidData) {
 			errorMessage = "Invalid Data in DietDiary!!!";
 			jsonObject.addProperty("result", false);
@@ -60,7 +60,7 @@ public class UpdateDietDiaryController extends HttpServlet{
 			return;
 		}
 		
-		errorMessage = this.dietDiaryService.updateDietDiary(dietDiaryVO.getDiaryId(), dietDiaryVO.getCreateDate());
+		errorMessage = this.dietDiaryService.updateDietDiary(dietDiary.getDiaryId(), dietDiary.getCreateDate());
 		if(errorMessage != "") {
 			jsonObject.addProperty("result", false);
 			jsonObject.addProperty("errorMessage", errorMessage);

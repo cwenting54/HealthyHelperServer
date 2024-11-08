@@ -50,23 +50,17 @@ public class QueryDietDiaryByTimeController extends HttpServlet {
         
 		Gson gson = GsonForSqlDateAndSqlTime.gson;
 		String errorMessage = "";
-		ArrayList<DietDiaryVO> dietDiaryVOs = new ArrayList<DietDiaryVO>();
-		DietDiaryVO dietDiaryVO = gson.fromJson(req.getReader(), DietDiaryVO.class);
-		
-		System.out.println("dietDiary:"+dietDiaryVO);
-		
-		dietDiaryVOs = this.dietDiaryService.search(dietDiaryVO,3);
-		 
-		if(dietDiaryVOs == null) {
+		DietDiaryVO dietDiary = gson.fromJson(req.getReader(), DietDiaryVO.class);
+		ArrayList<DietDiaryVO> dietDiaries = this.dietDiaryService.search(dietDiary,3);		
+		System.out.println("dietDiary:"+dietDiary);	 
+		if(dietDiaries == null) {
 			JsonObject jsonObject = new JsonObject();
 			errorMessage = "Unknown error!!!";
 			jsonObject.addProperty("errorMessage", errorMessage);
 			resp.getWriter().write(jsonObject.toString());
 			return;
 		}
-		
-		resp.getWriter().write(gson.toJson(dietDiaryVOs));
-		
+		resp.getWriter().write(gson.toJson(dietDiaries));	
 		return;
 	}
 }

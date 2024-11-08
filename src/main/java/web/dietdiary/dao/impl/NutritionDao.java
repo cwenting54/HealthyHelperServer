@@ -4,5 +4,5 @@ import web.dietdiary.vo.FoodVO;
 import web.dietdiary.vo.NutritionVO;
 
 public interface NutritionDao {
-	NutritionVO getNutritionFromFood(FoodVO foodVO);
+	NutritionVO getNutritionFromFood(FoodVO food);
 }

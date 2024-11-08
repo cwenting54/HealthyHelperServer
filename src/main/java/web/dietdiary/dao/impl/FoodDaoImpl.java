@@ -10,10 +10,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
-import web.dietdiary.vo.DietDiaryVO;
 import web.dietdiary.vo.FoodVO;
-import web.dietdiary.vo.FoodItemVO;
-import web.dietdiary.vo.FoodNameAndGramsVO;
 
 public class FoodDaoImpl implements FoodDao {
 
@@ -31,10 +28,10 @@ public class FoodDaoImpl implements FoodDao {
 	}
 
 	private ArrayList<FoodVO> resultSetToObjects(ResultSet resultSet) throws SQLException {
-		ArrayList<FoodVO> foodVOs = new ArrayList<FoodVO>();
+		ArrayList<FoodVO> foods = new ArrayList<FoodVO>();
 		while (resultSet.next()) {
 			
-			FoodVO foodVO = new FoodVO();
+			FoodVO food = new FoodVO();
 
 			int foodId = resultSet.getInt("foodID");
 			String foodName = resultSet.getString("foodname");
@@ -46,20 +43,20 @@ public class FoodDaoImpl implements FoodDao {
 			Double sodium = resultSet.getDouble("sodium");
 			Double calories = resultSet.getDouble("calories");
 
-			foodVO.setFoodId(foodId);
-			foodVO.setFoodName(foodName);
-			foodVO.setFat(fat);
-			foodVO.setCarbon(carbon);
-			foodVO.setProtein(protein);
-			foodVO.setFiber(fiber);
-			foodVO.setSugar(sugar);
-			foodVO.setSodium(sodium);
-			foodVO.setCalories(calories);
+			food.setFoodId(foodId);
+			food.setFoodName(foodName);
+			food.setFat(fat);
+			food.setCarbon(carbon);
+			food.setProtein(protein);
+			food.setFiber(fiber);
+			food.setSugar(sugar);
+			food.setSodium(sodium);
+			food.setCalories(calories);
 			
-			foodVOs.add(foodVO);
+			foods.add(food);
 		}
 		
-		return foodVOs;
+		return foods;
 	}
 
 	@Override
@@ -71,17 +68,17 @@ public class FoodDaoImpl implements FoodDao {
 		){
 			preparedStatement.setString(1, name);
 			ResultSet resultSet = preparedStatement.executeQuery();
-			ArrayList<FoodVO> foodVOs = this.resultSetToObjects(resultSet);
+			ArrayList<FoodVO> foods = this.resultSetToObjects(resultSet);
 			
-			if(foodVOs == null || foodVOs.size() <= 0 ) {
+			if(foods == null || foods.size() <= 0 ) {
 				throw new Exception("There are no record found.");
 			}
 			
-			if(foodVOs.size() != 1) {
+			if(foods.size() != 1) {
 				throw new Exception("Unknown error!!!\nToo many records found.\nIt should found only one record");
 			}
 				
-			return foodVOs.get(0);
+			return foods.get(0);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -98,17 +95,17 @@ public class FoodDaoImpl implements FoodDao {
 		){
 			preparedStatement.setInt(1, foodId);
 			ResultSet resultSet = preparedStatement.executeQuery();
-			ArrayList<FoodVO> foodVOs = this.resultSetToObjects(resultSet);
+			ArrayList<FoodVO> foods = this.resultSetToObjects(resultSet);
 			
-			if(foodVOs == null || foodVOs.size() <= 0 ) {
+			if(foods == null || foods.size() <= 0 ) {
 				throw new Exception("There are no record found.");
 			}
 			
-			if(foodVOs.size() != 1) {
+			if(foods.size() != 1) {
 				throw new Exception("Unknown error!!!\nToo many records found.\nIt should found only one record");
 			}
 				
-			return foodVOs.get(0);
+			return foods.get(0);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -132,7 +129,7 @@ public class FoodDaoImpl implements FoodDao {
 	}
 
 	@Override
-	public int insert(FoodVO foodVO) {
+	public int insert(FoodVO food) {
 		String sqlCommand = "INSERT INTO food "
 				+ " (foodname,fat,carbon,protein,fiber,sugar,sodium,calories) "
 				+ " VALUES "
@@ -141,14 +138,14 @@ public class FoodDaoImpl implements FoodDao {
 				Connection connection = this.getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(sqlCommand);
 		){
-			preparedStatement.setString(1, foodVO.getFoodName());
-			preparedStatement.setDouble(2, foodVO.getFat());
-			preparedStatement.setDouble(3, foodVO.getCarbon());
-			preparedStatement.setDouble(4, foodVO.getProtein());
-			preparedStatement.setDouble(5, foodVO.getFiber());
-			preparedStatement.setDouble(6, foodVO.getSugar());
-			preparedStatement.setDouble(7, foodVO.getSodium());
-			preparedStatement.setDouble(8, foodVO.getCalories());
+			preparedStatement.setString(1, food.getFoodName());
+			preparedStatement.setDouble(2, food.getFat());
+			preparedStatement.setDouble(3, food.getCarbon());
+			preparedStatement.setDouble(4, food.getProtein());
+			preparedStatement.setDouble(5, food.getFiber());
+			preparedStatement.setDouble(6, food.getSugar());
+			preparedStatement.setDouble(7, food.getSodium());
+			preparedStatement.setDouble(8, food.getCalories());
 			
 			return preparedStatement.executeUpdate();
 		}catch (Exception e) {
@@ -158,14 +155,14 @@ public class FoodDaoImpl implements FoodDao {
 	}
 
 	@Override
-	public int delete(FoodVO foodVO) {
+	public int delete(FoodVO food) {
 		String sqlCommand = "DELETE FROM food "
 				+ " WHERE foodId = ? ;";
 		try(
 				Connection connection = this.getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(sqlCommand);
 		){
-			preparedStatement.setInt(1, foodVO.getFoodId());
+			preparedStatement.setInt(1, food.getFoodId());
 			
 			return preparedStatement.executeUpdate();
 		}catch (Exception e) {

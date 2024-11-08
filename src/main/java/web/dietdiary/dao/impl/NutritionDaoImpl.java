@@ -6,18 +6,18 @@ import web.dietdiary.vo.NutritionVO;
 public class NutritionDaoImpl implements NutritionDao {
 
 	@Override
-	public NutritionVO getNutritionFromFood(FoodVO foodVO) {
-		NutritionVO nutritionVO = new NutritionVO();
+	public NutritionVO getNutritionFromFood(FoodVO food) {
+		NutritionVO nutrition = new NutritionVO();
 		
-		nutritionVO.setFat(foodVO.getFat());
-		nutritionVO.setProtein(foodVO.getProtein());
-		nutritionVO.setFiber(foodVO.getFiber());
-		nutritionVO.setCarbon(foodVO.getCarbon());
-		nutritionVO.setSodium(foodVO.getSodium());
-		nutritionVO.setSugar(foodVO.getSugar());
-		nutritionVO.setCalories(foodVO.getCalories());
+		nutrition.setFat(food.getFat());
+		nutrition.setProtein(food.getProtein());
+		nutrition.setFiber(food.getFiber());
+		nutrition.setCarbon(food.getCarbon());
+		nutrition.setSodium(food.getSodium());
+		nutrition.setSugar(food.getSugar());
+		nutrition.setCalories(food.getCalories());
 		
-		return nutritionVO;
+		return nutrition;
 	}
 
 }
