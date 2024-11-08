@@ -23,7 +23,6 @@ public class Post {
         this.picture = picture;
         this.postDate = postDate;
         this.likePost = likePost;
-        this.likeComm = likeComm;
     }
 
     public Integer getPostId() {
@@ -84,9 +83,5 @@ public class Post {
 
     public Integer getLikeComm() {
         return likeComm;
-    }
-
-    public void setLikeComm(Integer likeComm) {
-        this.likeComm = likeComm;
     }
 }
