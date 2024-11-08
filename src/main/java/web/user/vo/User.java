@@ -18,6 +18,7 @@ public class User {
 	private Timestamp registrationDate;
 	private byte[] userIcon;
 	private String cPassword;
+	private String photoUrl;
 
 	public User() {
 	}
@@ -37,6 +38,7 @@ public class User {
 		this.certificate = certificate;
 		this.registrationDate = registrationDate;
 		this.userIcon = userIcon;
+		this.photoUrl=photoUrl;
 	}
 
 	public int getUserId() {
@@ -142,12 +144,40 @@ public class User {
 	public void setcPassword(String cPassword) {
 		this.cPassword = cPassword;
 	}
+	
+	// getter 和 setter
+    public String getPhotoUrl() {
+        return photoUrl;
+    }
+    
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
+    }
+	
+    @Override
+    public String toString() {
+       return "User [userId=" + userId + 
+              ", account=" + account + 
+              ", password=" + password + 
+              ", username=" + username + 
+              ", userEmail=" + userEmail + 
+              ", phoneno=" + phoneno + 
+              ", gender=" + gender + 
+              ", birthday=" + birthday + 
+              ", roleID=" + roleID + 
+              ", certificate=" + Arrays.toString(certificate) + 
+              ", registrationDate=" + registrationDate + 
+              ", userIcon=" + Arrays.toString(userIcon) + 
+              ", photoUrl=" + photoUrl +    
+              ", cPassword=" + cPassword + 
+              "]";
+    }	
 
-	@Override
-	public String toString() {
-		return "User [userId=" + userId + ", account=" + account + ", password=" + password + ", username=" + username
-				+ ", userEmail=" + userEmail + ", phoneno=" + phoneno + ", gender=" + gender + ", birthday=" + birthday
-				+ ", roleID=" + roleID + ", certificate=" + Arrays.toString(certificate) + ", registrationDate="
-				+ registrationDate + ", userIcon=" + Arrays.toString(userIcon) + ", cPassword=" + cPassword + "]";
-	}
+//	@Override
+//	public String toString() {
+//		return "User [userId=" + userId + ", account=" + account + ", password=" + password + ", username=" + username
+//				+ ", userEmail=" + userEmail + ", phoneno=" + phoneno + ", gender=" + gender + ", birthday=" + birthday
+//				+ ", roleID=" + roleID + ", certificate=" + Arrays.toString(certificate) + ", registrationDate="
+//				+ registrationDate + ", userIcon=" + Arrays.toString(userIcon) + ", cPassword=" + cPassword + "]";
+//	}
 }
