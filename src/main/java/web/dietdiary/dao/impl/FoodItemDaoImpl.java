@@ -137,6 +137,6 @@ public class FoodItemDaoImpl implements FoodItemDao {
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
-		return null;
+		return -1;
 	}
 }
