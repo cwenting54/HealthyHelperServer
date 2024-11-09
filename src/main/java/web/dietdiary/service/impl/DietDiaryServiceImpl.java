@@ -116,11 +116,12 @@ public class DietDiaryServiceImpl implements DietDiaryService {
 	@Override
 	public String updateDietDiary(int foodId, Date date) {
 		try {
-			FoodItemVO foodItem = foodItemDao.select(foodId);
+			ArrayList<FoodItemVO> foodItems = this.foodItemDao.select(foodId);
+			FoodItemVO firstFoodItem = foodItems.get(0);
 			FoodVO food = foodDao.selectByFoodId(foodId);
 			NutritionVO nutrition = nutritionDao.getNutritionFromFood(food);
-			int diaryId = foodItem.getDiaryId();
-			Double grams = foodItem.getGrams();
+			int diaryId = firstFoodItem.getDiaryId();
+			Double grams = firstFoodItem.getGrams();
 			
 			DietDiaryVO dietDiary = dietDiaryDao.selectByDiaryIdAndDate(diaryId, date);
 			if (dietDiary == null) {

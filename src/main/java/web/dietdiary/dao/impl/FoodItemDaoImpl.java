@@ -61,7 +61,7 @@ public class FoodItemDaoImpl implements FoodItemDao {
 		){
 			preparedStatement.setInt(1,foodItem.getDiaryId());
 			preparedStatement.setInt(2,foodItem.getFoodId());
-			preparedStatement.setInt(3,foodItem.getMealCategoryId());
+			preparedStatement.setObject(3,foodItem.getMealCategoryId());
 			preparedStatement.setDouble(4,foodItem.getGrams());
 			
 			return preparedStatement.executeUpdate();
@@ -71,14 +71,16 @@ public class FoodItemDaoImpl implements FoodItemDao {
 		return -1;
 	}
 	@Override
-	public ArrayList<FoodItemVO> select(int foodId) {
+	public ArrayList<FoodItemVO> selectById(int foodId) {
 		String sqlCommand = "SELECT * FROM fooditem WHERE foodID = ? ;";
 		try(
 				Connection connection = this.getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(sqlCommand);
 		){
 				preparedStatement.setInt(1,foodId);
+				System.out.println("preparedStatement:"+preparedStatement);
 				ResultSet resultSet = preparedStatement.executeQuery();
+				System.out.println("resultSet:"+resultSet);
 				ArrayList<FoodItemVO> foodItems = this.resultSetToObjects(resultSet);
 				System.out.println("foodItems:"+foodItems);
 				return foodItems;

@@ -34,4 +34,10 @@ public class FoodServiceImpl implements FoodService {
 			return e.getMessage().toString();
 		}
 	}
+
+	@Override
+	public int selectIdByName(FoodVO food) {
+		FoodVO firstFood = this.foodDao.selectByFoodName(food.getFoodName());
+		return firstFood.getFoodId();
+	}
 }

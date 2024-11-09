@@ -36,7 +36,7 @@ public class FoodItemServiceImpl implements FoodItemService{
 	@Override
 	public int tryToInsert(FoodItemVO foodItem) {
 		int affectedRows = -1;
-		ArrayList<FoodItemVO> foodItems = this.foodItemDao.select(foodItem.getFoodId());
+		ArrayList<FoodItemVO> foodItems = this.foodItemDao.selectById(foodItem.getFoodId());
 		if(foodItems == null) {
 			return -1;
 		}
@@ -46,5 +46,10 @@ public class FoodItemServiceImpl implements FoodItemService{
 		}
 		affectedRows = this.foodItemDao.update(foodItem);
 		return affectedRows;
+	}
+
+	@Override
+	public ArrayList<FoodItemVO> selectById(FoodItemVO foodItem) {
+		return this.foodItemDao.selectById(foodItem.getFoodId());
 	}
 }
