@@ -68,7 +68,7 @@ public class UserDaoImpl implements UserDao {
 	        System.out.println("檢查帳號時發生錯誤：" + e.getMessage());
 	        e.printStackTrace();
 	    }
-	    return false; // 若出錯或查詢不到則返回 false
+	    return false; 
 	}
 
 
@@ -94,7 +94,7 @@ public class UserDaoImpl implements UserDao {
 						user.setRoleID(rs.getInt("roleID"));
 						user.setCertificate(rs.getBytes("certificate"));
 						user.setUserIcon(rs.getBytes("userIcon"));
-						System.out.println("Retrieved birthday from DB: " + user.getBirthday());
+						//System.out.println("Retrieved birthday from DB: " + user.getBirthday());
 						return user;
 					}
 				}catch (Exception e) {
@@ -166,6 +166,7 @@ public class UserDaoImpl implements UserDao {
 	            pstmt.setNull(5, java.sql.Types.DATE);
 	        }
 
+	     // 使用 account 作為 WHERE 條件，確保不會被更新
 	        pstmt.setString(6, user.getAccount());
 
 	        return pstmt.executeUpdate();

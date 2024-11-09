@@ -77,8 +77,7 @@ public class LoginController extends HttpServlet {
         }
 
         // 確保有這行
-        System.out.println("Response Body: " + respBody.toString());
-
+        resp.getWriter().write(respBody.toString());
         }
     
 }
