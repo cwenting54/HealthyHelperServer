@@ -1,7 +1,5 @@
 package web.dietdiary.vo;
 
-import java.sql.Blob;
-
 public class DiaryDescriptionVO {
 	private int diaryId;
 	private String foodIconUri;
