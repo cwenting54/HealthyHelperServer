@@ -39,12 +39,10 @@ public class SelectFoodIdByFoodNameController extends HttpServlet{
         
         Gson gson = new Gson();
         JsonObject jsonObject = new JsonObject();
-        String errorMessage = "";
         int id = -1;
         FoodVO targetDiaryDescriptionVO = gson.fromJson(req.getReader(), FoodVO.class);
         id = this.foodService.selectIdByName(targetDiaryDescriptionVO);
-        errorMessage = "";
-    	jsonObject.addProperty("result", id);
+        jsonObject.addProperty("result", id);
     	resp.getWriter().write(jsonObject.toString());
     	return;
 	}

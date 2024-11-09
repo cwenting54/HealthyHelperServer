@@ -9,5 +9,7 @@ public interface FoodItemService {
 	int update(FoodItemVO foodItem);
 	int tryToInsert(FoodItemVO foodItem);
 	int updateMealCategoryId(FoodItemVO foodItem);
-	ArrayList<FoodItemVO> selectById(FoodItemVO foodItem);
+	ArrayList<FoodItemVO> selectByDiaryId(FoodItemVO foodItem);
+	ArrayList<FoodItemVO> selectByDiaryIdAndMealCategoryId(FoodItemVO foodItem);
+
 }

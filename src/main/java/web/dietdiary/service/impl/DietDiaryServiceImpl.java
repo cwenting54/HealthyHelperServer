@@ -115,7 +115,9 @@ public class DietDiaryServiceImpl implements DietDiaryService {
 	@Override
 	public String updateDietDiary(int foodId, Date date) {
 		try {
-			ArrayList<FoodItemVO> foodItems = this.foodItemDao.selectById(foodId);
+			FoodItemVO sourceFoodItem = new FoodItemVO();
+			sourceFoodItem.setFoodID(foodId);
+			ArrayList<FoodItemVO> foodItems = this.foodItemDao.selectByFoodId(sourceFoodItem);
 			FoodItemVO firstFoodItem = foodItems.get(0);
 			FoodVO food = foodDao.selectByFoodId(foodId);
 			NutritionVO nutrition = nutritionDao.getNutritionFromFood(food);

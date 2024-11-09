@@ -47,14 +47,15 @@ public class DiaryDescriptionDaoImpl implements DiaryDescriptionDao {
 	@Override
 	public int insert(DiaryDescriptionVO diaryDescriptionVO) {
 		String sqlCommand = "INSERT INTO diarydescription "
-				+ "(diaryID,foodIconUri,foodDescription) "
-				+ " VALUES " + "(?,?,?);";
+				+ "(diaryID,mealCategoryID,foodIconUri,foodDescription) "
+				+ " VALUES " + "(?,?,?,?);";
 		try (Connection connection = this.getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(sqlCommand);) {
 		
 			preparedStatement.setInt(1,diaryDescriptionVO.getDiaryID());
-			preparedStatement.setString(2,diaryDescriptionVO.getFoodIconUri());
-			preparedStatement.setString(3,diaryDescriptionVO.getFoodDescription());
+			preparedStatement.setInt(2, diaryDescriptionVO.getMealCategoryID());
+			preparedStatement.setString(3,diaryDescriptionVO.getFoodIconUri());
+			preparedStatement.setString(4,diaryDescriptionVO.getFoodDescription());
 			
 			return preparedStatement.executeUpdate();
 		}catch (Exception e) {
@@ -67,13 +68,14 @@ public class DiaryDescriptionDaoImpl implements DiaryDescriptionDao {
 	public int updateById(DiaryDescriptionVO diaryDescriptionVO) {
 		String sqlCommand = "UPDATE diarydescription "
 				+ "SET foodIconUri = ? , foodDescription = ? "
-				+ " WHERE " + " diaryID = ? ; ";
+				+ " WHERE " + " diaryID = ? AND mealCategoryID = ?; ";
 		try (Connection connection = this.getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(sqlCommand);) {
 
 			preparedStatement.setString(1,diaryDescriptionVO.getFoodIconUri());
 			preparedStatement.setString(2,diaryDescriptionVO.getFoodDescription());
 			preparedStatement.setInt(3,diaryDescriptionVO.getDiaryID());
+			preparedStatement.setInt(4,diaryDescriptionVO.getMealCategoryID());
 			
 			return preparedStatement.executeUpdate();
 		}catch (Exception e) {
@@ -84,11 +86,12 @@ public class DiaryDescriptionDaoImpl implements DiaryDescriptionDao {
 
 	@Override
 	public ArrayList<DiaryDescriptionVO> selectById(DiaryDescriptionVO diaryDescriptionVO) {
-		String sqlCommand = "SELECT * FROM diarydescription WHERE diaryID = ? ;";
+		String sqlCommand = "SELECT * FROM diarydescription WHERE diaryID = ? AND mealCategoryID = ? ;";
 		try (Connection connection = this.getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(sqlCommand);) {
 			
 			preparedStatement.setInt(1,diaryDescriptionVO.getDiaryID());
+			preparedStatement.setInt(2,diaryDescriptionVO.getMealCategoryID());
 			
 			ResultSet resultSet = preparedStatement.executeQuery();
 			ArrayList<DiaryDescriptionVO> diaryDescriptionVOs = resultSetToObjects(resultSet);
@@ -99,5 +102,4 @@ public class DiaryDescriptionDaoImpl implements DiaryDescriptionDao {
 		}
 		return null;
 	}
-
 }

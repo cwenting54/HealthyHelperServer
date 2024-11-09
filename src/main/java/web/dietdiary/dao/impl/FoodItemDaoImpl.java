@@ -52,7 +52,7 @@ public class FoodItemDaoImpl implements FoodItemDao {
 	@Override
 	public int insert(FoodItemVO foodItem) {
 		String sqlCommand = "INSERT INTO fooditem "
-				+ " (diaryId,foodId,mealCategoryID,grams)"
+				+ " (diaryID,foodID,mealCategoryID,grams)"
 				+ " VALUES "
 				+ "(?,?,?,?);";
 		try(
@@ -70,17 +70,58 @@ public class FoodItemDaoImpl implements FoodItemDao {
 		}
 		return -1;
 	}
+	
 	@Override
-	public ArrayList<FoodItemVO> selectById(int foodId) {
+	public ArrayList<FoodItemVO> selectByDiaryId(FoodItemVO foodItem) {
+		String sqlCommand = "SELECT * FROM fooditem WHERE diaryID = ? ;";
+		try(
+				Connection connection = this.getConnection();
+				PreparedStatement preparedStatement = connection.prepareStatement(sqlCommand);
+		){
+				preparedStatement.setInt(1,foodItem.getDiaryID());
+				System.out.println("preparedStatement:"+preparedStatement);
+				ResultSet resultSet = preparedStatement.executeQuery();
+				System.out.println("resultSet:"+resultSet);
+				ArrayList<FoodItemVO> foodItems = this.resultSetToObjects(resultSet);
+				System.out.println("foodItems:"+foodItems);
+				return foodItems;
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	@Override
+	public ArrayList<FoodItemVO> selectByFoodId(FoodItemVO foodItem) {
 		String sqlCommand = "SELECT * FROM fooditem WHERE foodID = ? ;";
 		try(
 				Connection connection = this.getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(sqlCommand);
 		){
-				preparedStatement.setInt(1,foodId);
+				preparedStatement.setInt(1,foodItem.getFoodID());
 				System.out.println("preparedStatement:"+preparedStatement);
 				ResultSet resultSet = preparedStatement.executeQuery();
-				System.out.println("resultSet:"+resultSet);
+				ArrayList<FoodItemVO> foodItems = this.resultSetToObjects(resultSet);
+				System.out.println("foodItems:"+foodItems);
+				return foodItems;
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	@Override
+	public ArrayList<FoodItemVO> selectByDiaryIdAndFoodId(FoodItemVO foodItem) {
+		String sqlCommand = "SELECT * FROM fooditem WHERE diaryID = ? AND foodID = ? ;";
+		try(
+				Connection connection = this.getConnection();
+				PreparedStatement preparedStatement = connection.prepareStatement(sqlCommand);
+		){
+				preparedStatement.setInt(1,foodItem.getDiaryID());
+				preparedStatement.setInt(2,foodItem.getFoodID());
+
+				System.out.println("preparedStatement:"+preparedStatement);
+				ResultSet resultSet = preparedStatement.executeQuery();
 				ArrayList<FoodItemVO> foodItems = this.resultSetToObjects(resultSet);
 				System.out.println("foodItems:"+foodItems);
 				return foodItems;
@@ -137,5 +178,26 @@ public class FoodItemDaoImpl implements FoodItemDao {
 			e.printStackTrace();
 		}
 		return -1;
+	}
+
+	@Override
+	public ArrayList<FoodItemVO> selectByDiaryIdAndMealCategoryId(FoodItemVO foodItem) {
+		String sqlCommand = "SELECT * FROM fooditem WHERE diaryID = ? AND mealCategoryID = ? ;";
+		try(
+				Connection connection = this.getConnection();
+				PreparedStatement preparedStatement = connection.prepareStatement(sqlCommand);
+		){
+				preparedStatement.setInt(1,foodItem.getDiaryID());
+				preparedStatement.setInt(2,foodItem.getMealCategoryID());
+
+				System.out.println("preparedStatement:"+preparedStatement);
+				ResultSet resultSet = preparedStatement.executeQuery();
+				ArrayList<FoodItemVO> foodItems = this.resultSetToObjects(resultSet);
+				System.out.println("foodItems:"+foodItems);
+				return foodItems;
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }
