@@ -71,7 +71,7 @@ public class FoodItemDaoImpl implements FoodItemDao {
 		return -1;
 	}
 	@Override
-	public FoodItemVO select(int foodId) {
+	public ArrayList<FoodItemVO> select(int foodId) {
 		String sqlCommand = "SELECT * FROM fooditem WHERE foodID = ? ;";
 		try(
 				Connection connection = this.getConnection();
@@ -81,14 +81,10 @@ public class FoodItemDaoImpl implements FoodItemDao {
 				ResultSet resultSet = preparedStatement.executeQuery();
 				ArrayList<FoodItemVO> foodItems = this.resultSetToObjects(resultSet);
 				System.out.println("foodItems:"+foodItems);
-				if(foodItems == null || foodItems.isEmpty()) {
-					throw new Exception("Unknown error during execution of sql statement.");
-				}
-				return foodItems.get(0);
+				return foodItems;
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 		return null;
 	}
 
@@ -109,14 +105,15 @@ public class FoodItemDaoImpl implements FoodItemDao {
 
 	@Override
 	public int update(FoodItemVO foodItem) {
-		String sqlCommand = "UPDATE fooditem SET diaryId = ?, grams = ? WHERE foodId = ? ;";
+		String sqlCommand = "UPDATE fooditem SET diaryId = ?, grams = ?, mealCategoryID = ? WHERE foodId = ? ;";
 		try(
 				Connection connection = this.getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(sqlCommand);
 		){
 			preparedStatement.setInt(1, foodItem.getDiaryId());
 			preparedStatement.setDouble(2, foodItem.getGrams());
-			preparedStatement.setInt(3,foodItem.getFoodId());
+			preparedStatement.setInt(3,foodItem.getMealCategoryId());
+			preparedStatement.setInt(4,foodItem.getFoodId());
 			return preparedStatement.executeUpdate();
 		}catch (Exception e) {
 			e.printStackTrace();

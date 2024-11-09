@@ -1,5 +1,7 @@
 package web.dietdiary.service.impl;
 
+import java.util.ArrayList;
+
 import javax.naming.NamingException;
 
 import web.dietdiary.dao.impl.FoodDao;
@@ -33,7 +35,16 @@ public class FoodItemServiceImpl implements FoodItemService{
 
 	@Override
 	public int tryToInsert(FoodItemVO foodItem) {
-		return 0;
+		int affectedRows = -1;
+		ArrayList<FoodItemVO> foodItems = this.foodItemDao.select(foodItem.getFoodId());
+		if(foodItems == null) {
+			return -1;
+		}
+		if(foodItems.isEmpty()) {
+			affectedRows = this.foodItemDao.insert(foodItem);
+			return affectedRows;
+		}
+		affectedRows = this.foodItemDao.update(foodItem);
+		return affectedRows;
 	}
-
 }
