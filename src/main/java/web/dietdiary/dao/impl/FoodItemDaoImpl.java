@@ -34,12 +34,14 @@ public class FoodItemDaoImpl implements FoodItemDao {
 			
 			int diaryId = resultSet.getInt("diaryID");
 			int foodId = resultSet.getInt("foodID");
+			int mealCategoryId = resultSet.getInt("mealCategoryID");
 			Double grams = resultSet.getDouble("grams");
 			
 			FoodItemVO foodItem = new FoodItemVO();
 			
 			foodItem.setDiaryId(diaryId);
 			foodItem.setFoodId(foodId);
+			foodItem.setMealCategoryId(mealCategoryId);
 			foodItem.setGrams(grams);
 			
 			foodItems.add(foodItem);
@@ -50,16 +52,17 @@ public class FoodItemDaoImpl implements FoodItemDao {
 	@Override
 	public int insert(FoodItemVO foodItem) {
 		String sqlCommand = "INSERT INTO fooditem "
-				+ " (diaryId,foodId,grams)"
+				+ " (diaryId,foodId,mealCategoryID,grams)"
 				+ " VALUES "
-				+ "(?,?,?);";
+				+ "(?,?,?,?);";
 		try(
 				Connection connection = this.getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(sqlCommand);
 		){
 			preparedStatement.setInt(1,foodItem.getDiaryId());
 			preparedStatement.setInt(2,foodItem.getFoodId());
-			preparedStatement.setDouble(3,foodItem.getGrams());
+			preparedStatement.setInt(3,foodItem.getMealCategoryId());
+			preparedStatement.setDouble(4,foodItem.getGrams());
 			
 			return preparedStatement.executeUpdate();
 		}catch (Exception e) {
@@ -119,5 +122,21 @@ public class FoodItemDaoImpl implements FoodItemDao {
 			e.printStackTrace();
 		}
 		return -1;
+	}
+
+	@Override
+	public int updateMealCategoryId(FoodItemVO foodItem) {
+		String sqlCommand = "UPDATE fooditem SET mealCategoryID = ? WHERE foodId = ? ;";
+		try(
+				Connection connection = this.getConnection();
+				PreparedStatement preparedStatement = connection.prepareStatement(sqlCommand);
+		){
+			preparedStatement.setInt(1, foodItem.getMealCategoryId());
+			preparedStatement.setInt(2,foodItem.getFoodId());
+			return preparedStatement.executeUpdate();
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

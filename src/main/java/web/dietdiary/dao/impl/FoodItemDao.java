@@ -7,4 +7,5 @@ public interface FoodItemDao {
 	int insert(FoodItemVO foodItem);
 	int delete(FoodItemVO foodItem);
 	int update(FoodItemVO foodItem);
+	int updateMealCategoryId(FoodItemVO foodItem);
 }
