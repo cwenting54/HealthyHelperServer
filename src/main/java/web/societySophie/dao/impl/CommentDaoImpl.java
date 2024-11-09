@@ -23,7 +23,7 @@ public class CommentDaoImpl implements CommentDao {
 	@Override
 	public List<Comment> selectComment() {
 		String sql = "select c.commentId, c.userId, c.postId, c.reply, c.commdate, c.likecomm, u.username, u.photoUrl "
-				+ "from comment c join user u " + "on c.userId = u.userId " + "order by commdate desc";
+				+ "from comment c join user u " + "on c.userId = u.userId ";
 		try (
 			Connection conn = ds.getConnection();
 			PreparedStatement pstmt = conn.prepareStatement(sql);
