@@ -48,20 +48,8 @@ public class DietDiaryDaoImpl implements DietDiaryDao {
 
 			DietDiaryVO dietDiaryVO = new DietDiaryVO();
 
-			dietDiaryVO.setDiaryId(diaryId);
-			dietDiaryVO.setUserId(userId);
-			dietDiaryVO.setCreateDate(createDate);
-			dietDiaryVO.setCreateTime(createTime);
-			dietDiaryVO.setTotalFat(totalFat);
-			dietDiaryVO.setTotalCarbon(totalCarbon);
-			dietDiaryVO.setTotalProtein(totalProtein);
-			dietDiaryVO.setTotalFiber(totalFiber);
-			dietDiaryVO.setTotalSugar(totalSugar);
-			dietDiaryVO.setTotalSodium(totalSodium);
-			dietDiaryVO.setTotalCalories(totalCalories);
-
-			dietDiaryVO.setDiaryId(diaryId);
-			dietDiaryVO.setUserId(userId);
+			dietDiaryVO.setDiaryID(diaryId);
+			dietDiaryVO.setUserID(userId);
 			dietDiaryVO.setCreateDate(createDate);
 			dietDiaryVO.setCreateTime(createTime);
 			dietDiaryVO.setTotalFat(totalFat);
@@ -87,8 +75,8 @@ public class DietDiaryDaoImpl implements DietDiaryDao {
 		try (Connection connection = this.getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(sqlCommand);) {
 			
-			preparedStatement.setInt(1, dietDiaryVO.getDiaryId());
-			preparedStatement.setInt(2, dietDiaryVO.getUserId());
+			preparedStatement.setInt(1, dietDiaryVO.getDiaryID());
+			preparedStatement.setInt(2, dietDiaryVO.getUserID());
 			preparedStatement.setDate(3, dietDiaryVO.getCreateDate());
 			preparedStatement.setTime(4, dietDiaryVO.getCreateTime());
 			preparedStatement.setDouble(5, dietDiaryVO.getTotalFat());
@@ -216,10 +204,9 @@ public class DietDiaryDaoImpl implements DietDiaryDao {
 			preparedStatement.setDouble(5, dietDiaryVO.getTotalSugar());
 			preparedStatement.setDouble(6, dietDiaryVO.getTotalSodium());
 
-			preparedStatement.setInt(7, dietDiaryVO.getDiaryId());
+			preparedStatement.setInt(7, dietDiaryVO.getDiaryID());
 			preparedStatement.setDate(8, dietDiaryVO.getCreateDate());
 
-			System.out.println("sqlCommand:"+sqlCommand);
 			int affectedRows = preparedStatement.executeUpdate();
 
 			if (affectedRows != 1) {

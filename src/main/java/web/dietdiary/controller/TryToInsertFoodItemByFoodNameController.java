@@ -51,7 +51,7 @@ public class TryToInsertFoodItemByFoodNameController extends HttpServlet{
         System.out.println("targetFood:"+targetFood);
         int foodId = this.foodService.selectIdByName(targetFood);
         FoodItemVO foodItemOnlyWithId = new FoodItemVO();
-        foodItemOnlyWithId.setFoodId(foodId);
+        foodItemOnlyWithId.setFoodID(foodId);
         ArrayList<FoodItemVO> targetFoodItems = this.foodItemService.selectById(foodItemOnlyWithId);
         FoodItemVO targetFoodItem = new FoodItemVO();
         if(!targetFoodItems.isEmpty()) {

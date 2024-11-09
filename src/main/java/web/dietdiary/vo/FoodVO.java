@@ -1,7 +1,7 @@
 package web.dietdiary.vo;
 
 public class FoodVO {
-	private int  foodId;
+	private int  foodID;
 	private String foodName;
 	private double fat;
 	private double carbon;
@@ -11,11 +11,11 @@ public class FoodVO {
 	private double sodium;
 	private double calories;
 	
-	public int getFoodId() {
-		return foodId;
+	public int getFoodID() {
+		return foodID;
 	}
-	public void setFoodId(int foodId) {
-		this.foodId = foodId;
+	public void setFoodID(int foodID) {
+		this.foodID = foodID;
 	}
 	public String getFoodName() {
 		return foodName;
@@ -67,10 +67,8 @@ public class FoodVO {
 	}
 	@Override
 	public String toString() {
-		return "Food [foodId=" + foodId + ", foodName=" + foodName + ", fat=" + fat + ", carbon=" + carbon
+		return "FoodVO [foodID=" + foodID + ", foodName=" + foodName + ", fat=" + fat + ", carbon=" + carbon
 				+ ", protein=" + protein + ", fiber=" + fiber + ", sugar=" + sugar + ", sodium=" + sodium
 				+ ", calories=" + calories + "]";
 	}
-	
-	
 }

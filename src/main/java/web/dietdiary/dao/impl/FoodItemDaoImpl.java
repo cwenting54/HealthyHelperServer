@@ -39,9 +39,9 @@ public class FoodItemDaoImpl implements FoodItemDao {
 			
 			FoodItemVO foodItem = new FoodItemVO();
 			
-			foodItem.setDiaryId(diaryId);
-			foodItem.setFoodId(foodId);
-			foodItem.setMealCategoryId(mealCategoryId);
+			foodItem.setDiaryID(diaryId);
+			foodItem.setFoodID(foodId);
+			foodItem.setMealCategoryID(mealCategoryId);
 			foodItem.setGrams(grams);
 			
 			foodItems.add(foodItem);
@@ -59,9 +59,9 @@ public class FoodItemDaoImpl implements FoodItemDao {
 				Connection connection = this.getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(sqlCommand);
 		){
-			preparedStatement.setInt(1,foodItem.getDiaryId());
-			preparedStatement.setInt(2,foodItem.getFoodId());
-			preparedStatement.setObject(3,foodItem.getMealCategoryId());
+			preparedStatement.setInt(1,foodItem.getDiaryID());
+			preparedStatement.setInt(2,foodItem.getFoodID());
+			preparedStatement.setObject(3,foodItem.getMealCategoryID());
 			preparedStatement.setDouble(4,foodItem.getGrams());
 			
 			return preparedStatement.executeUpdate();
@@ -97,7 +97,7 @@ public class FoodItemDaoImpl implements FoodItemDao {
 				Connection connection = this.getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(sqlCommand);
 		){
-			preparedStatement.setInt(1,foodItem.getFoodId());
+			preparedStatement.setInt(1,foodItem.getFoodID());
 			return preparedStatement.executeUpdate();
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -112,10 +112,10 @@ public class FoodItemDaoImpl implements FoodItemDao {
 				Connection connection = this.getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(sqlCommand);
 		){
-			preparedStatement.setInt(1, foodItem.getDiaryId());
+			preparedStatement.setInt(1, foodItem.getDiaryID());
 			preparedStatement.setDouble(2, foodItem.getGrams());
-			preparedStatement.setInt(3,foodItem.getMealCategoryId());
-			preparedStatement.setInt(4,foodItem.getFoodId());
+			preparedStatement.setInt(3,foodItem.getMealCategoryID());
+			preparedStatement.setInt(4,foodItem.getFoodID());
 			return preparedStatement.executeUpdate();
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -130,8 +130,8 @@ public class FoodItemDaoImpl implements FoodItemDao {
 				Connection connection = this.getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(sqlCommand);
 		){
-			preparedStatement.setInt(1, foodItem.getMealCategoryId());
-			preparedStatement.setInt(2,foodItem.getFoodId());
+			preparedStatement.setInt(1, foodItem.getMealCategoryID());
+			preparedStatement.setInt(2,foodItem.getFoodID());
 			return preparedStatement.executeUpdate();
 		}catch (Exception e) {
 			e.printStackTrace();

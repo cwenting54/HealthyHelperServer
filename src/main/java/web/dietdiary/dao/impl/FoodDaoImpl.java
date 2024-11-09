@@ -43,7 +43,7 @@ public class FoodDaoImpl implements FoodDao {
 			Double sodium = resultSet.getDouble("sodium");
 			Double calories = resultSet.getDouble("calories");
 
-			food.setFoodId(foodId);
+			food.setFoodID(foodId);
 			food.setFoodName(foodName);
 			food.setFat(fat);
 			food.setCarbon(carbon);
@@ -162,7 +162,7 @@ public class FoodDaoImpl implements FoodDao {
 				Connection connection = this.getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(sqlCommand);
 		){
-			preparedStatement.setInt(1, food.getFoodId());
+			preparedStatement.setInt(1, food.getFoodID());
 			
 			return preparedStatement.executeUpdate();
 		}catch (Exception e) {

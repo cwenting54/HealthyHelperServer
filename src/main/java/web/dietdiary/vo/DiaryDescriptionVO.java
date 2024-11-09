@@ -1,15 +1,18 @@
 package web.dietdiary.vo;
 
 public class DiaryDescriptionVO {
-	private int diaryId;
+	private int diaryID;
 	private String foodIconUri;
 	private String foodDescription;
-	public int getDiaryId() {
-		return diaryId;
+	
+	
+	public int getDiaryID() {
+		return diaryID;
 	}
-	public void setDiaryId(int diaryId) {
-		this.diaryId = diaryId;
+	public void setDiaryID(int diaryID) {
+		this.diaryID = diaryID;
 	}
+	
 	public String getFoodIconUri() {
 		return foodIconUri;
 	}
@@ -22,10 +25,9 @@ public class DiaryDescriptionVO {
 	public void setFoodDescription(String foodDescription) {
 		this.foodDescription = foodDescription;
 	}
-	
 	@Override
 	public String toString() {
-		return "DiaryDescriptionVO [diaryId=" + diaryId + ", foodIconUri=" + foodIconUri + ", foodDescription="
+		return "DiaryDescriptionVO [diaryID=" + diaryID + ", foodIconUri=" + foodIconUri + ", foodDescription="
 				+ foodDescription + "]";
 	}
 }

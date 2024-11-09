@@ -43,7 +43,6 @@ public class DietDiaryServiceImpl implements DietDiaryService {
 	@Override
 	public String insert(DietDiaryVO dietDiary) {
 		String errorMessage = "";
-		boolean duplicatedDate = false;
 		ArrayList<DietDiaryVO> dietDiaries = new ArrayList<DietDiaryVO>();
 		
 		dietDiaries = this.search(dietDiary, 1);
@@ -74,21 +73,21 @@ public class DietDiaryServiceImpl implements DietDiaryService {
 
 	@Override
 	public ArrayList<DietDiaryVO> searchByDate(DietDiaryVO dietDiary) {
-		int userId = dietDiary.getUserId();
+		int userId = dietDiary.getUserID();
 		Date createDate = dietDiary.getCreateDate();
 		return this.dietDiaryDao.selectByDate(userId, createDate);
 	}
 
 	@Override
 	public ArrayList<DietDiaryVO> searchByTime(DietDiaryVO dietDiary) {
-		int userId = dietDiary.getUserId();
+		int userId = dietDiary.getUserID();
 		Time createTime = dietDiary.getCreateTime();
 		return this.dietDiaryDao.selectByTime(userId, createTime);
 	}
 
 	@Override
 	public ArrayList<DietDiaryVO> searchByDateAndTime(DietDiaryVO dietDiary) {
-		int userId = dietDiary.getUserId();
+		int userId = dietDiary.getUserID();
 		Date createDate = dietDiary.getCreateDate();
 		Time createTime = dietDiary.getCreateTime();
 		return this.dietDiaryDao.selectByDateAndTime(userId, createDate, createTime);
@@ -98,8 +97,8 @@ public class DietDiaryServiceImpl implements DietDiaryService {
 	public DietDiaryVO plusNutrition(DietDiaryVO dietDiary, NutritionVO nutrition) {
 		DietDiaryVO result = new DietDiaryVO();
 
-		result.setUserId(dietDiary.getUserId());
-		result.setDiaryId(dietDiary.getDiaryId());
+		result.setUserID(dietDiary.getUserID());
+		result.setDiaryID(dietDiary.getDiaryID());
 		result.setCreateDate(dietDiary.getCreateDate());
 		result.setCreateTime(dietDiary.getCreateTime());
 		result.setTotalFat(dietDiary.getTotalFat() + nutrition.getFat());
@@ -116,11 +115,11 @@ public class DietDiaryServiceImpl implements DietDiaryService {
 	@Override
 	public String updateDietDiary(int foodId, Date date) {
 		try {
-			ArrayList<FoodItemVO> foodItems = this.foodItemDao.select(foodId);
+			ArrayList<FoodItemVO> foodItems = this.foodItemDao.selectById(foodId);
 			FoodItemVO firstFoodItem = foodItems.get(0);
 			FoodVO food = foodDao.selectByFoodId(foodId);
 			NutritionVO nutrition = nutritionDao.getNutritionFromFood(food);
-			int diaryId = firstFoodItem.getDiaryId();
+			int diaryId = firstFoodItem.getDiaryID();
 			Double grams = firstFoodItem.getGrams();
 			
 			DietDiaryVO dietDiary = dietDiaryDao.selectByDiaryIdAndDate(diaryId, date);

@@ -4,8 +4,8 @@ import java.sql.Date;
 import java.sql.Time;
 
 public class DietDiaryVO {
-	private int diaryId;
-	private int userId;
+	private int diaryID;
+	private int userID;
 	private Date createDate;
 	private Time createTime;
 	private Double totalFat;
@@ -16,18 +16,19 @@ public class DietDiaryVO {
 	private Double totalSodium;
 	private Double totalCalories;
 	
-	public int getDiaryId() {
-		return diaryId;
+	public int getDiaryID() {
+		return diaryID;
 	}
-	public void setDiaryId(int diaryId) {
-		this.diaryId = diaryId;
+	public void setDiaryID(int diaryID) {
+		this.diaryID = diaryID;
 	}
-	public int getUserId() {
-		return userId;
+	public int getUserID() {
+		return userID;
 	}
-	public void setUserId(int userId) {
-		this.userId = userId;
+	public void setUserID(int userID) {
+		this.userID = userID;
 	}
+	
 	public Date getCreateDate() {
 		return createDate;
 	}

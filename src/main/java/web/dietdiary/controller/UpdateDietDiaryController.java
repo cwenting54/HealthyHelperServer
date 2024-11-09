@@ -60,7 +60,7 @@ public class UpdateDietDiaryController extends HttpServlet{
 			return;
 		}
 		
-		errorMessage = this.dietDiaryService.updateDietDiary(dietDiary.getDiaryId(), dietDiary.getCreateDate());
+		errorMessage = this.dietDiaryService.updateDietDiary(dietDiary.getDiaryID(), dietDiary.getCreateDate());
 		if(errorMessage != "") {
 			jsonObject.addProperty("result", false);
 			jsonObject.addProperty("errorMessage", errorMessage);

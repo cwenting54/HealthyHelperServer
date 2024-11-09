@@ -34,7 +34,7 @@ public class DiaryDescriptionDaoImpl implements DiaryDescriptionDao {
 			String foodIconUri = resultSet.getString("foodIconUri");
 			String foodDescription = resultSet.getString("foodDescription");
 
-			diaryDescriptionVO.setDiaryId(diaryId);
+			diaryDescriptionVO.setDiaryID(diaryId);
 			diaryDescriptionVO.setFoodIconUri(foodIconUri);
 			diaryDescriptionVO.setFoodDescription(foodDescription);
 			
@@ -52,7 +52,7 @@ public class DiaryDescriptionDaoImpl implements DiaryDescriptionDao {
 		try (Connection connection = this.getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(sqlCommand);) {
 		
-			preparedStatement.setInt(1,diaryDescriptionVO.getDiaryId());
+			preparedStatement.setInt(1,diaryDescriptionVO.getDiaryID());
 			preparedStatement.setString(2,diaryDescriptionVO.getFoodIconUri());
 			preparedStatement.setString(3,diaryDescriptionVO.getFoodDescription());
 			
@@ -73,7 +73,7 @@ public class DiaryDescriptionDaoImpl implements DiaryDescriptionDao {
 
 			preparedStatement.setString(1,diaryDescriptionVO.getFoodIconUri());
 			preparedStatement.setString(2,diaryDescriptionVO.getFoodDescription());
-			preparedStatement.setInt(3,diaryDescriptionVO.getDiaryId());
+			preparedStatement.setInt(3,diaryDescriptionVO.getDiaryID());
 			
 			return preparedStatement.executeUpdate();
 		}catch (Exception e) {
@@ -88,7 +88,7 @@ public class DiaryDescriptionDaoImpl implements DiaryDescriptionDao {
 		try (Connection connection = this.getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(sqlCommand);) {
 			
-			preparedStatement.setInt(1,diaryDescriptionVO.getDiaryId());
+			preparedStatement.setInt(1,diaryDescriptionVO.getDiaryID());
 			
 			ResultSet resultSet = preparedStatement.executeQuery();
 			ArrayList<DiaryDescriptionVO> diaryDescriptionVOs = resultSetToObjects(resultSet);

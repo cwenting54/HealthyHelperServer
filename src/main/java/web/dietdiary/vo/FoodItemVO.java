@@ -1,29 +1,28 @@
 package web.dietdiary.vo;
 
 public class FoodItemVO {
-	private int diaryId;
-	private int foodId;
-	private int mealCategoryId;
+	private int diaryID;
+	private int foodID;
+	private int mealCategoryID;
 	private Double grams;
 	
-	public int getMealCategoryId() {
-		return mealCategoryId;
+	public int getDiaryID() {
+		return diaryID;
 	}
-	public void setMealCategoryId(int mealCategoryId) {
-		this.mealCategoryId = mealCategoryId;
+	public void setDiaryID(int diaryID) {
+		this.diaryID = diaryID;
 	}
-	
-	public int getDiaryId() {
-		return diaryId;
+	public int getFoodID() {
+		return foodID;
 	}
-	public void setDiaryId(int diaryId) {
-		this.diaryId = diaryId;
+	public void setFoodID(int foodID) {
+		this.foodID = foodID;
 	}
-	public int getFoodId() {
-		return foodId;
+	public int getMealCategoryID() {
+		return mealCategoryID;
 	}
-	public void setFoodId(int foodId) {
-		this.foodId = foodId;
+	public void setMealCategoryID(int mealCategoryID) {
+		this.mealCategoryID = mealCategoryID;
 	}
 	public Double getGrams() {
 		return grams;
@@ -33,7 +32,7 @@ public class FoodItemVO {
 	}
 	@Override
 	public String toString() {
-		return "FoodItemVO [diaryId=" + diaryId + ", foodId=" + foodId + ", mealCategoryId=" + mealCategoryId
+		return "FoodItemVO [diaryID=" + diaryID + ", foodID=" + foodID + ", mealCategoryID=" + mealCategoryID
 				+ ", grams=" + grams + "]";
 	}
 }
