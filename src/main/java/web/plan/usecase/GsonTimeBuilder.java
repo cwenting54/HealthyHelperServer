@@ -1,12 +1,15 @@
 package web.plan.usecase;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.TimeZone;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonParseException;
 
 public class GsonTimeBuilder {
 	// 建立 Gson 時指定日期格式
@@ -21,5 +24,10 @@ public class GsonTimeBuilder {
 		        }
 		    })
 		    .create();
+	
+	// 建立 Gson 時指定日期格式
+	public static Gson gsontodate = new GsonBuilder()
+	        .registerTypeAdapter(java.sql.Date.class, new DateDeserializer())
+	        .create();
 
 }
