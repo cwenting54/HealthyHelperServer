@@ -38,7 +38,7 @@ public class InsertCommentController extends HttpServlet {
 		int postId = reqBody.get("postId").getAsInt();
 		int userId = reqBody.get("userId").getAsInt();
 		Comment comment = new Comment();
-		comment.setReply(reqBody.get("content").getAsString());
+		comment.setReply(reqBody.get("reply").getAsString());
 
 		String errMsg = commentService.insertComment(comment, userId, postId);
 		JsonObject respBody = new JsonObject();

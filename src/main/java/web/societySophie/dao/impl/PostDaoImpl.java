@@ -28,13 +28,13 @@ public class PostDaoImpl implements PostDao {
 			var list = new ArrayList<Post>();
 			while (rs.next()) {
 				Post post = new Post();
+				post.setPostId(rs.getInt("postId"));
 				post.setUserId(rs.getInt("userId"));
 				post.setTitle(rs.getString("title"));
 				post.setContent(rs.getString("content"));
 				post.setPicture(rs.getBytes("picture"));
 				post.setPostDate(rs.getTimestamp("postDate"));
 				post.setLikePost(rs.getInt("likepost"));
-				post.setLikeComm(rs.getInt("likecomm"));
 
 				list.add(post);
 			}
@@ -54,13 +54,13 @@ public class PostDaoImpl implements PostDao {
 				var list = new ArrayList<Post>();
 				while (rs.next()) {
 					Post post = new Post();
+					post.setPostId(rs.getInt("postId"));
 					post.setUserId(rs.getInt("userId"));
 					post.setTitle(rs.getString("title"));
 					post.setContent(rs.getString("content"));
 					post.setPicture(rs.getBytes("picture"));
 					post.setPostDate(rs.getTimestamp("postDate"));
 					post.setLikePost(rs.getInt("likepost"));
-					post.setLikeComm(rs.getInt("likecomm"));
 
 					list.add(post);
 				}

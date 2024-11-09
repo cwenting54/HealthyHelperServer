@@ -94,6 +94,7 @@ public class UserDaoImpl implements UserDao {
 						user.setRoleID(rs.getInt("roleID"));
 						user.setCertificate(rs.getBytes("certificate"));
 						user.setUserIcon(rs.getBytes("userIcon"));
+						user.setPhotoUrl(rs.getString("photoUrl"));//不太確定需不需要
 						//System.out.println("Retrieved birthday from DB: " + user.getBirthday());
 						return user;
 					}
@@ -129,6 +130,7 @@ public class UserDaoImpl implements UserDao {
 	                resultUser.setGender(rs.getInt("gender")); 
 	                resultUser.setBirthday(rs.getDate("birthday"));
 	                resultUser.setRoleID(rs.getInt("roleID")); 
+	                resultUser.setPhotoUrl(rs.getString("photoUrl"));
 	                return resultUser;
 	            } else {
 	                System.out.println("未找到匹配的資料");
@@ -164,6 +166,14 @@ public class UserDaoImpl implements UserDao {
 	            pstmt.setDate(5, user.getBirthday());
 	        } else {
 	            pstmt.setNull(5, java.sql.Types.DATE);
+	        }
+	       
+	        
+	     // 設置 certificate
+	        if (user.getCertificate() != null) {
+	            pstmt.setBytes(6, user.getCertificate());
+	        } else {
+	            pstmt.setNull(6, java.sql.Types.BLOB);
 	        }
 
 	     // 使用 account 作為 WHERE 條件，確保不會被更新
