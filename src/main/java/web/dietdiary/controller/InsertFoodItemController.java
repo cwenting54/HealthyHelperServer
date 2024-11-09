@@ -39,6 +39,7 @@ public class InsertFoodItemController extends HttpServlet {
         
 		Gson gson = new Gson();
 		JsonObject jsonObject = new JsonObject();
+		int affectedRows = -1;
 		String errorMessage = "";
 		FoodItemVO foodItem = gson.fromJson(req.getReader(), FoodItemVO.class);
 		if(foodItem == null) {
@@ -48,14 +49,15 @@ public class InsertFoodItemController extends HttpServlet {
 			resp.getWriter().write(jsonObject.toString());
 			return;
 		}
-		errorMessage = this.foodItemService.insert(foodItem);
-		if(errorMessage!=null) {
+		affectedRows = this.foodItemService.insert(foodItem);
+		if(affectedRows!=1) {
+			errorMessage = "Unknown Error!!!";
 			jsonObject.addProperty("result", false);
 			jsonObject.addProperty("errorMessage", errorMessage);
 			resp.getWriter().write(jsonObject.toString());
 			return;
 		}
-		
+		errorMessage = "";
 		jsonObject.addProperty("result", true);
 		jsonObject.addProperty("errorMessage", errorMessage);
 		resp.getWriter().write(jsonObject.toString());

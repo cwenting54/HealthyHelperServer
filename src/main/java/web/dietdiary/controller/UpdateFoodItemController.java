@@ -40,14 +40,15 @@ public class UpdateFoodItemController extends HttpServlet{
         
 		Gson gson = GsonForSqlDateAndSqlTime.gson;
 		JsonObject jsonObject = new JsonObject();
+		int affectedRows = -1;
 		String errorMessage = "";
 		FoodItemVO foodItem = gson.fromJson(req.getReader(), FoodItemVO.class);
 		
 		System.out.println("foodItem:"+foodItem);
 		
-		errorMessage = this.foodItemService.update(foodItem);
+		affectedRows = this.foodItemService.update(foodItem);
 		 
-		if(errorMessage != "") {
+		if(affectedRows != 1) {
 			errorMessage = "Unknown error!!!";
 			jsonObject.addProperty("result", false);
 			jsonObject.addProperty("errorMessage", errorMessage);

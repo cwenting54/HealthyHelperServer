@@ -17,36 +17,23 @@ public class FoodItemServiceImpl implements FoodItemService{
 	}
 	
 	@Override
-	public String insert(FoodItemVO foodItem) {
-		try {
-			int affectedRows = 0;
-			affectedRows = this.foodItemDao.insert(foodItem);
-			if(affectedRows!=1) {
-				throw new Exception("Unknown error!!!");
-			}
-			return "";
-		}catch (Exception e) {
-			return e.getMessage().toString();
-		}
+	public int insert(FoodItemVO foodItem) {
+		return this.foodItemDao.insert(foodItem);
 	}
 
 	@Override
-	public String update(FoodItemVO foodItem) {
-		try {
-			int affectedRows = 0;
-			affectedRows = this.foodItemDao.insert(foodItem);
-			if(affectedRows!=1) {
-				throw new Exception("Unknown error!!!");
-			}
-			return "";
-		}catch (Exception e) {
-			return e.getMessage().toString();
-		}
+	public int update(FoodItemVO foodItem) {
+		return this.foodItemDao.update(foodItem);
 	}
 
 	@Override
 	public int updateMealCategoryId(FoodItemVO foodItem) {
 		return this.foodItemDao.updateMealCategoryId(foodItem);
+	}
+
+	@Override
+	public int tryToInsert(FoodItemVO foodItem) {
+		return 0;
 	}
 
 }

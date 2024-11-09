@@ -4,13 +4,14 @@ public class FoodItemVO {
 	private int diaryId;
 	private int foodId;
 	private int mealCategoryId;
+	private Double grams;
+	
 	public int getMealCategoryId() {
 		return mealCategoryId;
 	}
 	public void setMealCategoryId(int mealCategoryId) {
 		this.mealCategoryId = mealCategoryId;
 	}
-	private Double grams;
 	
 	public int getDiaryId() {
 		return diaryId;
