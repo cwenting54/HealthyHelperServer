@@ -44,4 +44,9 @@ public class FoodItemServiceImpl implements FoodItemService{
 		}
 	}
 
+	@Override
+	public int updateMealCategoryId(FoodItemVO foodItem) {
+		return this.foodItemDao.updateMealCategoryId(foodItem);
+	}
+
 }
