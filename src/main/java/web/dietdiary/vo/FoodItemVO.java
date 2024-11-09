@@ -3,6 +3,13 @@ package web.dietdiary.vo;
 public class FoodItemVO {
 	private int diaryId;
 	private int foodId;
+	private int mealCategoryId;
+	public int getMealCategoryId() {
+		return mealCategoryId;
+	}
+	public void setMealCategoryId(int mealCategoryId) {
+		this.mealCategoryId = mealCategoryId;
+	}
 	private Double grams;
 	
 	public int getDiaryId() {
@@ -25,6 +32,7 @@ public class FoodItemVO {
 	}
 	@Override
 	public String toString() {
-		return "FoodItem [diaryId=" + diaryId + ", foodId=" + foodId + ", grams=" + grams + "]";
-	}	
+		return "FoodItemVO [diaryId=" + diaryId + ", foodId=" + foodId + ", mealCategoryId=" + mealCategoryId
+				+ ", grams=" + grams + "]";
+	}
 }
