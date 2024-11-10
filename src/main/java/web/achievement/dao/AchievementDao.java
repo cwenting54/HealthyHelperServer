@@ -1,12 +1,12 @@
 package web.achievement.dao;
 
 import java.util.List;
-import java.util.Map;
 
 import web.achievement.vo.Achievement;
 import web.achievement.vo.AchievementList;
 
 public interface AchievementDao {
+
 	int insertAchievement(int userId, int aid);
 
 	int selectDiaryTimesByUserID(int userId);

@@ -1,72 +1,45 @@
 package web.plan.vo;
 
-import java.sql.Timestamp;
+import java.sql.Date;
 
 public class Plan {
-	private Integer userDietPlanId;
-	private Integer categoryId;
 	private Integer userId;
-	private Timestamp startDateTime;
-	private Timestamp endDateTime;
-	private Integer finishstate;
+	private Date startDate;
+	private Date endDate;
 	
 	public Plan() {
-		// TODO Auto-generated constructor stub
-	}
-	
-	
-	
-	
-	public Plan(Integer struserDietPlanId, Integer categoryId, Integer userId, Timestamp startDateTime,
-			Timestamp endDateTime, Integer finishstate) {
 		super();
-		this.userDietPlanId = struserDietPlanId;
-		this.categoryId = categoryId;
+	}
+
+	public Plan(Integer userId, Date startDate, Date endDate) {
+		super();
 		this.userId = userId;
-		this.startDateTime = startDateTime;
-		this.endDateTime = endDateTime;
-		this.finishstate = finishstate;
+		this.startDate = startDate;
+		this.endDate = endDate;
 	}
 
-
-
-
-	public Integer getStruserDietPlanId() {
-		return userDietPlanId;
-	}
-	public void setStruserDietPlanId(Integer struserDietPlanId) {
-		this.userDietPlanId = struserDietPlanId;
-	}
-	public Integer getCategoryId() {
-		return categoryId;
-	}
-	public void setCategoryId(Integer categoryId) {
-		this.categoryId = categoryId;
-	}
 	public Integer getUserId() {
 		return userId;
 	}
+
 	public void setUserId(Integer userId) {
 		this.userId = userId;
 	}
-	public Timestamp getStartDateTime() {
-		return startDateTime;
+
+	public Date getStartDate() {
+		return startDate;
 	}
-	public void setStartDateTime(Timestamp startDateTime) {
-		this.startDateTime = startDateTime;
+
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
 	}
-	public Timestamp getEndDateTime() {
-		return endDateTime;
+
+	public Date getEndDate() {
+		return endDate;
 	}
-	public void setEndDateTime(Timestamp endDateTime) {
-		this.endDateTime = endDateTime;
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
 	}
-	public Integer getFinishstate() {
-		return finishstate;
-	}
-	public void setFinishstate(Integer finishstate) {
-		this.finishstate = finishstate;
-	}
-	
 	
 }

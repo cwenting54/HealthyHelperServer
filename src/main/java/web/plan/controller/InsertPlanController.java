@@ -1,8 +1,11 @@
 package web.plan.controller;
 
-
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import javax.naming.NamingException;
 import javax.servlet.ServletException;
@@ -12,24 +15,26 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import web.plan.service.PlanService;
-import web.plan.service.impl.PlanServiceImpl;
-import web.plan.vo.PlanWithCategory;
 import web.plan.Common;
+import web.plan.service.PlanManageService;
+import web.plan.service.PlanService;
+import web.plan.service.impl.PlanManageServiceImpl;
+import web.plan.service.impl.PlanServiceImpl;
+import web.plan.usecase.GsonTimeBuilder;
+import web.plan.vo.PlanWithCategory;
 
 
-
-
-@WebServlet("/Plan")
-public class PlanController extends HttpServlet {
+@WebServlet("/Plan/AddPlan")
+public class InsertPlanController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	//private final static String CONTENT_TYPE = "application/json; charset=UTF-8";
 	private PlanService planService;
+	private PlanManageService planManageService;
 	
 	@Override
 	public void init() throws ServletException {
 		try {
 			planService = new PlanServiceImpl();
+			planManageService = new PlanManageServiceImpl();
 		} catch (NamingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -44,20 +49,19 @@ public class PlanController extends HttpServlet {
 		System.out.println("output: " + outText);
 	}
 	
-	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		req.setCharacterEncoding("UTF-8");
-		Gson gson = new Gson();
-		System.out.println("dataIn: " + req.toString()); //requestIn
+		Gson gson = GsonTimeBuilder.gson;
 		try {
 			PlanWithCategory planWithCategory = gson.fromJson(req.getReader(), PlanWithCategory.class);
-			PlanWithCategory getplan = planService.getplan(planWithCategory);
-			if (getplan == null) {
-				writeText(resp, "the plan is null");
-			}
-			String jsonStr = gson.toJson(getplan);
-			writeText(resp, jsonStr);
+			System.out.println("dataIn: " + planWithCategory.toString()); //requestIn
+			
+			String errMsg = planService.insertPlan(planWithCategory);			
+			JsonObject resbody = new JsonObject();
+			resbody.addProperty("result", errMsg == null);
+			resbody.addProperty("errMsg", errMsg);
+			writeText(resp, resbody.toString());
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("postErr: " + e.toString());
