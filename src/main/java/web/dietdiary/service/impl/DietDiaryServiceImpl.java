@@ -161,4 +161,9 @@ public class DietDiaryServiceImpl implements DietDiaryService {
 		ArrayList<DietDiaryVO> result = (ArrayList<DietDiaryVO>) Arrays.asList(newDietDiaries);
 		return result;
 	}
+
+	@Override
+	public ArrayList<DietDiaryVO> selectByUserIdAndDate(DietDiaryVO dietDiary) {
+		return this.dietDiaryDao.selectByUserIdAndDate(dietDiary);
+	}
 }

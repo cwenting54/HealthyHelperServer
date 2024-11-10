@@ -166,13 +166,14 @@ public class FoodItemDaoImpl implements FoodItemDao {
 
 	@Override
 	public int updateMealCategoryId(FoodItemVO foodItem) {
-		String sqlCommand = "UPDATE fooditem SET mealCategoryID = ? WHERE foodId = ? ;";
+		String sqlCommand = "UPDATE fooditem SET mealCategoryID = ? WHERE diaryID = ? AND foodID = ? ;";
 		try(
 				Connection connection = this.getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(sqlCommand);
 		){
 			preparedStatement.setInt(1, foodItem.getMealCategoryID());
-			preparedStatement.setInt(2,foodItem.getFoodID());
+			preparedStatement.setInt(2,foodItem.getDiaryID());
+			preparedStatement.setInt(3,foodItem.getFoodID());
 			return preparedStatement.executeUpdate();
 		}catch (Exception e) {
 			e.printStackTrace();

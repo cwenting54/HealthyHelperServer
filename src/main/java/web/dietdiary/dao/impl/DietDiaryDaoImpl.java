@@ -165,28 +165,7 @@ public class DietDiaryDaoImpl implements DietDiaryDao {
 		return null;
 	}
 
-	@Override
-	public DietDiaryVO selectByDiaryIdAndDate(int diaryId, Date date) {
-		String sqlCommand = "SELECT * FROM fooddiary WHERE" + " diaryID = ? AND createdate = ? ;";
-		try (Connection connection = this.getConnection();
-				PreparedStatement preparedStatement = connection.prepareStatement(sqlCommand);) {
-
-			preparedStatement.setInt(1, diaryId);
-			preparedStatement.setDate(2, date);
-
-			ResultSet resultSet = preparedStatement.executeQuery();
-
-			ArrayList<DietDiaryVO> dietDiaries = resultSetToObjects(resultSet);
-
-			if (dietDiaries == null || dietDiaries.size() != 1) {
-				throw new Exception("Unknown error during execution of sql statement.");
-			}
-			return dietDiaries.get(0);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
+	
 
 	@Override
 	public int updateByDiaryId(DietDiaryVO dietDiaryVO) {
@@ -219,5 +198,44 @@ public class DietDiaryDaoImpl implements DietDiaryDao {
 		}
 
 		return -1;
+	}
+
+	@Override
+	public DietDiaryVO selectByDiaryIdAndDate(int diaryId, Date date) {
+		String sqlCommand = "SELECT * FROM fooddiary WHERE" + " diaryID = ? AND createdate = ? ;";
+		try (Connection connection = this.getConnection();
+				PreparedStatement preparedStatement = connection.prepareStatement(sqlCommand);) {
+
+			preparedStatement.setInt(1, diaryId);
+			preparedStatement.setDate(2, date);
+
+			ResultSet resultSet = preparedStatement.executeQuery();
+
+			ArrayList<DietDiaryVO> dietDiaries = resultSetToObjects(resultSet);
+
+			if (dietDiaries == null || dietDiaries.size() != 1) {
+				throw new Exception("Unknown error during execution of sql statement.");
+			}
+			return dietDiaries.get(0);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	@Override
+	public ArrayList<DietDiaryVO> selectByUserIdAndDate(DietDiaryVO dietDiary) {
+		String sqlCommand = "SELECT * FROM fooddiary WHERE" + " userID = ? AND createdate = ? ;";
+		try (Connection connection = this.getConnection();
+				PreparedStatement preparedStatement = connection.prepareStatement(sqlCommand);) {
+			
+			preparedStatement.setInt(1,dietDiary.getUserID());
+			preparedStatement.setDate(2,dietDiary.getCreateDate());
+			ResultSet resultSet = preparedStatement.executeQuery();
+			return resultSetToObjects(resultSet);
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

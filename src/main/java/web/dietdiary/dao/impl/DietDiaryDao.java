@@ -16,4 +16,5 @@ public interface DietDiaryDao {
 	int updateByDiaryId(DietDiaryVO dietDiary);
 	
 	DietDiaryVO selectByDiaryIdAndDate(int diaryId, Date date);
+	ArrayList<DietDiaryVO> selectByUserIdAndDate(DietDiaryVO dietDiary);
 }
