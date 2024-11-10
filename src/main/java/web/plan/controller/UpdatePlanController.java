@@ -49,8 +49,9 @@ public class UpdatePlanController extends HttpServlet {
 		System.out.println("dataIn: " + planWithCategory.toString()); //requestIn
 		Integer userId = planWithCategory.getUserId();
 		Integer userDietPlanId = planWithCategory.getUserDietPlanId();
+		Integer finishstate = planWithCategory.getFinishstate();
 		
-		String errMsg = checkPlanService.SetPlanComplete(userId, userDietPlanId);
+		String errMsg = checkPlanService.setPlanStatus(userId, userDietPlanId, finishstate);
 		JsonObject resbody = new JsonObject();
 		resbody.addProperty("result", errMsg == null);
 		resbody.addProperty("errMsg", errMsg);

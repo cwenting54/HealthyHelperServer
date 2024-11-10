@@ -9,5 +9,5 @@ import web.plan.vo.PlanWithCategory;
 public interface CheckPlanService {
 	PlanWithCategory GetSelectedPlan(Integer userId, Integer userDietPlanId);
 	List<DiaryAll> GetDiaryWithDate(Integer userId, Date startDate, Date endDate);
-	String SetPlanComplete(Integer userId, Integer userDietPlanId);
+	String setPlanStatus(Integer userId, Integer userDietPlanId, Integer finishstate);
 }

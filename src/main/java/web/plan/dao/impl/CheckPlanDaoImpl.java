@@ -96,8 +96,8 @@ public class CheckPlanDaoImpl implements CheckPlanDao{
 	}
 
 	@Override
-	public int updateByUserIdAndUserDietPlanID(Integer userId, Integer userDietPlanId) {
-		String sql = "UPDATE userdietplan SET finishstate = 1 "
+	public int updateByUserIdAndUserDietPlanID(Integer userId, Integer userDietPlanId, Integer finishstate) {
+		String sql = "UPDATE userdietplan SET finishstate = ? "
 				+ "WHERE userId = ? AND userDietPlanId = ? ;";
 		try (
 				Connection conn = ds.getConnection();
@@ -105,6 +105,7 @@ public class CheckPlanDaoImpl implements CheckPlanDao{
 				){
 			pstmt.setInt(1, userId);
 			pstmt.setInt(2, userDietPlanId);
+			pstmt.setInt(3, finishstate);
 			return pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();

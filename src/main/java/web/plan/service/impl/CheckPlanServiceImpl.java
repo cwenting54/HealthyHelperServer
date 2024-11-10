@@ -58,7 +58,7 @@ public class CheckPlanServiceImpl implements CheckPlanService{
 	}
 
 	@Override
-	public String SetPlanComplete(Integer userId, Integer userDietPlanId) {
+	public String setPlanStatus(Integer userId, Integer userDietPlanId, Integer finishstate) {
 		if(userId == null) {
 			System.out.println("userID is null");
 			return null;
@@ -67,7 +67,11 @@ public class CheckPlanServiceImpl implements CheckPlanService{
 			System.out.println("userDietPlanId is null");
 			return null;
 		}
-		int result = checkPlanDao.updateByUserIdAndUserDietPlanID(userId, userDietPlanId);
+		if(finishstate == null) {
+			System.out.println("finishstate is null");
+			return null;
+		}
+		int result = checkPlanDao.updateByUserIdAndUserDietPlanID(userId, userDietPlanId, finishstate);
 		return result > 0 ? null:"更新錯誤";
 	}
 

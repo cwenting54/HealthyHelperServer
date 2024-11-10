@@ -9,5 +9,5 @@ import web.plan.vo.PlanWithCategory;
 public interface CheckPlanDao {
 	PlanWithCategory selectPlanAll(Integer userId, Integer userDietPlanId);
 	List<DiaryAll> selectDiaryAll(Integer userId, Date startDate,Date endDate);
-	int updateByUserIdAndUserDietPlanID(Integer userId, Integer userDietPlanId);
+	int updateByUserIdAndUserDietPlanID(Integer userId, Integer userDietPlanId, Integer finishstate);
 }
