@@ -1,11 +1,11 @@
 package web.dietdiary.checker.impl;
 
-import web.dietdiary.vo.DietDiary;
+import web.dietdiary.vo.DietDiaryVO;
 
 public class DietDiaryCheckerImpl implements DietDiaryChecker{
 
 	@Override
-	public boolean check(DietDiary dietDiary) {
+	public boolean check(DietDiaryVO dietDiary) {
 		if(dietDiary.getTotalFat() <= 0.0) {
 			return false;
 		}

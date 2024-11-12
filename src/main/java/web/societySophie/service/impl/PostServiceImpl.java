@@ -31,10 +31,10 @@ public class PostServiceImpl implements PostService {
 		if (title == null ) {
 			return "標題長度不可為空";
 		} else if(title.length() > 30) {
-			return "標題不可大於10個字";
+			return "標題不可大於30個字";
 		}
 		
-		String content = post.getTitle();
+		String content = post.getContent();
 		if (content == null ) {
 			return "內容不可為空";
 		}
@@ -49,7 +49,7 @@ public class PostServiceImpl implements PostService {
 		if (title == null ) {
 			return "標題長度不可為空";
 		} else if(title.length() > 30) {
-			return "標題不可大於10個字";
+			return "標題不可大於30個字";
 		}
 		
 		String content = post.getTitle();

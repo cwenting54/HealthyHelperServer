@@ -1,4 +1,4 @@
-package web.dietdiary.gson.serializer;
+package web.dietdiary.util.gson.serializer;
 
 import java.lang.reflect.Type;
 import java.sql.Date;
@@ -16,7 +16,7 @@ import web.dietdiary.constant.SqlDatePattern;
 import web.dietdiary.constant.SqlTimePattern;
 
 public class JsonSerializerForSqlDate {
-	public static JsonSerializer<Date> timeDeserializer = new JsonSerializer<Date>() {
+	public static JsonSerializer<Date> dateDeserializer = new JsonSerializer<Date>() {
 		@Override
 		public JsonElement serialize(Date arg0, Type arg1, JsonSerializationContext arg2) {
 				SimpleDateFormat dateFormat = new SimpleDateFormat(SqlDatePattern.sqlDatePattern);

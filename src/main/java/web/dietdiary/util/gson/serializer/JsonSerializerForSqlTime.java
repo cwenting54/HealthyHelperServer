@@ -1,4 +1,4 @@
-package web.dietdiary.gson.serializer;
+package web.dietdiary.util.gson.serializer;
 
 import java.lang.reflect.Type;
 import java.sql.Date;

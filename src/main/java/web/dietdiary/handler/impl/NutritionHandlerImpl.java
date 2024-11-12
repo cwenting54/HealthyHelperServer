@@ -1,12 +1,12 @@
 package web.dietdiary.handler.impl;
 
-import web.dietdiary.vo.Nutrition;
+import web.dietdiary.vo.NutritionVO;
 
 public class NutritionHandlerImpl implements NutritionHandler {
 
 	@Override
-	public Nutrition multiply(Nutrition nutrition, double grams) {
-		Nutrition newNutrition = new Nutrition();
+	public NutritionVO multiply(NutritionVO nutrition, double grams) {
+		NutritionVO newNutrition = new NutritionVO();
 		newNutrition.setFat(nutrition.getFat() * grams);
 		newNutrition.setFiber(nutrition.getFiber() * grams);
 		newNutrition.setCarbon(nutrition.getCarbon() * grams);

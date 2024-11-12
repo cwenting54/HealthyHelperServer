@@ -1,13 +1,13 @@
 package web.dietdiary.dao.impl;
 
-import web.dietdiary.vo.Food;
-import web.dietdiary.vo.Nutrition;
+import web.dietdiary.vo.FoodVO;
+import web.dietdiary.vo.NutritionVO;
 
 public class NutritionDaoImpl implements NutritionDao {
 
 	@Override
-	public Nutrition getNutritionFromFood(Food food) {
-		Nutrition nutrition = new Nutrition();
+	public NutritionVO getNutritionFromFood(FoodVO food) {
+		NutritionVO nutrition = new NutritionVO();
 		
 		nutrition.setFat(food.getFat());
 		nutrition.setProtein(food.getProtein());

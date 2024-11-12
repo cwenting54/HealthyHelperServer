@@ -10,10 +10,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
-import web.dietdiary.vo.DietDiary;
-import web.dietdiary.vo.Food;
-import web.dietdiary.vo.FoodItem;
-import web.dietdiary.vo.FoodNameAndGrams;
+import web.dietdiary.vo.FoodVO;
 
 public class FoodDaoImpl implements FoodDao {
 
@@ -30,11 +27,11 @@ public class FoodDaoImpl implements FoodDao {
 		return this.dataSource.getConnection();
 	}
 
-	private ArrayList<Food> resultSetToObjects(ResultSet resultSet) throws SQLException {
-		ArrayList<Food> foods = new ArrayList<Food>();
+	private ArrayList<FoodVO> resultSetToObjects(ResultSet resultSet) throws SQLException {
+		ArrayList<FoodVO> foods = new ArrayList<FoodVO>();
 		while (resultSet.next()) {
 			
-			Food food = new Food();
+			FoodVO food = new FoodVO();
 
 			int foodId = resultSet.getInt("foodID");
 			String foodName = resultSet.getString("foodname");
@@ -46,7 +43,7 @@ public class FoodDaoImpl implements FoodDao {
 			Double sodium = resultSet.getDouble("sodium");
 			Double calories = resultSet.getDouble("calories");
 
-			food.setFoodId(foodId);
+			food.setFoodID(foodId);
 			food.setFoodName(foodName);
 			food.setFat(fat);
 			food.setCarbon(carbon);
@@ -63,7 +60,7 @@ public class FoodDaoImpl implements FoodDao {
 	}
 
 	@Override
-	public Food selectByFoodName(String name) {
+	public ArrayList<FoodVO> selectByFoodName(String name) {
 		String sqlCommand = "SELECT * FROM food WHERE foodname = ? ;";
 		try(
 				Connection connection = this.getConnection();
@@ -71,26 +68,16 @@ public class FoodDaoImpl implements FoodDao {
 		){
 			preparedStatement.setString(1, name);
 			ResultSet resultSet = preparedStatement.executeQuery();
-			ArrayList<Food> foods = this.resultSetToObjects(resultSet);
-			
-			if(foods == null || foods.size() <= 0 ) {
-				throw new Exception("There are no record found.");
-			}
-			
-			if(foods.size() != 1) {
-				throw new Exception("Unknown error!!!\nToo many records found.\nIt should found only one record");
-			}
-				
-			return foods.get(0);
+			ArrayList<FoodVO> foods = this.resultSetToObjects(resultSet);
+			return foods;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 		return null;
 	}
 
 	@Override
-	public Food selectByFoodId(int foodId) {
+	public FoodVO selectByFoodId(int foodId) {
 		String sqlCommand = "SELECT * FROM food WHERE foodID = ? ;";
 		try(
 				Connection connection = this.getConnection();
@@ -98,7 +85,7 @@ public class FoodDaoImpl implements FoodDao {
 		){
 			preparedStatement.setInt(1, foodId);
 			ResultSet resultSet = preparedStatement.executeQuery();
-			ArrayList<Food> foods = this.resultSetToObjects(resultSet);
+			ArrayList<FoodVO> foods = this.resultSetToObjects(resultSet);
 			
 			if(foods == null || foods.size() <= 0 ) {
 				throw new Exception("There are no record found.");
@@ -117,7 +104,7 @@ public class FoodDaoImpl implements FoodDao {
 	}
 
 	@Override
-	public ArrayList<Food> listAvailableFoods() {
+	public ArrayList<FoodVO> listAvailableFoods() {
 		String sqlCommand = "SELECT * FROM food ;";
 		try(
 				Connection connection = this.getConnection();
@@ -132,7 +119,7 @@ public class FoodDaoImpl implements FoodDao {
 	}
 
 	@Override
-	public int insert(Food food) {
+	public int insert(FoodVO food) {
 		String sqlCommand = "INSERT INTO food "
 				+ " (foodname,fat,carbon,protein,fiber,sugar,sodium,calories) "
 				+ " VALUES "
@@ -158,19 +145,35 @@ public class FoodDaoImpl implements FoodDao {
 	}
 
 	@Override
-	public int delete(Food food) {
-		String sqlCommand = "DELETE FROM food "
-				+ " WHERE foodId = ? ;";
+	public int delete(FoodVO food) {
+		String sqlCommand = "DELETE FROM food WHERE foodID = ? ;";
 		try(
 				Connection connection = this.getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(sqlCommand);
 		){
-			preparedStatement.setInt(1, food.getFoodId());
+			preparedStatement.setInt(1, food.getFoodID());
 			
 			return preparedStatement.executeUpdate();
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
 		return -1;
+	}
+
+	@Override
+	public ArrayList<FoodVO> selectByFoodId(FoodVO food) {
+		String sqlCommand = "SELECT * FROM food  WHERE foodID = ? ;";
+		try(
+				Connection connection = this.getConnection();
+				PreparedStatement preparedStatement = connection.prepareStatement(sqlCommand);
+		){
+			preparedStatement.setInt(1, food.getFoodID());
+			
+			ResultSet resultSet = preparedStatement.executeQuery();
+			return resultSetToObjects(resultSet);
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

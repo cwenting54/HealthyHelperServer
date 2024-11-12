@@ -1,7 +1,6 @@
 package web.dietdiary.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.naming.NamingException;
 import javax.servlet.ServletException;
@@ -15,7 +14,7 @@ import com.google.gson.JsonObject;
 
 import web.dietdiary.service.impl.FoodItemService;
 import web.dietdiary.service.impl.FoodItemServiceImpl;
-import web.dietdiary.vo.FoodItem;
+import web.dietdiary.vo.FoodItemVO;
 
 @WebServlet("/dietDiary/foodItem/insert")
 public class InsertFoodItemController extends HttpServlet {
@@ -40,10 +39,9 @@ public class InsertFoodItemController extends HttpServlet {
         
 		Gson gson = new Gson();
 		JsonObject jsonObject = new JsonObject();
-		FoodItem foodItem;
+		int affectedRows = -1;
 		String errorMessage = "";
-		
-		foodItem = gson.fromJson(req.getReader(), FoodItem.class);
+		FoodItemVO foodItem = gson.fromJson(req.getReader(), FoodItemVO.class);
 		if(foodItem == null) {
 			errorMessage = "NPE!!! foodItem is null";
 			jsonObject.addProperty("result", false);
@@ -51,14 +49,15 @@ public class InsertFoodItemController extends HttpServlet {
 			resp.getWriter().write(jsonObject.toString());
 			return;
 		}
-		errorMessage = this.foodItemService.insert(foodItem);
-		if(errorMessage!=null) {
+		affectedRows = this.foodItemService.insert(foodItem);
+		if(affectedRows!=1) {
+			errorMessage = "Unknown Error!!!";
 			jsonObject.addProperty("result", false);
 			jsonObject.addProperty("errorMessage", errorMessage);
 			resp.getWriter().write(jsonObject.toString());
 			return;
 		}
-		
+		errorMessage = "";
 		jsonObject.addProperty("result", true);
 		jsonObject.addProperty("errorMessage", errorMessage);
 		resp.getWriter().write(jsonObject.toString());

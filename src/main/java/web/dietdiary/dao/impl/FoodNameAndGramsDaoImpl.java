@@ -10,7 +10,8 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
-import web.dietdiary.vo.FoodNameAndGrams;
+import web.dietdiary.vo.FoodNameAndGramsVO;
+
 
 public class FoodNameAndGramsDaoImpl implements FoodNameAndGramsDao{
 
@@ -27,14 +28,14 @@ public class FoodNameAndGramsDaoImpl implements FoodNameAndGramsDao{
 		return this.dataSource.getConnection();
 	}
 	
-	private ArrayList<FoodNameAndGrams> resultSetToObjects(ResultSet resultSet) throws SQLException{
-		ArrayList<FoodNameAndGrams> foodNameAndGramses = new ArrayList<FoodNameAndGrams>();
+	private ArrayList<FoodNameAndGramsVO> resultSetToObjects(ResultSet resultSet) throws SQLException{
+		ArrayList<FoodNameAndGramsVO> foodNameAndGramses = new ArrayList<FoodNameAndGramsVO>();
 		while(resultSet.next()) {
 			
 			String foodName = resultSet.getString("foodName");
 			Double grams = resultSet.getDouble("gram");
 			
-			FoodNameAndGrams foodNameAndGrams = new FoodNameAndGrams();
+			FoodNameAndGramsVO foodNameAndGrams = new FoodNameAndGramsVO();
 			
 			foodNameAndGrams.setFoodName(foodName);
 			foodNameAndGrams.setGrams(grams);
@@ -46,7 +47,7 @@ public class FoodNameAndGramsDaoImpl implements FoodNameAndGramsDao{
 
 	
 	@Override
-	public ArrayList<FoodNameAndGrams> listAvailableFoodsNameAndGrams() {
+	public ArrayList<FoodNameAndGramsVO> listAvailableFoodsNameAndGrams() {
 		String sqlCommand = "SELECT foodname,gram FROM food;";
 		try(
 				Connection connection = this.getConnection();

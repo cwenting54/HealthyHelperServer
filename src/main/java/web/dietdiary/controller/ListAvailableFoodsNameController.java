@@ -11,16 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 
-import web.dietdiary.service.impl.DietDiaryService;
-import web.dietdiary.service.impl.DietDiaryServiceImpl;
 import web.dietdiary.service.impl.FoodNameService;
 import web.dietdiary.service.impl.FoodNameServiceImpl;
-import web.dietdiary.util.gson.GsonForSqlDateAndSqlTime;
-import web.dietdiary.vo.DietDiary;
-import web.dietdiary.vo.FoodName;
+import web.dietdiary.vo.FoodNameVO;
 
 @WebServlet("/dietDiary/food/listAvailableFoodsName")
 public class ListAvailableFoodsNameController extends HttpServlet {
@@ -45,23 +39,16 @@ public class ListAvailableFoodsNameController extends HttpServlet {
 			resp.setCharacterEncoding("UTF-8");
 
 			Gson gson = new Gson();
-			JsonArray jsonArray = new JsonArray();
-
-			ArrayList<FoodName> foodNames = new ArrayList<FoodName>();
-
+			ArrayList<FoodNameVO> foodNames = new ArrayList<FoodNameVO>();
+			
 			foodNames = this.foodNameService.listAvailableFoodsName();
+			
 			System.out.println("foodNames:"+foodNames.toString());
-
 			if (foodNames == null) {
 				throw new Exception("Unknown error!!!");
 			}
 
-			for (FoodName foodName : foodNames) {
-				JsonObject jsonObject = new JsonObject();
-				jsonObject.addProperty("foodname", foodName.getFoodName());
-				jsonArray.add(jsonObject);
-			}
-			resp.getWriter().write(jsonArray.toString());
+			resp.getWriter().write(gson.toJson(foodNames));
 			return;
 		} catch (Exception e) {
 			e.printStackTrace();

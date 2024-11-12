@@ -1,6 +1,6 @@
 package web.dietdiary.vo;
 
-public class FoodNameAndGrams {
+public class FoodNameAndGramsVO {
 	private String foodName;
 	private Double grams;
 	public String getFoodName() {

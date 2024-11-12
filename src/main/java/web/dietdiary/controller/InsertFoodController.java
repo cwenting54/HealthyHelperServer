@@ -14,7 +14,7 @@ import com.google.gson.JsonObject;
 
 import web.dietdiary.service.impl.FoodService;
 import web.dietdiary.service.impl.FoodServiceImpl;
-import web.dietdiary.vo.Food;
+import web.dietdiary.vo.FoodVO;
 
 @WebServlet("/dietDiary/food/insert")
 public class InsertFoodController extends HttpServlet {
@@ -39,10 +39,8 @@ public class InsertFoodController extends HttpServlet {
         
 		Gson gson = new Gson();
 		JsonObject jsonObject = new JsonObject();
-		Food food;
 		String errorMessage = "";
-		
-		food = gson.fromJson(req.getReader(), Food.class);
+		FoodVO food = gson.fromJson(req.getReader(), FoodVO.class);
 		if(food == null) {
 			errorMessage = "NPE!!! foodItem is null";
 			jsonObject.addProperty("result", false);

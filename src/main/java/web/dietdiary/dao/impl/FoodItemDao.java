@@ -1,10 +1,16 @@
 package web.dietdiary.dao.impl;
 
-import web.dietdiary.vo.FoodItem;
+import java.util.ArrayList;
+
+import web.dietdiary.vo.FoodItemVO;
 
 public interface FoodItemDao {
-	FoodItem select(int foodId);
-	int insert(FoodItem foodItem);
-	int delete(FoodItem foodItem);
-	int update(FoodItem foodItem);
+	int insert(FoodItemVO foodItem);
+	int deleteByDiaryIdAndFoodId(FoodItemVO foodItem);
+	ArrayList<FoodItemVO> selectByFoodId(FoodItemVO foodItem);
+	ArrayList<FoodItemVO> selectByDiaryId(FoodItemVO food);
+	ArrayList<FoodItemVO> selectByDiaryIdAndFoodId(FoodItemVO foodItem);
+	ArrayList<FoodItemVO> selectByDiaryIdAndMealCategoryId(FoodItemVO foodItem);
+	int updateByFoodId(FoodItemVO foodItem);
+	int updateByDiaryIdAndFoodId(FoodItemVO foodItem);
 }

@@ -19,10 +19,10 @@ import web.dietdiary.dao.impl.NutritionDao;
 import web.dietdiary.dao.impl.NutritionDaoImpl;
 import web.dietdiary.handler.impl.NutritionHandler;
 import web.dietdiary.handler.impl.NutritionHandlerImpl;
-import web.dietdiary.vo.DietDiary;
-import web.dietdiary.vo.Food;
-import web.dietdiary.vo.FoodItem;
-import web.dietdiary.vo.Nutrition;
+import web.dietdiary.vo.DietDiaryVO;
+import web.dietdiary.vo.FoodItemVO;
+import web.dietdiary.vo.FoodVO;
+import web.dietdiary.vo.NutritionVO;
 
 public class DietDiaryServiceImpl implements DietDiaryService {
 
@@ -32,7 +32,7 @@ public class DietDiaryServiceImpl implements DietDiaryService {
 	private NutritionDao nutritionDao;
 	private NutritionHandler nutritionHandler;
 
-	public DietDiaryServiceImpl(DietDiaryDao dietDiaryDao) throws NamingException {
+	public DietDiaryServiceImpl() throws NamingException {
 		this.dietDiaryDao = new DietDiaryDaoImpl(null);
 		this.foodItemDao = new FoodItemDaoImpl(null);
 		this.foodDao = new FoodDaoImpl(null);
@@ -41,65 +41,99 @@ public class DietDiaryServiceImpl implements DietDiaryService {
 	}
 
 	@Override
-	public String insert(DietDiary dietDiary) {
-		String errorMessage = "";
-		boolean duplicatedDate = false;
-		ArrayList<DietDiary> dietDiaries = new ArrayList<DietDiary>();
+	public int insert(DietDiaryVO dietDiary) {
+		System.out.println("--------------------------------------------");
+        System.out.println("DietDiaryServiceImpl class, insert method was  called.");
+
+		int affectedRows = 0;
+		ArrayList<DietDiaryVO> targetDietDiaries = this.search(dietDiary, 1);	
+		System.out.println();
+		System.out.println();
+		System.out.println("targetDietDiaries:"+targetDietDiaries);
+		System.out.println();
+		System.out.println();
 		
-		dietDiaries = this.search(dietDiary, 1);
-		if(dietDiaries==null) {
-			errorMessage = "Unknown error during execution of searching data!!!";
-			return errorMessage;
+		if(targetDietDiaries==null) {
+	        System.out.println("DietDiaryServiceImpl class, insert method  was finished to called.");
+			System.out.println("--------------------------------------------");
+			return -2;
 		}
-		if(!dietDiaries.isEmpty()) {
-			errorMessage = "Existing error!!! The userId and createDate in foodDiary table has already exists. Can not insert it!!!";
-			return errorMessage;
+		if(!targetDietDiaries.isEmpty()) {
+	        System.out.println("DietDiaryServiceImpl class, insert method  was finished to called.");
+			System.out.println("--------------------------------------------");
+			return -1;
 		}
 		
-		errorMessage = this.dietDiaryDao.insert(dietDiary);
-		return errorMessage;
+		affectedRows = this.dietDiaryDao.insert(dietDiary);
+		
+		System.out.println();
+		System.out.println();
+		System.out.println("affectedRows:"+affectedRows);
+		System.out.println();
+		System.out.println();
+		
+        System.out.println("DietDiaryServiceImpl class, insert method  was finished to called.");
+		System.out.println("--------------------------------------------");
+		return affectedRows;
 	}
 
 	@Override
-	public ArrayList<DietDiary> search(DietDiary dietDiary, int mode) {
+	public ArrayList<DietDiaryVO> search(DietDiaryVO dietDiary, int mode) {
+		System.out.println("--------------------------------------------");
+        System.out.println("DietDiaryServiceImpl class, search method was called.");
+        
+		System.out.println();
+		System.out.println();
+		System.out.println("dietDiary:"+dietDiary);
+		System.out.println();
+		System.out.println();        
+		
 		if (mode == 1) {
+	        System.out.println("DietDiaryServiceImpl class, search method was finished to called.");
+			System.out.println("--------------------------------------------");
 			return this.searchByDate(dietDiary);
 		} else if (mode == 2) {
+	        System.out.println("DietDiaryServiceImpl class, search method was finished to called.");
+			System.out.println("--------------------------------------------");
 			return this.searchByTime(dietDiary);
 		} else if (mode == 3) {
+	        System.out.println("DietDiaryServiceImpl class, search method was finished to called.");
+			System.out.println("--------------------------------------------");
 			return this.searchByDateAndTime(dietDiary);
 		}
+        System.out.println("DietDiaryServiceImpl class, search method was finished to called.");
+		System.out.println("--------------------------------------------");
 		return null;
 	}
 
 	@Override
-	public ArrayList<DietDiary> searchByDate(DietDiary dietDiary) {
-		int userId = dietDiary.getUserId();
+	public ArrayList<DietDiaryVO> searchByDate(DietDiaryVO dietDiary) {
+		int userId = dietDiary.getUserID();
 		Date createDate = dietDiary.getCreateDate();
 		return this.dietDiaryDao.selectByDate(userId, createDate);
 	}
 
 	@Override
-	public ArrayList<DietDiary> searchByTime(DietDiary dietDiary) {
-		int userId = dietDiary.getUserId();
+	public ArrayList<DietDiaryVO> searchByTime(DietDiaryVO dietDiary) {
+		int userId = dietDiary.getUserID();
 		Time createTime = dietDiary.getCreateTime();
 		return this.dietDiaryDao.selectByTime(userId, createTime);
 	}
 
 	@Override
-	public ArrayList<DietDiary> searchByDateAndTime(DietDiary dietDiary) {
-		int userId = dietDiary.getUserId();
+	public ArrayList<DietDiaryVO> searchByDateAndTime(DietDiaryVO dietDiary) {
+		int userId = dietDiary.getUserID();
 		Date createDate = dietDiary.getCreateDate();
 		Time createTime = dietDiary.getCreateTime();
 		return this.dietDiaryDao.selectByDateAndTime(userId, createDate, createTime);
 	}
 
 	@Override
-	public DietDiary plusNutrition(DietDiary dietDiary, Nutrition nutrition) {
-		DietDiary result = new DietDiary();
+	public DietDiaryVO plusNutrition(DietDiaryVO dietDiary, NutritionVO nutrition) {
+		DietDiaryVO result = new DietDiaryVO();
 
-		result.setUserId(dietDiary.getUserId());
-		result.setDiaryId(dietDiary.getDiaryId());
+		result.setUserID(dietDiary.getUserID());
+		result.setDiaryID(dietDiary.getDiaryID());
 		result.setCreateDate(dietDiary.getCreateDate());
 		result.setCreateTime(dietDiary.getCreateTime());
 		result.setTotalFat(dietDiary.getTotalFat() + nutrition.getFat());
@@ -116,20 +150,23 @@ public class DietDiaryServiceImpl implements DietDiaryService {
 	@Override
 	public String updateDietDiary(int foodId, Date date) {
 		try {
-			FoodItem foodItem = foodItemDao.select(foodId);
-			Food food = foodDao.selectByFoodId(foodId);
-			Nutrition nutrition = nutritionDao.getNutritionFromFood(food);
-			int diaryId = foodItem.getDiaryId();
-			Double grams = foodItem.getGrams();
+			FoodItemVO sourceFoodItem = new FoodItemVO();
+			sourceFoodItem.setFoodID(foodId);
+			ArrayList<FoodItemVO> foodItems = this.foodItemDao.selectByFoodId(sourceFoodItem);
+			FoodItemVO firstFoodItem = foodItems.get(0);
+			FoodVO food = foodDao.selectByFoodId(foodId);
+			NutritionVO nutrition = nutritionDao.getNutritionFromFood(food);
+			int diaryId = firstFoodItem.getDiaryID();
+			Double grams = firstFoodItem.getGrams();
 			
-			DietDiary dietDiary = dietDiaryDao.selectByDiaryIdAndDate(diaryId, date);
+			DietDiaryVO dietDiary = dietDiaryDao.selectByDiaryIdAndDate(diaryId, date);
 			if (dietDiary == null) {
 				throw new Exception("Unknown error!!!");
 			}
 
 			nutrition = nutritionHandler.multiply(nutrition, grams);
 					
-			DietDiary updatedDietDiary = this.plusNutrition(dietDiary, nutrition);
+			DietDiaryVO updatedDietDiary = this.plusNutrition(dietDiary, nutrition);
 			this.dietDiaryDao.updateByDiaryId(updatedDietDiary);
 			
 			return "";
@@ -140,7 +177,7 @@ public class DietDiaryServiceImpl implements DietDiaryService {
 	}
 
 	@Override
-	public ArrayList<DietDiary> sort(ArrayList<DietDiary> dietDiaries, int mode, boolean isAscending) {
+	public ArrayList<DietDiaryVO> sort(ArrayList<DietDiaryVO> dietDiaries, int mode, boolean isAscending) {
 		if (mode == 1) {
 			return this.sortByDate(dietDiaries,isAscending);
 		}
@@ -148,15 +185,20 @@ public class DietDiaryServiceImpl implements DietDiaryService {
 	}
 
 	@Override
-	public ArrayList<DietDiary> sortByDate(ArrayList<DietDiary> dietDiaries, boolean isAscending) {
-		DietDiary[] newDietDiaries = (DietDiary[]) dietDiaries.clone();
+	public ArrayList<DietDiaryVO> sortByDate(ArrayList<DietDiaryVO> dietDiaries, boolean isAscending) {
+		DietDiaryVO[] newDietDiaries = (DietDiaryVO[]) dietDiaries.clone();
 		if(isAscending) {
 			Arrays.sort(newDietDiaries);
 		}else {
 			Arrays.sort(newDietDiaries);
 			Collections.reverse(Arrays.asList(newDietDiaries));
 		}
-		ArrayList<DietDiary> result = (ArrayList<DietDiary>) Arrays.asList(newDietDiaries);
+		ArrayList<DietDiaryVO> result = (ArrayList<DietDiaryVO>) Arrays.asList(newDietDiaries);
 		return result;
+	}
+
+	@Override
+	public ArrayList<DietDiaryVO> selectByUserIdAndDate(DietDiaryVO dietDiary) {
+		return this.dietDiaryDao.selectByUserIdAndDate(dietDiary);
 	}
 }

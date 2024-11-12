@@ -1,6 +1,6 @@
 package web.dietdiary.vo;
 
-public class Nutrition {
+public class NutritionVO {
 	private Double fat;
 	private Double carbon;
 	private Double protein;

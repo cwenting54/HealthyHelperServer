@@ -1,7 +1,7 @@
 package web.dietdiary.handler.impl;
 
-import web.dietdiary.vo.Nutrition;
+import web.dietdiary.vo.NutritionVO;
 
 public interface NutritionHandler {
-	Nutrition multiply(Nutrition nutrition,double grams);
+	NutritionVO multiply(NutritionVO nutrition,double grams);
 }

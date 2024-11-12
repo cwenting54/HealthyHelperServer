@@ -11,9 +11,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
-import web.dietdiary.vo.Food;
-import web.dietdiary.vo.FoodName;
-import web.dietdiary.vo.MealTimeRangeCategory;
+import web.dietdiary.vo.FoodNameVO;
 
 public class FoodNameDaoImpl implements FoodNameDao{
 
@@ -30,10 +28,10 @@ public class FoodNameDaoImpl implements FoodNameDao{
 		return this.dataSource.getConnection();
 	}
 	
-	private ArrayList<FoodName> resultSetToObjects(ResultSet resultSet) throws SQLException {
-		ArrayList<FoodName> foodNames = new ArrayList<FoodName>();
+	private ArrayList<FoodNameVO> resultSetToObjects(ResultSet resultSet) throws SQLException {
+		ArrayList<FoodNameVO> foodNames = new ArrayList<FoodNameVO>();
 		while (resultSet.next()) {
-			FoodName foodName = new FoodName();
+			FoodNameVO foodName = new FoodNameVO();
 
 			String name = resultSet.getString("foodname");
 			
@@ -46,19 +44,18 @@ public class FoodNameDaoImpl implements FoodNameDao{
 
 	
 	@Override
-	public ArrayList<FoodName> listAvailableFoodName() {
+	public ArrayList<FoodNameVO> listAvailableFoodName() {
 		String sqlCommand = "SELECT * FROM food;";
 		try(
 				Connection connection = this.getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(sqlCommand);
 		){
 			ResultSet resultSet = preparedStatement.executeQuery();
-			ArrayList<FoodName> foods = this.resultSetToObjects(resultSet);
+			ArrayList<FoodNameVO> foods = this.resultSetToObjects(resultSet);
 			return foods;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return null;
 	}
-
 }

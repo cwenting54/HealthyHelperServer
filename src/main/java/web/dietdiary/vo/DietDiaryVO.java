@@ -3,9 +3,9 @@ package web.dietdiary.vo;
 import java.sql.Date;
 import java.sql.Time;
 
-public class DietDiary {
-	private int diaryId;
-	private int userId;
+public class DietDiaryVO {
+	private int diaryID;
+	private int userID;
 	private Date createDate;
 	private Time createTime;
 	private Double totalFat;
@@ -16,18 +16,19 @@ public class DietDiary {
 	private Double totalSodium;
 	private Double totalCalories;
 	
-	public int getDiaryId() {
-		return diaryId;
+	public int getDiaryID() {
+		return diaryID;
 	}
-	public void setDiaryId(int diaryId) {
-		this.diaryId = diaryId;
+	public void setDiaryID(int diaryID) {
+		this.diaryID = diaryID;
 	}
-	public int getUserId() {
-		return userId;
+	public int getUserID() {
+		return userID;
 	}
-	public void setUserId(int userId) {
-		this.userId = userId;
+	public void setUserID(int userID) {
+		this.userID = userID;
 	}
+	
 	public Date getCreateDate() {
 		return createDate;
 	}
@@ -82,40 +83,11 @@ public class DietDiary {
 	public void setTotalCalories(Double totalCalories) {
 		this.totalCalories = totalCalories;
 	}
-	
-	public boolean equals(Object object) {
-		if(object instanceof DietDiary) {
-			return false;
-		}
-		
-		DietDiary dietDiary = (DietDiary) object;
-		
-		if(!(this.getDiaryId() == dietDiary.getDiaryId())) {
-			return false;
-		}
-		
-		if(!(this.getUserId() == dietDiary.getUserId())) {
-			return false;
-		}
-		
-		if(!(this.getCreateDate() == dietDiary.getCreateDate())) {
-			return false;
-		}
-		
-		if(!(this.getCreateTime() == dietDiary.getCreateTime())) {
-			return false;
-		}
-		
-		return true;
-	}
-	
 	@Override
 	public String toString() {
-		return "DietDiary [diaryId=" + diaryId + ", userId=" + userId + ", createDate=" + createDate + ", createTime="
+		return "DietDiaryVO [diaryID=" + diaryID + ", userID=" + userID + ", createDate=" + createDate + ", createTime="
 				+ createTime + ", totalFat=" + totalFat + ", totalCarbon=" + totalCarbon + ", totalProtein="
 				+ totalProtein + ", totalFiber=" + totalFiber + ", totalSugar=" + totalSugar + ", totalSodium="
 				+ totalSodium + ", totalCalories=" + totalCalories + "]";
 	}
-
-	
 }

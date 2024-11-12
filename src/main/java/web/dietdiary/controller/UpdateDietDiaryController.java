@@ -17,7 +17,7 @@ import web.dietdiary.checker.impl.DietDiaryCheckerImpl;
 import web.dietdiary.service.impl.DietDiaryService;
 import web.dietdiary.service.impl.DietDiaryServiceImpl;
 import web.dietdiary.util.gson.GsonForSqlDateAndSqlTime;
-import web.dietdiary.vo.DietDiary;
+import web.dietdiary.vo.DietDiaryVO;
 
 @WebServlet("/dietDiary/update/updateDietDiary")
 public class UpdateDietDiaryController extends HttpServlet{
@@ -30,7 +30,7 @@ public class UpdateDietDiaryController extends HttpServlet{
 	@Override
 	public void init() throws ServletException {
 		try {
-			this.dietDiaryService = new DietDiaryServiceImpl(null);
+			this.dietDiaryService = new DietDiaryServiceImpl();
 			this.dietDiaryChecker = new DietDiaryCheckerImpl();
 		} catch (NamingException e) {
 			e.printStackTrace();
@@ -47,7 +47,7 @@ public class UpdateDietDiaryController extends HttpServlet{
 		JsonObject jsonObject = new JsonObject();
 		String errorMessage = "";
 		boolean isValidData = true;
-		DietDiary dietDiary = gson.fromJson(req.getReader(), DietDiary.class);
+		DietDiaryVO dietDiary = gson.fromJson(req.getReader(), DietDiaryVO.class);
 		System.out.println("Ready to deserialize.");
 		System.out.println("DietDiary:"+dietDiary.toString());
 		
@@ -60,7 +60,7 @@ public class UpdateDietDiaryController extends HttpServlet{
 			return;
 		}
 		
-		errorMessage = this.dietDiaryService.updateDietDiary(dietDiary.getDiaryId(), dietDiary.getCreateDate());
+		errorMessage = this.dietDiaryService.updateDietDiary(dietDiary.getDiaryID(), dietDiary.getCreateDate());
 		if(errorMessage != "") {
 			jsonObject.addProperty("result", false);
 			jsonObject.addProperty("errorMessage", errorMessage);

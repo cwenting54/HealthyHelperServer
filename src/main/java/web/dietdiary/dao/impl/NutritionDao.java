@@ -1,8 +1,8 @@
 package web.dietdiary.dao.impl;
 
-import web.dietdiary.vo.Food;
-import web.dietdiary.vo.Nutrition;
+import web.dietdiary.vo.FoodVO;
+import web.dietdiary.vo.NutritionVO;
 
 public interface NutritionDao {
-	Nutrition getNutritionFromFood(Food food);
+	NutritionVO getNutritionFromFood(FoodVO food);
 }

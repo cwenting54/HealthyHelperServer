@@ -6,7 +6,7 @@ import javax.naming.NamingException;
 
 import web.dietdiary.dao.impl.FoodNameDao;
 import web.dietdiary.dao.impl.FoodNameDaoImpl;
-import web.dietdiary.vo.FoodName;
+import web.dietdiary.vo.FoodNameVO;
 
 public class FoodNameServiceImpl implements FoodNameService{
 
@@ -17,7 +17,7 @@ public class FoodNameServiceImpl implements FoodNameService{
 	}
 	
 	@Override
-	public ArrayList<FoodName> listAvailableFoodsName() {
+	public ArrayList<FoodNameVO> listAvailableFoodsName() {
 		return this.foodNameDao.listAvailableFoodName();
 	}
 
