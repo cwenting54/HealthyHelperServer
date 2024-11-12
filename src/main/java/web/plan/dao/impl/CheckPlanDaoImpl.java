@@ -59,7 +59,7 @@ public class CheckPlanDaoImpl implements CheckPlanDao{
 	@Override
 	public List<DiaryAll> selectDiaryAll(Integer userId, Date startDate, Date endDate) {
 		String sql = "SELECT * FROM fooddiary "
-				+ "WHERE userID = ? AND createdate >= ? AND createdate <= ? ";
+				+ "WHERE userID = ? AND createdate >= ? AND createdate <= ? ORDER BY createdate ;";
 		try(
 				Connection conn = ds.getConnection(); 
 				PreparedStatement pstmt = conn.prepareStatement(sql);
