@@ -71,6 +71,8 @@ protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws S
 				post.getPostDate() != null ? new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(post.getPostDate())
 						: null);
 		postJson.addProperty("likepost", post.getLikePost());
+		postJson.addProperty("userName", post.getUserName());
+		postJson.addProperty("photoUrl", post.getPhotoUrl());
 
 		postsArray.add(postJson);
 	}

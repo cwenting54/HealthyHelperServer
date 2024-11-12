@@ -21,19 +21,24 @@ public class PostDaoImpl implements PostDao {
 
 	@Override
 	public List<Post> selectPost() {
-		String sql = "select * from post order by postDate desc";
+		String sql = "select p.postId, p.userId, p.title, p.content, p.picture, p.postDate, p.likepost, u.username, u.photoUrl "
+				+ "from post p join user u "
+				+ "on p.userId = u.userId order by postDate desc ";
 		try (Connection conn = ds.getConnection();
 				PreparedStatement pstmt = conn.prepareStatement(sql);
 				ResultSet rs = pstmt.executeQuery();) {
 			var list = new ArrayList<Post>();
 			while (rs.next()) {
 				Post post = new Post();
+				post.setPostId(rs.getInt("postId"));
 				post.setUserId(rs.getInt("userId"));
 				post.setTitle(rs.getString("title"));
 				post.setContent(rs.getString("content"));
 				post.setPicture(rs.getBytes("picture"));
 				post.setPostDate(rs.getTimestamp("postDate"));
 				post.setLikePost(rs.getInt("likepost"));
+				post.setUserName(rs.getString("username"));
+				post.setPhotoUrl(rs.getString("photoUrl"));
 
 				list.add(post);
 			}
@@ -46,19 +51,24 @@ public class PostDaoImpl implements PostDao {
 
 	@Override
 	public List<Post> selectPostByUserId(int userId) {
-		String sql = "select * from post where userId = ? order by postDate desc";
+		String sql = "select p.postId, p.userId, p.title, p.content, p.picture, p.postDate, p.likepost, u.username, u.photoUrl "
+				+ "from post p join user u "
+				+ "on p.userId = u.userId where u.userId = ? order by postDate desc ";
 		try (Connection conn = ds.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql);) {
-			try (ResultSet rs = pstmt.executeQuery();) {
-				pstmt.setInt(1, userId);
+			pstmt.setInt(1, userId);
+			try (ResultSet rs = pstmt.executeQuery();) {				
 				var list = new ArrayList<Post>();
 				while (rs.next()) {
 					Post post = new Post();
+					post.setPostId(rs.getInt("postId"));
 					post.setUserId(rs.getInt("userId"));
 					post.setTitle(rs.getString("title"));
 					post.setContent(rs.getString("content"));
 					post.setPicture(rs.getBytes("picture"));
 					post.setPostDate(rs.getTimestamp("postDate"));
 					post.setLikePost(rs.getInt("likepost"));
+					post.setUserName(rs.getString("username"));
+					post.setPhotoUrl(rs.getString("photoUrl"));
 
 					list.add(post);
 				}

@@ -64,6 +64,7 @@ public class LoginController extends HttpServlet {
             respBody.addProperty("phoneno", loginUser.getPhoneno());
             respBody.addProperty("gender", loginUser.getGender());
             respBody.addProperty("roleID", loginUser.getRoleID());
+            respBody.addProperty("photoUrl", loginUser.getPhotoUrl());
             
             if (loginUser.getBirthday() != null) {
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");

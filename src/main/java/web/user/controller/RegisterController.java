@@ -48,7 +48,7 @@ public class RegisterController extends HttpServlet {
             user.setUsername(getStringFromJson(requestData, "username"));
             user.setUserEmail(getStringFromJson(requestData, "userEmail"));
             user.setPhoneno(getStringFromJson(requestData, "phoneno"));
-          //  user.setRoleID(requestData.get("roleID").getAsInt());
+
 
             // 處理性別
             String genderStr = getStringFromJson(requestData, "gender");
@@ -85,23 +85,58 @@ public class RegisterController extends HttpServlet {
             if (roleIdStr != null) {
                 user.setRoleID(Integer.parseInt(roleIdStr));
             }
-
+            
+            
             if ("2".equals(roleIdStr)) {
                 String certificateBase64 = getStringFromJson(requestData, "certificate");
+                System.out.println("收到的證書 Base64 字串:");
+                System.out.println("原始長度: " + (certificateBase64 != null ? certificateBase64.length() : "null"));
+                
                 if (certificateBase64 != null && !certificateBase64.isEmpty()) {
                     try {
+                        // 清理 Base64 字串 - 移除換行符號和空格
+                        certificateBase64 = certificateBase64.replaceAll("\\s", "");
+                        System.out.println("清理後長度: " + certificateBase64.length());
+                        System.out.println("前50個字元: " + certificateBase64.substring(0, 50));
                         
-                        if (certificateBase64.contains(",")) {
-                            certificateBase64 = certificateBase64.split(",")[1];
-                        }
                         byte[] certificateBytes = Base64.getDecoder().decode(certificateBase64);
+                        System.out.println("解碼後大小: " + certificateBytes.length + " bytes");
+                        
+                        // 檢查檔案大小
+                        if (certificateBytes.length > 1 * 1024 * 1024) {
+                            System.out.println("檔案太大");
+                            sendError(resp, "證書檔案不能超過 1MB");
+                            return;
+                        }
+                        
                         user.setCertificate(certificateBytes);
+                        System.out.println("證書設置成功");
+                        
                     } catch (IllegalArgumentException e) {
-                        sendError(resp, "證書檔案格式不正確");
+                        System.out.println("Base64 解碼失敗，錯誤: " + e.getMessage());
+                        e.printStackTrace();
+                        sendError(resp, "證書檔案格式不正確: " + e.getMessage());
                         return;
                     }
                 }
             }
+
+//            if ("2".equals(roleIdStr)) {
+//                String certificateBase64 = getStringFromJson(requestData, "certificate");
+//                if (certificateBase64 != null && !certificateBase64.isEmpty()) {
+//                    try {
+//                        
+//                        if (certificateBase64.contains(",")) {
+//                            certificateBase64 = certificateBase64.split(",")[1];
+//                        }
+//                        byte[] certificateBytes = Base64.getDecoder().decode(certificateBase64);
+//                        user.setCertificate(certificateBytes);
+//                    } catch (IllegalArgumentException e) {
+//                        sendError(resp, "證書檔案格式不正確");
+//                        return;
+//                    }
+//                }
+//            }
             // 設置註冊時間
             user.setRegistrationDate(new Timestamp(System.currentTimeMillis()));
             String errorMsg = service.register(user);

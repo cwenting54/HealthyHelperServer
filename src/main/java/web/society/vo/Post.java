@@ -11,11 +11,13 @@ public class Post {
     private Timestamp postDate;
     private Integer likePost;
     private Integer likeComm;
+    private String userName;
+    private String photoUrl; 
 
     public Post() {
     }
 
-    public Post(Integer postId, Integer userId, String title, String content, byte[] picture, Timestamp postDate, Integer likePost, Integer likeComm) {
+    public Post(Integer postId, Integer userId, String title, String content, byte[] picture, Timestamp postDate, Integer likePost, Integer likeComm, String userName, String photoUrl) {
         this.postId = postId;
         this.userId = userId;
         this.title = title;
@@ -23,6 +25,9 @@ public class Post {
         this.picture = picture;
         this.postDate = postDate;
         this.likePost = likePost;
+        this.likeComm = likeComm;
+        this.userName = userName;
+        this.photoUrl = photoUrl;
     }
 
     public Integer getPostId() {
@@ -84,4 +89,25 @@ public class Post {
     public Integer getLikeComm() {
         return likeComm;
     }
+
+    public void setLikeComm(Integer likeComm) {
+        this.likeComm = likeComm;
+    }
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public String getPhotoUrl() {
+		return photoUrl;
+	}
+
+	public void setPhotoUrl(String photoUrl) {
+		this.photoUrl = photoUrl;
+	}
+    
 }

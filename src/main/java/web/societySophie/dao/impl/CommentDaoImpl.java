@@ -13,7 +13,7 @@ import javax.sql.DataSource;
 import web.societySophie.dao.CommentDao;
 import web.societySophie.vo.Comment;
 
-public class CommentDaoImpl implements CommentDao{
+public class CommentDaoImpl implements CommentDao {
 	private DataSource ds;
 
 	public CommentDaoImpl() throws NamingException {
@@ -21,28 +21,29 @@ public class CommentDaoImpl implements CommentDao{
 	}
 
 	@Override
-	public List<Comment> selectCommentByPostId(int postId) {
-		String sql = "select * from comment where postId = ? order by commdate desc";
-		try (Connection conn = ds.getConnection();
-				PreparedStatement pstmt = conn.prepareStatement(sql);
-			) {
-			try(ResultSet rs = pstmt.executeQuery();) {
-				pstmt.setInt(1, postId);
-				var list = new ArrayList<Comment>();
-				while (rs.next()) {
-					Comment comment= new Comment();
-					comment.setUserId(rs.getInt("userId"));
-					comment.setPostId(rs.getInt("postId"));
-					comment.setReply(rs.getString("reply"));
-					comment.setCommDate(rs.getTimestamp("commdate"));
-					comment.setLikeComm(rs.getInt("likecomm"));
-					list.add(comment);
-				}
-				return list;
-			} catch (Exception e) {
-				e.printStackTrace();
+	public List<Comment> selectComment() {
+		String sql = "select c.commentId, c.userId, c.postId, c.reply, c.commdate, c.likecomm, u.username, u.photoUrl "
+				+ "from comment c join user u " + "on c.userId = u.userId ";
+		try (
+			Connection conn = ds.getConnection();
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			ResultSet rs = pstmt.executeQuery();
+		) {
+
+			var list = new ArrayList<Comment>();
+			while (rs.next()) {
+				Comment comment = new Comment();
+				comment.setCommentId(rs.getInt("commentId"));
+				comment.setUserId(rs.getInt("userId"));
+				comment.setPostId(rs.getInt("postId"));
+				comment.setReply(rs.getString("reply"));
+				comment.setCommDate(rs.getTimestamp("commdate"));
+				comment.setLikeComm(rs.getInt("likecomm"));
+				comment.setUserName(rs.getString("username"));
+				comment.setPhotoUrl(rs.getString("photoUrl"));
+				list.add(comment);
 			}
-			
+			return list;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -52,7 +53,7 @@ public class CommentDaoImpl implements CommentDao{
 	@Override
 	public int insertComment(Comment comment, int postId, int userId) {
 		String sql = "insert into comment(userid, postId, reply) values(?, ?, ?)";
-		try (Connection conn = ds.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql);) {		
+		try (Connection conn = ds.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql);) {
 			pstmt.setInt(1, userId);
 			pstmt.setInt(2, postId);
 			pstmt.setString(3, comment.getReply());
@@ -104,12 +105,12 @@ public class CommentDaoImpl implements CommentDao{
 			ResultSet rs = pstmt.executeQuery();
 
 			if (rs.next()) {
-				return rs.getInt(1) > 0; 
+				return rs.getInt(1) > 0;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return false; 
+		return false;
 	}
 
 	@Override
@@ -150,36 +151,36 @@ public class CommentDaoImpl implements CommentDao{
 	@Override
 	public int deleteCommentLike(int userId, int commentId) {
 		String sqlDelete = "delete from `like` where userId = ? and commentId = ?";
-	    String sqlUpdate = "update comment set likecomm = likecomm - 1 where commentId = ?";
+		String sqlUpdate = "update comment set likecomm = likecomm - 1 where commentId = ?";
 
-	    try (Connection conn = ds.getConnection()) {
-	        conn.setAutoCommit(false);
+		try (Connection conn = ds.getConnection()) {
+			conn.setAutoCommit(false);
 
-	        try (PreparedStatement pstmtDelete = conn.prepareStatement(sqlDelete);
-	             PreparedStatement pstmtUpdate = conn.prepareStatement(sqlUpdate)) {
+			try (PreparedStatement pstmtDelete = conn.prepareStatement(sqlDelete);
+					PreparedStatement pstmtUpdate = conn.prepareStatement(sqlUpdate)) {
 
-	            pstmtDelete.setInt(1, userId);
-	            pstmtDelete.setInt(2, commentId);
-	            int deleteResult = pstmtDelete.executeUpdate();
+				pstmtDelete.setInt(1, userId);
+				pstmtDelete.setInt(2, commentId);
+				int deleteResult = pstmtDelete.executeUpdate();
 
-	            if (deleteResult > 0) {
-	                pstmtUpdate.setInt(1, commentId);
-	                pstmtUpdate.executeUpdate();
-	                conn.commit();
-	                return 1; 
-	            } else {
-	                conn.rollback();
-	                return 0; 
-	            }
-	        } catch (Exception e) {
-	            conn.rollback();
-	            e.printStackTrace();
-	            return 0;
-	        }
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	        return 0; 
-	    }
+				if (deleteResult > 0) {
+					pstmtUpdate.setInt(1, commentId);
+					pstmtUpdate.executeUpdate();
+					conn.commit();
+					return 1;
+				} else {
+					conn.rollback();
+					return 0;
+				}
+			} catch (Exception e) {
+				conn.rollback();
+				e.printStackTrace();
+				return 0;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		}
 	}
 
 }

@@ -6,7 +6,7 @@ import web.societySophie.vo.Comment;
 
 
 public interface CommentDao {
-	List<Comment> selectCommentByPostId(int postId);
+	List<Comment> selectComment();
 	
 	int insertComment(Comment comment, int postId, int userId);
 	
