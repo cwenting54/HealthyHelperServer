@@ -67,10 +67,10 @@ public class DietDiaryDaoImpl implements DietDiaryDao {
 	}
 
 	@Override
-	public String insert(DietDiaryVO dietDiaryVO) {
+	public int insert(DietDiaryVO dietDiaryVO) {
 		String sqlCommand = "INSERT INTO fooddiary "
-				+ "(diaryID,userID,createdate,createtime,getMealCategoryId,totalFat,totalCarbon,totalFiber,totalSugar,totalSodium,totalProtein,totalCalories) "
-				+ " VALUES " + "(?,?,?,?,?,?,?,?,?,?,?,?)";
+				+ "(diaryID,userID,createdate,createtime,totalFat,totalCarbon,totalFiber,totalSugar,totalSodium,totalProtein,totalCalories) "
+				+ " VALUES " + "(?,?,?,?,?,?,?,?,?,?,?)";
 
 		try (Connection connection = this.getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(sqlCommand);) {
@@ -88,15 +88,12 @@ public class DietDiaryDaoImpl implements DietDiaryDao {
 			preparedStatement.setDouble(11, dietDiaryVO.getTotalCalories());
 
 			int affectedRow = preparedStatement.executeUpdate();
-			if (affectedRow != 1) {
-				throw new Exception("Unknown error during execution of sql statement.");
-			}
-			return "";
+			return affectedRow;
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			return e.getStackTrace().toString();
 		}
+		return -1;
 	}
 
 	@Override

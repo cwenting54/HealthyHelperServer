@@ -16,8 +16,8 @@ import web.dietdiary.service.impl.FoodItemServiceImpl;
 import web.dietdiary.util.gson.GsonForSqlDateAndSqlTime;
 import web.dietdiary.vo.FoodItemVO;
 
-@WebServlet("/dietDiary/foodItem/selectFoodItemByDiaryId")
-public class SelectFoodItemByDiaryIdController extends HttpServlet{
+@WebServlet("/dietDiary/foodItem/delete/ByDiaryIdAndFoodId")
+public class DeleteFoodItemByDiaryIdAndFoodIdController extends HttpServlet{
 private static final long serialVersionUID = 1L;
 	
 	private FoodItemService foodItemService;
@@ -37,11 +37,30 @@ private static final long serialVersionUID = 1L;
         resp.setContentType("application/json;charset=UTF-8");
         resp.setCharacterEncoding("UTF-8");
         
+        System.out.println("----------------------------------------------");
+		System.out.println("`doPost` method of class with annotation @WebServlet(\"/dietDiary/foodItem/delete/ByDiaryIdAndFoodId\"): was called.");
+
 		Gson gson = GsonForSqlDateAndSqlTime.gson;
 		FoodItemVO targetFoodItem = gson.fromJson(req.getReader(), FoodItemVO.class);
-		ArrayList<FoodItemVO> foodItemVOs = this.foodItemService.selectByDiaryId(targetFoodItem);
-		System.out.println("dataOut in @WebServlet(\"/dietDiary/foodItem/selectFoodNameByDiaryId\"):"+gson.toJson(foodItemVOs));
-		resp.getWriter().write(gson.toJson(foodItemVOs));
+		
+		System.out.println();
+		System.out.println();
+		System.out.println("targetFoodItem:"+targetFoodItem);
+		System.out.println();
+		System.out.println();
+		
+		int affectedRows = this.foodItemService.deleteByDiaryIdAndFoodId(targetFoodItem);
+
+		System.out.println();
+		System.out.println();
+		System.out.println("affectedRows:"+affectedRows);
+		System.out.println();
+		System.out.println();
+		
+		resp.getWriter().write(gson.toJson(affectedRows));
+		
+		System.out.println("`doPost` method of class with annotation @WebServlet(\"/dietDiary/foodItem/delete/ByDiaryIdAndFoodId\"): was called.");
+		System.out.println("----------------------------------------------");
 		return;
 	}
 }

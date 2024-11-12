@@ -37,24 +37,25 @@ public class TryToInsertFoodItemController extends HttpServlet{
         resp.setContentType("application/json;charset=UTF-8");
         resp.setCharacterEncoding("UTF-8");
         
+        System.out.println("------------------------------------------------");
+        System.out.println("`doPost` method in class with annotation `@WebServlet(\"/dietDiary/foodItem/tryToInsert\")` was called.");
         Gson gson = new Gson();
-        JsonObject jsonObject = new JsonObject();
-        String errorMessage = "";
         int affectedRows = -1;
         FoodItemVO targetFoodItem = gson.fromJson(req.getReader(), FoodItemVO.class);
+        System.out.println();
+        System.out.println();
         System.out.println("targetFoodItem:"+targetFoodItem);
+        System.out.println();
+        System.out.println();
         affectedRows = this.foodItemService.tryToInsert(targetFoodItem);
-        if(affectedRows != 1) {
-        	errorMessage = "Unknown Error!!!";
-        	jsonObject.addProperty("errorMessage", errorMessage);
-        	jsonObject.addProperty("result", false);
-        	resp.getWriter().write(jsonObject.toString());
-        	return;
-        }
-        errorMessage = "";
-    	jsonObject.addProperty("errorMessage", errorMessage);
-    	jsonObject.addProperty("result", true);
-    	resp.getWriter().write(jsonObject.toString());
+        System.out.println();
+        System.out.println();
+        System.out.println("affectedRows:"+affectedRows);
+        System.out.println();
+        System.out.println();
+    	resp.getWriter().write(gson.toJson(affectedRows));
+        System.out.println("`doPost` method in class with annotation `@WebServlet(\"/dietDiary/foodItem/tryToInsert\")` was finished to called.");
+    	System.out.println("------------------------------------------------");
     	return;
 	}
 }

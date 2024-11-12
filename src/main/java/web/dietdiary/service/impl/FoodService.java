@@ -6,6 +6,7 @@ import web.dietdiary.vo.FoodVO;
 
 public interface FoodService {
 	ArrayList<FoodVO> listAvailableFoods();
-	int selectIdByName(FoodVO food);
+	ArrayList<FoodVO> selectIdByName(FoodVO food);
+	ArrayList<FoodVO> selectNameById(FoodVO food);
 	String insert(FoodVO food);
 }

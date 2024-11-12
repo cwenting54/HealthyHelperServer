@@ -17,8 +17,8 @@ import web.dietdiary.service.impl.FoodItemServiceImpl;
 import web.dietdiary.util.gson.GsonForSqlDateAndSqlTime;
 import web.dietdiary.vo.FoodItemVO;
 
-@WebServlet("/dietDiary/foodItem/update")
-public class UpdateFoodItemController extends HttpServlet{
+@WebServlet("/dietDiary/foodItem/update/byDiaryIdAndFoodId")
+public class UpdateFoodItemByDiaryIdAndFoodIdController extends HttpServlet{
 	private static final long serialVersionUID = 1L;
 
 	private FoodItemService foodItemService;
@@ -38,27 +38,32 @@ public class UpdateFoodItemController extends HttpServlet{
         resp.setContentType("application/json;charset=UTF-8");
         resp.setCharacterEncoding("UTF-8");
         
+        System.out.println("------------------------------------------------------------");
+        System.out.println("`doPost` method in class with annotation `@WebServlet(\"/dietDiary/foodItem/update\")` was called.`");
+        
 		Gson gson = GsonForSqlDateAndSqlTime.gson;
-		JsonObject jsonObject = new JsonObject();
 		int affectedRows = -1;
-		String errorMessage = "";
 		FoodItemVO foodItem = gson.fromJson(req.getReader(), FoodItemVO.class);
 		
+		System.out.println();
+		System.out.println();
 		System.out.println("foodItem:"+foodItem);
+		System.out.println();
+		System.out.println();
 		
-		affectedRows = this.foodItemService.update(foodItem);
-		 
-		if(affectedRows != 1) {
-			errorMessage = "Unknown error!!!";
-			jsonObject.addProperty("result", false);
-			jsonObject.addProperty("errorMessage", errorMessage);
-			resp.getWriter().write(jsonObject.toString());
-			return;
-		}
-	
-		jsonObject.addProperty("result", true);
-		jsonObject.addProperty("errorMessage", errorMessage);
-		resp.getWriter().write(jsonObject.toString());
+		affectedRows = this.foodItemService.updateByDiaryIdAndFoodId(foodItem);
+		
+		System.out.println();
+		System.out.println();
+		System.out.println("affectedRows:"+affectedRows);
+		System.out.println();
+		System.out.println();
+		
+		resp.getWriter().write(gson.toJson(affectedRows));
+		
+        System.out.println("`doPost` method in class with annotation `@WebServlet(\"/dietDiary/foodItem/update\")` was finished to called.`");
+		System.out.println("------------------------------------------------------------");
+        
 		return;
 	}
 }

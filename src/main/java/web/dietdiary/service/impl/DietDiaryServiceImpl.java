@@ -41,33 +41,68 @@ public class DietDiaryServiceImpl implements DietDiaryService {
 	}
 
 	@Override
-	public String insert(DietDiaryVO dietDiary) {
-		String errorMessage = "";
-		ArrayList<DietDiaryVO> dietDiaries = new ArrayList<DietDiaryVO>();
+	public int insert(DietDiaryVO dietDiary) {
+		System.out.println("--------------------------------------------");
+        System.out.println("DietDiaryServiceImpl class, insert method was  called.");
+
+		int affectedRows = 0;
+		ArrayList<DietDiaryVO> targetDietDiaries = this.search(dietDiary, 1);	
+		System.out.println();
+		System.out.println();
+		System.out.println("targetDietDiaries:"+targetDietDiaries);
+		System.out.println();
+		System.out.println();
 		
-		dietDiaries = this.search(dietDiary, 1);
-		if(dietDiaries==null) {
-			errorMessage = "Unknown error during execution of searching data!!!";
-			return errorMessage;
+		if(targetDietDiaries==null) {
+	        System.out.println("DietDiaryServiceImpl class, insert method  was finished to called.");
+			System.out.println("--------------------------------------------");
+			return -2;
 		}
-		if(!dietDiaries.isEmpty()) {
-			errorMessage = "Existing error!!! The userId and createDate in foodDiary table has already exists. Can not insert it!!!";
-			return errorMessage;
+		if(!targetDietDiaries.isEmpty()) {
+	        System.out.println("DietDiaryServiceImpl class, insert method  was finished to called.");
+			System.out.println("--------------------------------------------");
+			return -1;
 		}
 		
-		errorMessage = this.dietDiaryDao.insert(dietDiary);
-		return errorMessage;
+		affectedRows = this.dietDiaryDao.insert(dietDiary);
+		
+		System.out.println();
+		System.out.println();
+		System.out.println("affectedRows:"+affectedRows);
+		System.out.println();
+		System.out.println();
+		
+        System.out.println("DietDiaryServiceImpl class, insert method  was finished to called.");
+		System.out.println("--------------------------------------------");
+		return affectedRows;
 	}
 
 	@Override
 	public ArrayList<DietDiaryVO> search(DietDiaryVO dietDiary, int mode) {
+		System.out.println("--------------------------------------------");
+        System.out.println("DietDiaryServiceImpl class, search method was called.");
+        
+		System.out.println();
+		System.out.println();
+		System.out.println("dietDiary:"+dietDiary);
+		System.out.println();
+		System.out.println();        
+		
 		if (mode == 1) {
+	        System.out.println("DietDiaryServiceImpl class, search method was finished to called.");
+			System.out.println("--------------------------------------------");
 			return this.searchByDate(dietDiary);
 		} else if (mode == 2) {
+	        System.out.println("DietDiaryServiceImpl class, search method was finished to called.");
+			System.out.println("--------------------------------------------");
 			return this.searchByTime(dietDiary);
 		} else if (mode == 3) {
+	        System.out.println("DietDiaryServiceImpl class, search method was finished to called.");
+			System.out.println("--------------------------------------------");
 			return this.searchByDateAndTime(dietDiary);
 		}
+        System.out.println("DietDiaryServiceImpl class, search method was finished to called.");
+		System.out.println("--------------------------------------------");
 		return null;
 	}
 

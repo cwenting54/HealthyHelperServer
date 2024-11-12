@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import web.dietdiary.vo.DietDiaryVO;
 
 public interface DietDiaryDao {
-	String insert(DietDiaryVO dietDiary);
+	int insert(DietDiaryVO dietDiary);
 	
 	ArrayList<DietDiaryVO> selectByTime(int userId,Time time);
 	ArrayList<DietDiaryVO> selectByDate(int userId,Date date);

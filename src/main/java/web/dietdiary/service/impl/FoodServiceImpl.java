@@ -36,8 +36,12 @@ public class FoodServiceImpl implements FoodService {
 	}
 
 	@Override
-	public int selectIdByName(FoodVO food) {
-		FoodVO firstFood = this.foodDao.selectByFoodName(food.getFoodName());
-		return firstFood.getFoodID();
+	public ArrayList<FoodVO> selectIdByName(FoodVO food) {
+		return this.foodDao.selectByFoodName(food.getFoodName());
+	}
+
+	@Override
+	public ArrayList<FoodVO> selectNameById(FoodVO food) {
+		return this.foodDao.selectByFoodId(food);
 	}
 }

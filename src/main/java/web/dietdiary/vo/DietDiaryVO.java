@@ -83,4 +83,11 @@ public class DietDiaryVO {
 	public void setTotalCalories(Double totalCalories) {
 		this.totalCalories = totalCalories;
 	}
+	@Override
+	public String toString() {
+		return "DietDiaryVO [diaryID=" + diaryID + ", userID=" + userID + ", createDate=" + createDate + ", createTime="
+				+ createTime + ", totalFat=" + totalFat + ", totalCarbon=" + totalCarbon + ", totalProtein="
+				+ totalProtein + ", totalFiber=" + totalFiber + ", totalSugar=" + totalSugar + ", totalSodium="
+				+ totalSodium + ", totalCalories=" + totalCalories + "]";
+	}
 }

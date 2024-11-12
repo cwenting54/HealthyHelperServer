@@ -46,34 +46,35 @@ public class InsertDietDiaryController extends HttpServlet{
         resp.setContentType("application/json;charset=UTF-8");
         resp.setCharacterEncoding("UTF-8");
         
+        System.out.println("--------------------------------------------");
+        System.out.println("`doPost` method of class with annotation `@WebServlet(\"/dietDiary/insert/insertDietDiary\")` was called.");
+        
 		Gson gson = GsonForSqlDateAndSqlTime.gson;
-		JsonObject jsonObject = new JsonObject();
-		String errorMessage = "";
+		int affectedRows = -1;
 		boolean isValidData = true;
-		DietDiaryVO dietDiary = gson.fromJson(req.getReader(), DietDiaryVO.class);
-		System.out.println("Ready to deserialize.");
-		System.out.println("dietDiary:"+dietDiary.toString());
+		DietDiaryVO targetDietDiary = gson.fromJson(req.getReader(), DietDiaryVO.class);
 		
-		isValidData = this.dietDiaryChecker.check(dietDiary);
-		if(!isValidData) {
-			errorMessage = "Invalid Data in DietDiary!!!";
-			jsonObject.addProperty("result", false);
-			jsonObject.addProperty("errorMessage", errorMessage);
-			resp.getWriter().write(jsonObject.toString());	
-			return;
-		}
-		errorMessage = this.dietDiaryService.insert(dietDiary);
+		System.out.println();
+		System.out.println();
+		System.out.println("targetDietDiary:"+targetDietDiary);
+		System.out.println();
+		System.out.println();
+		
+		isValidData = this.dietDiaryChecker.check(targetDietDiary);
+		affectedRows = this.dietDiaryService.insert(targetDietDiary);
 		 
-		if(errorMessage!="") {
-			jsonObject.addProperty("result", false);
-			jsonObject.addProperty("errorMessage", errorMessage);
-			resp.getWriter().write(jsonObject.toString());		
-			return;
+		if(!isValidData) {
+	        System.out.println("`doPost` method of class with annotation `@WebServlet(\"/dietDiary/insert/insertDietDiary\")` was finished to called.");
+			System.out.println("--------------------------------------------");
+	        
+			resp.getWriter().write(gson.toJson(-3));	
+	        return;
 		}
 		
-		jsonObject.addProperty("result", true);
-		jsonObject.addProperty("errorMessage", errorMessage);
-		resp.getWriter().write(jsonObject.toString());
+        System.out.println("`doPost` method of class with annotation `@WebServlet(\"/dietDiary/insert/insertDietDiary\")` was finished to called.");
+		System.out.println("--------------------------------------------");
+        
+		resp.getWriter().write(gson.toJson(affectedRows));		
 		return;
 	}
 }

@@ -11,14 +11,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 
 import web.dietdiary.service.impl.FoodService;
 import web.dietdiary.service.impl.FoodServiceImpl;
 import web.dietdiary.vo.FoodVO;
 
-@WebServlet("/dietDiary/food/select/selectFoodIdByFoodName")
-public class SelectFoodIdByFoodNameController extends HttpServlet{
+@WebServlet("/dietDiary/foodName/selectFoodNameByFoodId")
+public class SelectFoodNameByFoodIdController extends HttpServlet{
 	private static final long serialVersionUID = 1L;
 	
 	private FoodService foodService;
@@ -40,16 +39,8 @@ public class SelectFoodIdByFoodNameController extends HttpServlet{
         
         Gson gson = new Gson();
         FoodVO targetFood = gson.fromJson(req.getReader(), FoodVO.class);
-        ArrayList<FoodVO> queriedFoods = this.foodService.selectIdByName(targetFood);
-        
-        System.out.println();
-        System.out.println();
-        System.out.println();
-        System.out.println("In @WebServlet(\"/dietDiary/food/select/selectFoodIdByFoodName\"), gson.toJson(queriedFoods):"+gson.toJson(queriedFoods));
-    	System.out.println();
-    	System.out.println();
-    	System.out.println();
-        resp.getWriter().write(gson.toJson(queriedFoods));
+        ArrayList<FoodVO> foods = this.foodService.selectNameById(targetFood);
+    	resp.getWriter().write(gson.toJson(foods));
     	return;
 	}
 }

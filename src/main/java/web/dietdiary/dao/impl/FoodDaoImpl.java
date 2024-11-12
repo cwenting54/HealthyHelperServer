@@ -60,7 +60,7 @@ public class FoodDaoImpl implements FoodDao {
 	}
 
 	@Override
-	public FoodVO selectByFoodName(String name) {
+	public ArrayList<FoodVO> selectByFoodName(String name) {
 		String sqlCommand = "SELECT * FROM food WHERE foodname = ? ;";
 		try(
 				Connection connection = this.getConnection();
@@ -69,20 +69,10 @@ public class FoodDaoImpl implements FoodDao {
 			preparedStatement.setString(1, name);
 			ResultSet resultSet = preparedStatement.executeQuery();
 			ArrayList<FoodVO> foods = this.resultSetToObjects(resultSet);
-			
-			if(foods == null || foods.size() <= 0 ) {
-				throw new Exception("There are no record found.");
-			}
-			
-			if(foods.size() != 1) {
-				throw new Exception("Unknown error!!!\nToo many records found.\nIt should found only one record");
-			}
-				
-			return foods.get(0);
+			return foods;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 		return null;
 	}
 
@@ -156,8 +146,7 @@ public class FoodDaoImpl implements FoodDao {
 
 	@Override
 	public int delete(FoodVO food) {
-		String sqlCommand = "DELETE FROM food "
-				+ " WHERE foodId = ? ;";
+		String sqlCommand = "DELETE FROM food WHERE foodID = ? ;";
 		try(
 				Connection connection = this.getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(sqlCommand);
@@ -169,5 +158,22 @@ public class FoodDaoImpl implements FoodDao {
 			e.printStackTrace();
 		}
 		return -1;
+	}
+
+	@Override
+	public ArrayList<FoodVO> selectByFoodId(FoodVO food) {
+		String sqlCommand = "SELECT * FROM food  WHERE foodID = ? ;";
+		try(
+				Connection connection = this.getConnection();
+				PreparedStatement preparedStatement = connection.prepareStatement(sqlCommand);
+		){
+			preparedStatement.setInt(1, food.getFoodID());
+			
+			ResultSet resultSet = preparedStatement.executeQuery();
+			return resultSetToObjects(resultSet);
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

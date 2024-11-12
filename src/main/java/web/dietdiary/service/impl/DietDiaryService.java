@@ -15,7 +15,7 @@ public interface DietDiaryService {
 		
 	public DietDiaryVO plusNutrition(DietDiaryVO dietDiary, NutritionVO nutrition);
 	public String updateDietDiary(int foodId, Date date);
-	public String insert(DietDiaryVO dietDiary);
+	public int insert(DietDiaryVO dietDiary);
 	
 	public ArrayList<DietDiaryVO> sort(ArrayList<DietDiaryVO> dietDiaries, int mode,boolean isAscending);
 	public ArrayList<DietDiaryVO> sortByDate(ArrayList<DietDiaryVO> dietDiaries,boolean isAscending);

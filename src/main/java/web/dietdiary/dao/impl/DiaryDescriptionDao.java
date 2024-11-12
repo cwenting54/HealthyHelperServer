@@ -6,6 +6,6 @@ import web.dietdiary.vo.DiaryDescriptionVO;
 
 public interface DiaryDescriptionDao {
 	int insert(DiaryDescriptionVO diaryDescriptionVO);
-	int updateById(DiaryDescriptionVO diaryDescriptionVO);
-	ArrayList<DiaryDescriptionVO> selectById(DiaryDescriptionVO diaryDescriptionVO);
+	ArrayList<DiaryDescriptionVO> selectByDiaryIdAndMealCategoryId(DiaryDescriptionVO diaryDescriptionVO);
+	int updateByDiaryIdAndMealCategoryId(DiaryDescriptionVO diaryDescriptionVO);
 }

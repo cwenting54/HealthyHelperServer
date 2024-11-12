@@ -38,6 +38,7 @@ public class QueryDiaryDescriptionController extends HttpServlet {
         resp.setCharacterEncoding("UTF-8");
         
         Gson gson = new Gson();
+        System.out.println("In QueryDiaryDescriptionController class,req.getReader():"+req.getReader().toString());
         DiaryDescriptionVO targetDiaryDescriptionVO = gson.fromJson(req.getReader(), DiaryDescriptionVO.class);
         ArrayList<DiaryDescriptionVO> diaryDescriptionVOs = new ArrayList<DiaryDescriptionVO>(); 
         diaryDescriptionVOs = this.diaryDescriptionService.selectById(targetDiaryDescriptionVO);

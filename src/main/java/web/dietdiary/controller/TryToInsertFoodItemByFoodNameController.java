@@ -43,32 +43,47 @@ public class TryToInsertFoodItemByFoodNameController extends HttpServlet{
         resp.setContentType("application/json;charset=UTF-8");
         resp.setCharacterEncoding("UTF-8");
         
+        System.out.println("---------------------------------------------------------------");
+        System.out.println("`doPost` method class with annotation `@WebServlet(\"/dietDiary/fooditem/tryToInsert/byFoodName\")` was called.");
+		
         Gson gson = new Gson();
-        JsonObject jsonObject = new JsonObject();
-        String errorMessage = "";
         int affectedRows = -1;
         FoodVO targetFood = gson.fromJson(req.getReader(), FoodVO.class);
+        System.out.println();
+        System.out.println();
         System.out.println("targetFood:"+targetFood);
-        int foodId = this.foodService.selectIdByName(targetFood);
+        System.out.println();
+        System.out.println();
+        ArrayList<FoodVO> queriedFoods = this.foodService.selectIdByName(targetFood);
+        System.out.println();
+        System.out.println();
+        System.out.println("queriedFoods:"+queriedFoods);
+        System.out.println();
+        System.out.println();
         FoodItemVO foodItemOnlyWithId = new FoodItemVO();
-        foodItemOnlyWithId.setFoodID(foodId);
-        ArrayList<FoodItemVO> targetFoodItems = this.foodItemService.selectByDiaryId(foodItemOnlyWithId);
-        FoodItemVO targetFoodItem = new FoodItemVO();
-        if(!targetFoodItems.isEmpty()) {
-        	targetFoodItem = targetFoodItems.get(0);
+        foodItemOnlyWithId.setFoodID(queriedFoods.get(0).getFoodID());
+        ArrayList<FoodItemVO> queriedFoodItems = this.foodItemService.selectByDiaryId(foodItemOnlyWithId);
+        System.out.println();
+        System.out.println();
+        System.out.println("queriedFoodItems:"+queriedFoodItems);
+        System.out.println();
+        System.out.println();
+        FoodItemVO queriedFoodItem = new FoodItemVO();
+        if(!queriedFoodItems.isEmpty()) {
+        	queriedFoodItem = queriedFoodItems.get(0);
         }
-        affectedRows = this.foodItemService.tryToInsert(targetFoodItem);
-        if(affectedRows != 1) {
-        	errorMessage = "Unknown Error!!!";
-        	jsonObject.addProperty("errorMessage", errorMessage);
-        	jsonObject.addProperty("result", false);
-        	resp.getWriter().write(jsonObject.toString());
-        	return;
-        }
-        errorMessage = "";
-    	jsonObject.addProperty("errorMessage", errorMessage);
-    	jsonObject.addProperty("result", true);
-    	resp.getWriter().write(jsonObject.toString());
+        affectedRows = this.foodItemService.tryToInsert(queriedFoodItem);
+        
+        System.out.println();
+        System.out.println();
+        System.out.println("affectedRows:"+affectedRows);
+        System.out.println();
+        System.out.println();
+        
+        System.out.println("`doPost` method class with annotation `@WebServlet(\"/dietDiary/fooditem/tryToInsert/byFoodName\")` was finished to called.");
+        System.out.println("---------------------------------------------------------------");
+		
+    	resp.getWriter().write(gson.toJson(affectedRows));
     	return;
 	}
 }

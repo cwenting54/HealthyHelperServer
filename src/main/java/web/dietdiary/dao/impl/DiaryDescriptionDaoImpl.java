@@ -46,6 +46,14 @@ public class DiaryDescriptionDaoImpl implements DiaryDescriptionDao {
 
 	@Override
 	public int insert(DiaryDescriptionVO diaryDescriptionVO) {
+		System.out.println("-------------------------------------------");
+		System.out.println("DiaryDescriptionDaoImpl class, insert method was called.");
+		
+		System.out.println();
+		System.out.println();
+		System.out.println("diaryDescriptionVO:"+diaryDescriptionVO);
+		System.out.println();
+		System.out.println();
 		String sqlCommand = "INSERT INTO diarydescription "
 				+ "(diaryID,mealCategoryID,foodIconUri,foodDescription) "
 				+ " VALUES " + "(?,?,?,?);";
@@ -57,15 +65,28 @@ public class DiaryDescriptionDaoImpl implements DiaryDescriptionDao {
 			preparedStatement.setString(3,diaryDescriptionVO.getFoodIconUri());
 			preparedStatement.setString(4,diaryDescriptionVO.getFoodDescription());
 			
+			System.out.println("DiaryDescriptionDaoImpl class, insert method was finished to called.");
+			System.out.println("-------------------------------------------");
 			return preparedStatement.executeUpdate();
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
+		System.out.println("DiaryDescriptionDaoImpl class, insert method was finished to called.");
+		System.out.println("-------------------------------------------");
 		return -1;
 	}
 
 	@Override
-	public int updateById(DiaryDescriptionVO diaryDescriptionVO) {
+	public int updateByDiaryIdAndMealCategoryId(DiaryDescriptionVO diaryDescriptionVO) {
+		System.out.println("-------------------------------------------");
+		System.out.println("DiaryDescriptionDaoImpl class, updateByDiaryIdAndMealCategoryId method was called.");
+		
+		System.out.println();
+		System.out.println();
+		System.out.println("diaryDescriptionVO:"+diaryDescriptionVO);
+		System.out.println();
+		System.out.println();
+		
 		String sqlCommand = "UPDATE diarydescription "
 				+ "SET foodIconUri = ? , foodDescription = ? "
 				+ " WHERE " + " diaryID = ? AND mealCategoryID = ?; ";
@@ -77,15 +98,30 @@ public class DiaryDescriptionDaoImpl implements DiaryDescriptionDao {
 			preparedStatement.setInt(3,diaryDescriptionVO.getDiaryID());
 			preparedStatement.setInt(4,diaryDescriptionVO.getMealCategoryID());
 			
+			System.out.println("DiaryDescriptionDaoImpl class, updateByDiaryIdAndMealCategoryId method was finished to called.");
+			System.out.println("-------------------------------------------");
 			return preparedStatement.executeUpdate();
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		System.out.println("DiaryDescriptionDaoImpl class, updateByDiaryIdAndMealCategoryId method was finished to called.");
+		System.out.println("-------------------------------------------");
 		return -1;
 	}
 
+	
 	@Override
-	public ArrayList<DiaryDescriptionVO> selectById(DiaryDescriptionVO diaryDescriptionVO) {
+	public ArrayList<DiaryDescriptionVO> selectByDiaryIdAndMealCategoryId(DiaryDescriptionVO diaryDescriptionVO) {
+		System.out.println("-------------------------------------------");
+		System.out.println("DiaryDescriptionDaoImpl class, selectByDiaryIdAndMealCategoryId method was called.");
+		
+		System.out.println();
+		System.out.println();
+		System.out.println("diaryDescriptionVO:"+diaryDescriptionVO);
+		System.out.println();
+		System.out.println();
+		
 		String sqlCommand = "SELECT * FROM diarydescription WHERE diaryID = ? AND mealCategoryID = ? ;";
 		try (Connection connection = this.getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(sqlCommand);) {
@@ -94,12 +130,21 @@ public class DiaryDescriptionDaoImpl implements DiaryDescriptionDao {
 			preparedStatement.setInt(2,diaryDescriptionVO.getMealCategoryID());
 			
 			ResultSet resultSet = preparedStatement.executeQuery();
-			ArrayList<DiaryDescriptionVO> diaryDescriptionVOs = resultSetToObjects(resultSet);
+			ArrayList<DiaryDescriptionVO> querieDescriptionVOs = resultSetToObjects(resultSet);
+			System.out.println();
+			System.out.println();
+			System.out.println("querieDescriptionVOs:"+querieDescriptionVOs);
+			System.out.println();
+			System.out.println();
 			
-			return diaryDescriptionVOs;
+			System.out.println("DiaryDescriptionDaoImpl class, selectByDiaryIdAndMealCategoryId method was finished to called.");
+			System.out.println("-------------------------------------------");	
+			return querieDescriptionVOs;
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
+		System.out.println("DiaryDescriptionDaoImpl class, selectByDiaryIdAndMealCategoryId method was finished to called.");
+		System.out.println("-------------------------------------------");
 		return null;
 	}
 }

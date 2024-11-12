@@ -37,24 +37,25 @@ public class TryToInsertDiaryDescriptionController extends HttpServlet{
         resp.setContentType("application/json;charset=UTF-8");
         resp.setCharacterEncoding("UTF-8");
         
+        System.out.println("----------------------------------------------------");
+        System.out.println("`doPost` method of class with annotation @WebServlet(\"/dietDiary/diaryDescription/tryToInsert\") was called.");
         Gson gson = new Gson();
-        JsonObject jsonObject = new JsonObject();
-        String errorMessage = "";
         int affectedRows = 1;
         DiaryDescriptionVO targetDiaryDescriptionVO = gson.fromJson(req.getReader(),DiaryDescriptionVO.class);
+        System.out.println();
+        System.out.println();
+        System.out.println("targetDiaryDescriptionVO:"+targetDiaryDescriptionVO);
+        System.out.println();
+        System.out.println();
         affectedRows = this.diaryDescriptionService.tryToInsert(targetDiaryDescriptionVO);
-        if(affectedRows!=1) {
-        	errorMessage = "Unknown Error!!!";
-        	jsonObject.addProperty("errorMessage", errorMessage);
-        	jsonObject.addProperty("result", false);
-        	resp.getWriter().write(jsonObject.toString());
-        	return;
-        }
-        
-        errorMessage = "";
-    	jsonObject.addProperty("errorMessage", errorMessage);
-    	jsonObject.addProperty("result", true);
-    	resp.getWriter().write(jsonObject.toString());
-    	return;
+        System.out.println();
+        System.out.println();
+        System.out.println("affectedRows:"+affectedRows);
+        System.out.println();
+        System.out.println();
+    	resp.getWriter().write(gson.toJson(affectedRows));
+        System.out.println("`doPost` method of class with annotation @WebServlet(\"/dietDiary/diaryDescription/tryToInsert\") was called.");
+    	System.out.println("----------------------------------------------------");
+        return;
 	}
 }

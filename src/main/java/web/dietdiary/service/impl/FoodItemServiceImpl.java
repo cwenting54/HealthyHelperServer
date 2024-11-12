@@ -10,52 +10,128 @@ import web.dietdiary.dao.impl.FoodItemDao;
 import web.dietdiary.dao.impl.FoodItemDaoImpl;
 import web.dietdiary.vo.FoodItemVO;
 
-public class FoodItemServiceImpl implements FoodItemService{
+public class FoodItemServiceImpl implements FoodItemService {
 
 	private FoodItemDao foodItemDao;
 
 	public FoodItemServiceImpl() throws NamingException {
 		this.foodItemDao = new FoodItemDaoImpl(null);
 	}
-	
+
 	@Override
 	public int insert(FoodItemVO foodItem) {
 		return this.foodItemDao.insert(foodItem);
 	}
 
 	@Override
-	public int update(FoodItemVO foodItem) {
-		return this.foodItemDao.update(foodItem);
+	public int updateByFoodId(FoodItemVO foodItem) {
+		System.out.println("------------------------------------------------------------");
+		System.out.println("FoodItemServiceImpl class updateByFoodId method was called.`");
+		
+		System.out.println();
+        System.out.println();
+        System.out.println("foodItem:"+foodItem);
+        System.out.println();
+        System.out.println();
+        
+		System.out.println("FoodItemServiceImpl class updateByFoodId method was finished to called.`");
+		System.out.println("------------------------------------------------------------");
+		return this.foodItemDao.updateByFoodId(foodItem);
 	}
 
 	@Override
-	public int updateMealCategoryId(FoodItemVO foodItem) {
-		return this.foodItemDao.updateMealCategoryId(foodItem);
+	public int updateByDiaryIdAndFoodId(FoodItemVO foodItem) {
+		System.out.println("------------------------------------------------------------");
+		System.out.println("FoodItemServiceImpl class updateByDiaryIdAndFoodId method was called.`");
+		
+		System.out.println();
+        System.out.println();
+        System.out.println("foodItem:"+foodItem);
+        System.out.println();
+        System.out.println();
+        
+		System.out.println("FoodItemServiceImpl class updateByDiaryIdAndFoodId method was finished to called.`");
+		System.out.println("------------------------------------------------------------");
+		return this.foodItemDao.updateByDiaryIdAndFoodId(foodItem);
 	}
 
 	@Override
 	public int tryToInsert(FoodItemVO foodItem) {
+		System.out.println("---------------------------------------------------------------");
+		System.out.println("FoodItemServiceImpl class tryToInsert method was called.");
 		int affectedRows = -1;
-		ArrayList<FoodItemVO> foodItems = this.foodItemDao.selectByDiaryId(foodItem);
-		System.out.println("In tryToInsert method call,foodItems:"+foodItems);
-		if(foodItems == null) {
+		ArrayList<FoodItemVO> queriedFoodItems = this.foodItemDao.selectByDiaryIdAndFoodId(foodItem);
+
+		System.out.println();
+		System.out.println();
+		System.out.println("queriedFoodItems:" + queriedFoodItems);
+		System.out.println();
+		System.out.println();
+
+		if (queriedFoodItems == null) {
+			System.out.println("FoodItemServiceImpl class tryToInsert method was finished to called.");
+			System.out.println("---------------------------------------------------------------");
 			return -1;
 		}
-		if(foodItems.isEmpty()) {
+		if (queriedFoodItems.isEmpty()) {
 			affectedRows = this.foodItemDao.insert(foodItem);
+			System.out.println("FoodItemServiceImpl class tryToInsert method was finished to called.");
+			System.out.println("---------------------------------------------------------------");
 			return affectedRows;
 		}
-		affectedRows = this.foodItemDao.update(foodItem);
+		affectedRows = this.foodItemDao.updateByDiaryIdAndFoodId(foodItem);
+		System.out.println("FoodItemServiceImpl class tryToInsert method was finished to called.");
+		System.out.println("---------------------------------------------------------------");
 		return affectedRows;
 	}
 
 	@Override
 	public ArrayList<FoodItemVO> selectByDiaryId(FoodItemVO foodItem) {
+		System.out.println("---------------------------------------------------------------");		
+		System.out.println("FoodItemServiceImpl class selectByDiaryId method was called.");
+
+		System.out.println();
+		System.out.println();
+		System.out.println("foodItem:"+foodItem);
+		System.out.println();
+		System.out.println();
+		
+		System.out.println("FoodItemServiceImpl class selectByDiaryId method was finished to called.");
+		System.out.println("---------------------------------------------------------------");
+		
 		return this.foodItemDao.selectByDiaryId(foodItem);
 	}
 
 	@Override
 	public ArrayList<FoodItemVO> selectByDiaryIdAndMealCategoryId(FoodItemVO foodItem) {
+		System.out.println("---------------------------------------------------------------");		
+		System.out.println("FoodItemServiceImpl class selectByDiaryIdAndMealCategoryId method was called.");
+
+		System.out.println();
+		System.out.println();
+		System.out.println("foodItem:"+foodItem);
+		System.out.println();
+		System.out.println();
+		
+		System.out.println("FoodItemServiceImpl class selectByDiaryIdAndMealCategoryId method was finished to called.");
+		System.out.println("---------------------------------------------------------------");
+		
 		return this.foodItemDao.selectByDiaryIdAndMealCategoryId(foodItem);
+	}
+
+	@Override
+	public int deleteByDiaryIdAndFoodId(FoodItemVO foodItem) {
+		System.out.println("---------------------------------------------------------------");		
+		System.out.println("FoodItemServiceImpl class deleteByDiaryIdAndFoodId method was called.");
+
+		System.out.println();
+		System.out.println();
+		System.out.println("foodItem:"+foodItem);
+		System.out.println();
+		System.out.println();
+		
+		System.out.println("FoodItemServiceImpl class deleteByDiaryIdAndFoodId method was finished to called.");
+		System.out.println("---------------------------------------------------------------");
+		return this.foodItemDao.deleteByDiaryIdAndFoodId(foodItem);
 	}
 }
