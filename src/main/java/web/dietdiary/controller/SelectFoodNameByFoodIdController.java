@@ -16,7 +16,7 @@ import web.dietdiary.service.impl.FoodService;
 import web.dietdiary.service.impl.FoodServiceImpl;
 import web.dietdiary.vo.FoodVO;
 
-@WebServlet("/dietDiary/foodName/selectFoodNameByFoodId")
+@WebServlet("/dietDiary/foodName/select/selectFoodNameByFoodId")
 public class SelectFoodNameByFoodIdController extends HttpServlet{
 	private static final long serialVersionUID = 1L;
 	

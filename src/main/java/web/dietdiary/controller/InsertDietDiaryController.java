@@ -23,18 +23,15 @@ import web.dietdiary.service.impl.DietDiaryServiceImpl;
 import web.dietdiary.util.gson.GsonForSqlDateAndSqlTime;
 import web.dietdiary.vo.DietDiaryVO;
 
-@WebServlet("/dietDiary/insert/insertDietDiary")
+@WebServlet("/dietDiary/diary/insert/insertDietDiary")
 public class InsertDietDiaryController extends HttpServlet{
 	private static final long serialVersionUID = 1L;
 	
 	private DietDiaryService dietDiaryService;
-	private DietDiaryChecker dietDiaryChecker;
-	
 	@Override
 	public void init() throws ServletException {
 		try {
 			this.dietDiaryService = new DietDiaryServiceImpl();
-			this.dietDiaryChecker = new DietDiaryCheckerImpl();
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}
@@ -51,7 +48,6 @@ public class InsertDietDiaryController extends HttpServlet{
         
 		Gson gson = GsonForSqlDateAndSqlTime.gson;
 		int affectedRows = -1;
-		boolean isValidData = true;
 		DietDiaryVO targetDietDiary = gson.fromJson(req.getReader(), DietDiaryVO.class);
 		
 		System.out.println();
@@ -60,17 +56,8 @@ public class InsertDietDiaryController extends HttpServlet{
 		System.out.println();
 		System.out.println();
 		
-		isValidData = this.dietDiaryChecker.check(targetDietDiary);
 		affectedRows = this.dietDiaryService.insert(targetDietDiary);
 		 
-		if(!isValidData) {
-	        System.out.println("`doPost` method of class with annotation `@WebServlet(\"/dietDiary/insert/insertDietDiary\")` was finished to called.");
-			System.out.println("--------------------------------------------");
-	        
-			resp.getWriter().write(gson.toJson(-3));	
-	        return;
-		}
-		
         System.out.println("`doPost` method of class with annotation `@WebServlet(\"/dietDiary/insert/insertDietDiary\")` was finished to called.");
 		System.out.println("--------------------------------------------");
         

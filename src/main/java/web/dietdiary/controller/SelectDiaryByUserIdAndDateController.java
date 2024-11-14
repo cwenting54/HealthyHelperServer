@@ -17,7 +17,7 @@ import web.dietdiary.service.impl.DietDiaryServiceImpl;
 import web.dietdiary.util.gson.GsonForSqlDateAndSqlTime;
 import web.dietdiary.vo.DietDiaryVO;
 
-@WebServlet("/dietDiary/diary/selectByUserIdAndDate")
+@WebServlet("/dietDiary/diary/select/selectByUserIdAndDate")
 public class SelectDiaryByUserIdAndDateController extends HttpServlet{
 	private static final long serialVersionUID = 1L;
 	

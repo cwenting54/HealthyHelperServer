@@ -90,4 +90,5 @@ public class DietDiaryVO {
 				+ totalProtein + ", totalFiber=" + totalFiber + ", totalSugar=" + totalSugar + ", totalSodium="
 				+ totalSodium + ", totalCalories=" + totalCalories + "]";
 	}
+
 }
