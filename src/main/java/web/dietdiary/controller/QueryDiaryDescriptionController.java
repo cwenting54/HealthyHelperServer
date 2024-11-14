@@ -16,7 +16,7 @@ import web.dietdiary.service.impl.DiaryDescriptionService;
 import web.dietdiary.service.impl.DiaryDescriptionServiceImpl;
 import web.dietdiary.vo.DiaryDescriptionVO;
 
-@WebServlet("/dietDiary/diaryDescription/query")
+@WebServlet("/dietDiary/diaryDescription/select/selectDiaryDescriptionByDiaryId")
 public class QueryDiaryDescriptionController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	

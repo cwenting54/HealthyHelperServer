@@ -16,7 +16,7 @@ import web.dietdiary.service.impl.FoodItemServiceImpl;
 import web.dietdiary.util.gson.GsonForSqlDateAndSqlTime;
 import web.dietdiary.vo.FoodItemVO;
 
-@WebServlet("/dietDiary/foodItem/selectFoodItemByDiaryIdAndMealCategoryId")
+@WebServlet("/dietDiary/foodItem/select/selectFoodItemByDiaryIdAndMealCategoryId")
 public class SelectFoodItemByDiaryIdAndMealCategoryIdController extends HttpServlet{
 private static final long serialVersionUID = 1L;
 	

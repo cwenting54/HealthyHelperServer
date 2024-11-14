@@ -14,7 +14,6 @@ import javax.sql.DataSource;
 
 import web.dietdiary.vo.DietDiaryVO;
 
-
 public class DietDiaryDaoImpl implements DietDiaryDao {
 
 	private DataSource dataSource;
@@ -33,7 +32,7 @@ public class DietDiaryDaoImpl implements DietDiaryDao {
 	private ArrayList<DietDiaryVO> resultSetToObjects(ResultSet resultSet) throws SQLException {
 		ArrayList<DietDiaryVO> dietDiaries = new ArrayList<DietDiaryVO>();
 		while (resultSet.next()) {
-			
+
 			int diaryId = resultSet.getInt("diaryID");
 			int userId = resultSet.getInt("userID");
 			Date createDate = resultSet.getDate("createdate");
@@ -74,18 +73,18 @@ public class DietDiaryDaoImpl implements DietDiaryDao {
 
 		try (Connection connection = this.getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(sqlCommand);) {
-			
-			preparedStatement.setInt(1, dietDiaryVO.getDiaryID());
-			preparedStatement.setInt(2, dietDiaryVO.getUserID());
-			preparedStatement.setDate(3, dietDiaryVO.getCreateDate());
-			preparedStatement.setTime(4, dietDiaryVO.getCreateTime());
-			preparedStatement.setDouble(5, dietDiaryVO.getTotalFat());
-			preparedStatement.setDouble(6, dietDiaryVO.getTotalCarbon());
-			preparedStatement.setDouble(7, dietDiaryVO.getTotalFiber());
-			preparedStatement.setDouble(8, dietDiaryVO.getTotalSugar());
-			preparedStatement.setDouble(9, dietDiaryVO.getTotalSodium());
-			preparedStatement.setDouble(10, dietDiaryVO.getTotalProtein());
-			preparedStatement.setDouble(11, dietDiaryVO.getTotalCalories());
+
+			preparedStatement.setObject(1, dietDiaryVO.getDiaryID());
+			preparedStatement.setObject(2, dietDiaryVO.getUserID());
+			preparedStatement.setObject(3, dietDiaryVO.getCreateDate());
+			preparedStatement.setObject(4, dietDiaryVO.getCreateTime());
+			preparedStatement.setObject(5, dietDiaryVO.getTotalFat());
+			preparedStatement.setObject(6, dietDiaryVO.getTotalCarbon());
+			preparedStatement.setObject(7, dietDiaryVO.getTotalFiber());
+			preparedStatement.setObject(8, dietDiaryVO.getTotalSugar());
+			preparedStatement.setObject(9, dietDiaryVO.getTotalSodium());
+			preparedStatement.setObject(10, dietDiaryVO.getTotalProtein());
+			preparedStatement.setObject(11, dietDiaryVO.getTotalCalories());
 
 			int affectedRow = preparedStatement.executeUpdate();
 			return affectedRow;
@@ -97,12 +96,12 @@ public class DietDiaryDaoImpl implements DietDiaryDao {
 	}
 
 	@Override
-	public ArrayList<DietDiaryVO> selectByTime(int userId, Time time) {
-		String sqlCommand = "SELECT * FROM fooddiary WHERE" + " userId = ? AND createtime = ? ;";
+	public ArrayList<DietDiaryVO> selectByTimeAndUserId(DietDiaryVO dietDiary) {
+		String sqlCommand = "SELECT * FROM fooddiary WHERE" + " userID = ? AND createtime = ? ;";
 		try (Connection connection = this.getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(sqlCommand);) {
-			preparedStatement.setInt(1, userId);
-			preparedStatement.setTime(2, time);
+			preparedStatement.setInt(1, dietDiary.getUserID());
+			preparedStatement.setTime(2, dietDiary.getCreateTime());
 
 			ResultSet resultSet = preparedStatement.executeQuery();
 			return resultSetToObjects(resultSet);
@@ -114,22 +113,17 @@ public class DietDiaryDaoImpl implements DietDiaryDao {
 	}
 
 	@Override
-	public ArrayList<DietDiaryVO> selectByDate(int userId, Date date) {
-		String sqlCommand = "SELECT * FROM fooddiary WHERE" + " userId = ? AND createdate = ? ;";
+	public ArrayList<DietDiaryVO> selectByDateAndUserId(DietDiaryVO dietDiary) {
+		String sqlCommand = "SELECT * FROM fooddiary WHERE" + " userID = ? AND createdate = ? ;";
 		try (Connection connection = this.getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(sqlCommand);) {
 
-			preparedStatement.setInt(1, userId);
-			preparedStatement.setDate(2, date);
+			preparedStatement.setInt(1, dietDiary.getUserID());
+			preparedStatement.setDate(2, dietDiary.getCreateDate());
 
 			ResultSet resultSet = preparedStatement.executeQuery();
 
 			ArrayList<DietDiaryVO> dietDiaries = resultSetToObjects(resultSet);
-
-			if (dietDiaries == null) {
-				throw new Exception("Unknown error during execution of sql statement.");
-			}
-
 			return dietDiaries;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -138,14 +132,14 @@ public class DietDiaryDaoImpl implements DietDiaryDao {
 	}
 
 	@Override
-	public ArrayList<DietDiaryVO> selectByDateAndTime(int userId, Date date, Time time) {
-		String sqlCommand = "SELECT * FROM fooddiary WHERE" + " userId = ? AND createdate = ? AND createtime = ? ;";
+	public ArrayList<DietDiaryVO> selectByDateAndTimeAndUserId(DietDiaryVO dietDiary) {
+		String sqlCommand = "SELECT * FROM fooddiary WHERE" + " userID = ? AND createdate = ? AND createtime = ? ;";
 		try (Connection connection = this.getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(sqlCommand);) {
 
-			preparedStatement.setInt(1, userId);
-			preparedStatement.setDate(2, date);
-			preparedStatement.setTime(3, time);
+			preparedStatement.setInt(1, dietDiary.getUserID());
+			preparedStatement.setDate(2, dietDiary.getCreateDate());
+			preparedStatement.setTime(3, dietDiary.getCreateTime());
 
 			ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -161,8 +155,6 @@ public class DietDiaryDaoImpl implements DietDiaryDao {
 		}
 		return null;
 	}
-
-	
 
 	@Override
 	public int updateByDiaryId(DietDiaryVO dietDiaryVO) {
@@ -198,39 +190,36 @@ public class DietDiaryDaoImpl implements DietDiaryDao {
 	}
 
 	@Override
-	public DietDiaryVO selectByDiaryIdAndDate(int diaryId, Date date) {
+	public ArrayList<DietDiaryVO> selectByDiaryIdAndDate(DietDiaryVO dietDiary) {
 		String sqlCommand = "SELECT * FROM fooddiary WHERE" + " diaryID = ? AND createdate = ? ;";
 		try (Connection connection = this.getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(sqlCommand);) {
 
-			preparedStatement.setInt(1, diaryId);
-			preparedStatement.setDate(2, date);
+			preparedStatement.setInt(1, dietDiary.getDiaryID());
+			preparedStatement.setDate(2, dietDiary.getCreateDate());
 
 			ResultSet resultSet = preparedStatement.executeQuery();
 
 			ArrayList<DietDiaryVO> dietDiaries = resultSetToObjects(resultSet);
 
-			if (dietDiaries == null || dietDiaries.size() != 1) {
-				throw new Exception("Unknown error during execution of sql statement.");
-			}
-			return dietDiaries.get(0);
+			return dietDiaries;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return null;
 	}
-	
+
 	@Override
 	public ArrayList<DietDiaryVO> selectByUserIdAndDate(DietDiaryVO dietDiary) {
 		String sqlCommand = "SELECT * FROM fooddiary WHERE" + " userID = ? AND createdate = ? ;";
 		try (Connection connection = this.getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(sqlCommand);) {
-			
-			preparedStatement.setInt(1,dietDiary.getUserID());
-			preparedStatement.setDate(2,dietDiary.getCreateDate());
+
+			preparedStatement.setInt(1, dietDiary.getUserID());
+			preparedStatement.setDate(2, dietDiary.getCreateDate());
 			ResultSet resultSet = preparedStatement.executeQuery();
 			return resultSetToObjects(resultSet);
-		}catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return null;

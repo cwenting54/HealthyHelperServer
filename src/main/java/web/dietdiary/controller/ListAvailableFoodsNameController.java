@@ -16,7 +16,7 @@ import web.dietdiary.service.impl.FoodNameService;
 import web.dietdiary.service.impl.FoodNameServiceImpl;
 import web.dietdiary.vo.FoodNameVO;
 
-@WebServlet("/dietDiary/food/listAvailableFoodsName")
+@WebServlet("/dietDiary/food/search/listAvailableFoodsName")
 public class ListAvailableFoodsNameController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -44,10 +44,6 @@ public class ListAvailableFoodsNameController extends HttpServlet {
 			foodNames = this.foodNameService.listAvailableFoodsName();
 			
 			System.out.println("foodNames:"+foodNames.toString());
-			if (foodNames == null) {
-				throw new Exception("Unknown error!!!");
-			}
-
 			resp.getWriter().write(gson.toJson(foodNames));
 			return;
 		} catch (Exception e) {

@@ -19,19 +19,17 @@ import web.dietdiary.service.impl.DietDiaryServiceImpl;
 import web.dietdiary.util.gson.GsonForSqlDateAndSqlTime;
 import web.dietdiary.vo.DietDiaryVO;
 
-@WebServlet("/dietDiary/update/updateDietDiary")
+@WebServlet("/dietDiary/diary/update/updateDietDiary")
 public class UpdateDietDiaryController extends HttpServlet{
 	
 	private static final long serialVersionUID = 1L;
 	
 	private DietDiaryService dietDiaryService;
-	private DietDiaryChecker dietDiaryChecker;
 
 	@Override
 	public void init() throws ServletException {
 		try {
 			this.dietDiaryService = new DietDiaryServiceImpl();
-			this.dietDiaryChecker = new DietDiaryCheckerImpl();
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}
@@ -43,34 +41,26 @@ public class UpdateDietDiaryController extends HttpServlet{
         resp.setContentType("application/json;charset=UTF-8");
         resp.setCharacterEncoding("UTF-8");
         
+        System.out.println("-----------------------------------------");
+        System.out.println("`doPost` method in class with annotation `@WebServlet(\"/dietDiary/update/updateDietDiary\")` was called.");
+        
 		Gson gson = GsonForSqlDateAndSqlTime.gson;
-		JsonObject jsonObject = new JsonObject();
-		String errorMessage = "";
-		boolean isValidData = true;
-		DietDiaryVO dietDiary = gson.fromJson(req.getReader(), DietDiaryVO.class);
-		System.out.println("Ready to deserialize.");
-		System.out.println("DietDiary:"+dietDiary.toString());
+		DietDiaryVO targetDietDiary = gson.fromJson(req.getReader(), DietDiaryVO.class);
+		int affectedRows = -1;
 		
-		isValidData = dietDiaryChecker.check(dietDiary);
-		if(!isValidData) {
-			errorMessage = "Invalid Data in DietDiary!!!";
-			jsonObject.addProperty("result", false);
-			jsonObject.addProperty("errorMessage", errorMessage);
-			resp.getWriter().write(jsonObject.toString());	
-			return;
-		}
+		System.out.println();
+		System.out.println();
+		System.out.println("targetDietDiary:"+targetDietDiary);
+		System.out.println();
+		System.out.println();
 		
-		errorMessage = this.dietDiaryService.updateDietDiary(dietDiary.getDiaryID(), dietDiary.getCreateDate());
-		if(errorMessage != "") {
-			jsonObject.addProperty("result", false);
-			jsonObject.addProperty("errorMessage", errorMessage);
-			resp.getWriter().write(jsonObject.toString());
-			return;
-		}
+		affectedRows = this.dietDiaryService.updateDietDiary(targetDietDiary.getDiaryID(), targetDietDiary.getCreateDate());
+	
+		resp.getWriter().write(gson.toJson(affectedRows));
 		
-		jsonObject.addProperty("result", true);
-		jsonObject.addProperty("errorMessage", errorMessage);
-		resp.getWriter().write(jsonObject.toString());
+        System.out.println("`doPost` method in class with annotation `@WebServlet(\"/dietDiary/update/updateDietDiary\")` was finished to called.");
+		System.out.println("-----------------------------------------");
+		
 		return;
 	}
 }

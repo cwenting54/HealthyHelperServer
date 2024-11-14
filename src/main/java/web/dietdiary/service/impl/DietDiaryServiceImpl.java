@@ -53,28 +53,32 @@ public class DietDiaryServiceImpl implements DietDiaryService {
 		System.out.println();
 		System.out.println();
 		
-		if(targetDietDiaries==null) {
+		if(targetDietDiaries.isEmpty()) {
+			DietDiaryVO newDietDiary = new DietDiaryVO();
+			long currentTimeMillis = System.currentTimeMillis();
+			Date thatDate = dietDiary.getCreateDate();
+			Time currentTime = new Time(currentTimeMillis);
+			
+			newDietDiary.setUserID(dietDiary.getUserID());
+			newDietDiary.setCreateDate(thatDate);
+			newDietDiary.setCreateTime(currentTime);
+			newDietDiary.setTotalCarbon(0.0);
+			newDietDiary.setTotalFat(0.0);
+			newDietDiary.setTotalFiber(0.0);
+			newDietDiary.setTotalProtein(0.0);
+			newDietDiary.setTotalSodium(0.0);
+			newDietDiary.setTotalCalories(0.0);
+			
+			affectedRows = this.dietDiaryDao.insert(newDietDiary);
+			
 	        System.out.println("DietDiaryServiceImpl class, insert method  was finished to called.");
 			System.out.println("--------------------------------------------");
-			return -2;
+			return affectedRows;
 		}
-		if(!targetDietDiaries.isEmpty()) {
-	        System.out.println("DietDiaryServiceImpl class, insert method  was finished to called.");
-			System.out.println("--------------------------------------------");
-			return -1;
-		}
-		
-		affectedRows = this.dietDiaryDao.insert(dietDiary);
-		
-		System.out.println();
-		System.out.println();
-		System.out.println("affectedRows:"+affectedRows);
-		System.out.println();
-		System.out.println();
 		
         System.out.println("DietDiaryServiceImpl class, insert method  was finished to called.");
 		System.out.println("--------------------------------------------");
-		return affectedRows;
+		return -1;
 	}
 
 	@Override
@@ -91,15 +95,15 @@ public class DietDiaryServiceImpl implements DietDiaryService {
 		if (mode == 1) {
 	        System.out.println("DietDiaryServiceImpl class, search method was finished to called.");
 			System.out.println("--------------------------------------------");
-			return this.searchByDate(dietDiary);
+			return this.searchByDateAndUserId(dietDiary);
 		} else if (mode == 2) {
 	        System.out.println("DietDiaryServiceImpl class, search method was finished to called.");
 			System.out.println("--------------------------------------------");
-			return this.searchByTime(dietDiary);
+			return this.searchByTimeAndUserId(dietDiary);
 		} else if (mode == 3) {
 	        System.out.println("DietDiaryServiceImpl class, search method was finished to called.");
 			System.out.println("--------------------------------------------");
-			return this.searchByDateAndTime(dietDiary);
+			return this.searchByDateAndTimeAndUserId(dietDiary);
 		}
         System.out.println("DietDiaryServiceImpl class, search method was finished to called.");
 		System.out.println("--------------------------------------------");
@@ -107,25 +111,18 @@ public class DietDiaryServiceImpl implements DietDiaryService {
 	}
 
 	@Override
-	public ArrayList<DietDiaryVO> searchByDate(DietDiaryVO dietDiary) {
-		int userId = dietDiary.getUserID();
-		Date createDate = dietDiary.getCreateDate();
-		return this.dietDiaryDao.selectByDate(userId, createDate);
+	public ArrayList<DietDiaryVO> searchByDateAndUserId(DietDiaryVO dietDiary) {
+		return this.dietDiaryDao.selectByDateAndUserId(dietDiary);
 	}
 
 	@Override
-	public ArrayList<DietDiaryVO> searchByTime(DietDiaryVO dietDiary) {
-		int userId = dietDiary.getUserID();
-		Time createTime = dietDiary.getCreateTime();
-		return this.dietDiaryDao.selectByTime(userId, createTime);
+	public ArrayList<DietDiaryVO> searchByTimeAndUserId(DietDiaryVO dietDiary) {
+		return this.dietDiaryDao.selectByTimeAndUserId(dietDiary);
 	}
 
 	@Override
-	public ArrayList<DietDiaryVO> searchByDateAndTime(DietDiaryVO dietDiary) {
-		int userId = dietDiary.getUserID();
-		Date createDate = dietDiary.getCreateDate();
-		Time createTime = dietDiary.getCreateTime();
-		return this.dietDiaryDao.selectByDateAndTime(userId, createDate, createTime);
+	public ArrayList<DietDiaryVO> searchByDateAndTimeAndUserId(DietDiaryVO dietDiary) {
+		return this.dietDiaryDao.selectByDateAndTimeAndUserId(dietDiary);
 	}
 
 	@Override
@@ -148,32 +145,45 @@ public class DietDiaryServiceImpl implements DietDiaryService {
 	}
 
 	@Override
-	public String updateDietDiary(int foodId, Date date) {
+	public int updateDietDiary(DietDiaryVO dietDiary) {
 		try {
+			int affectedRows = -1;
+			
+			int foodId = dietDiary.getDiaryID();
+			Date createdate = dietDiary.getCreateDate();
+			
 			FoodItemVO sourceFoodItem = new FoodItemVO();
 			sourceFoodItem.setFoodID(foodId);
+			
 			ArrayList<FoodItemVO> foodItems = this.foodItemDao.selectByFoodId(sourceFoodItem);
 			FoodItemVO firstFoodItem = foodItems.get(0);
-			FoodVO food = foodDao.selectByFoodId(foodId);
-			NutritionVO nutrition = nutritionDao.getNutritionFromFood(food);
-			int diaryId = firstFoodItem.getDiaryID();
-			Double grams = firstFoodItem.getGrams();
 			
-			DietDiaryVO dietDiary = dietDiaryDao.selectByDiaryIdAndDate(diaryId, date);
-			if (dietDiary == null) {
-				throw new Exception("Unknown error!!!");
+			FoodVO food = foodDao.selectByFoodId(foodId);
+			
+			NutritionVO nutrition = nutritionDao.getNutritionFromFood(food);
+			
+			int diaryId = firstFoodItem.getDiaryID();
+			Double grams = firstFoodItem.getGrams();	
+			DietDiaryVO newDietDiary = new DietDiaryVO();
+			newDietDiary.setDiaryID(diaryId);
+			newDietDiary.setCreateDate(createdate);
+			
+			ArrayList<DietDiaryVO> targetDietDiaries = dietDiaryDao.selectByDiaryIdAndDate(newDietDiary);
+			if(targetDietDiaries.isEmpty()){
+				return -3;
 			}
-
+			DietDiaryVO firstDietDiary = targetDietDiaries.get(0); 
+			
 			nutrition = nutritionHandler.multiply(nutrition, grams);
 					
-			DietDiaryVO updatedDietDiary = this.plusNutrition(dietDiary, nutrition);
-			this.dietDiaryDao.updateByDiaryId(updatedDietDiary);
+			DietDiaryVO updatedDietDiary = this.plusNutrition(firstDietDiary, nutrition);
+			affectedRows = this.dietDiaryDao.updateByDiaryId(updatedDietDiary);
 			
-			return "";
+			return affectedRows;
 		} catch (Exception e) {
 			e.printStackTrace();
-			return e.getStackTrace().toString();
 		}
+		return -1;
 	}
 
 	@Override

@@ -9,16 +9,17 @@ import web.dietdiary.vo.NutritionVO;
 
 public interface DietDiaryService {
 	public ArrayList<DietDiaryVO> search(DietDiaryVO dietDiary, int mode);
-	public ArrayList<DietDiaryVO> searchByDate(DietDiaryVO dietDiary);
-	public ArrayList<DietDiaryVO> searchByTime(DietDiaryVO dietDiary);
-	public ArrayList<DietDiaryVO> searchByDateAndTime(DietDiaryVO dietDiary);
+	public ArrayList<DietDiaryVO> searchByDateAndUserId(DietDiaryVO dietDiary);
+	public ArrayList<DietDiaryVO> searchByTimeAndUserId(DietDiaryVO dietDiary);
+	public ArrayList<DietDiaryVO> searchByDateAndTimeAndUserId(DietDiaryVO dietDiary);
 		
 	public DietDiaryVO plusNutrition(DietDiaryVO dietDiary, NutritionVO nutrition);
-	public String updateDietDiary(int foodId, Date date);
+	public int updateDietDiary(int foodId, Date date);
 	public int insert(DietDiaryVO dietDiary);
 	
 	public ArrayList<DietDiaryVO> sort(ArrayList<DietDiaryVO> dietDiaries, int mode,boolean isAscending);
 	public ArrayList<DietDiaryVO> sortByDate(ArrayList<DietDiaryVO> dietDiaries,boolean isAscending);
 	
 	public ArrayList<DietDiaryVO> selectByUserIdAndDate(DietDiaryVO dietDiary);
+	int updateDietDiary(DietDiaryVO dietDiary);
 }
