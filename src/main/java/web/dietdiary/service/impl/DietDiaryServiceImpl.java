@@ -29,14 +29,12 @@ public class DietDiaryServiceImpl implements DietDiaryService {
 	private DietDiaryDao dietDiaryDao;
 	private FoodItemDao foodItemDao;
 	private FoodDao foodDao;
-	private NutritionDao nutritionDao;
 	private NutritionHandler nutritionHandler;
 
 	public DietDiaryServiceImpl() throws NamingException {
 		this.dietDiaryDao = new DietDiaryDaoImpl(null);
 		this.foodItemDao = new FoodItemDaoImpl(null);
 		this.foodDao = new FoodDaoImpl(null);
-		this.nutritionDao = new NutritionDaoImpl();
 		this.nutritionHandler = new NutritionHandlerImpl();
 	}
 
@@ -147,42 +145,87 @@ public class DietDiaryServiceImpl implements DietDiaryService {
 	@Override
 	public int updateDietDiary(DietDiaryVO dietDiary) {
 		try {
+			System.out.println("-----------------------------------------------------");
+			System.out.println("In DietDiaryServiceImpl class, updateDietDiary method was called.");
+			
+			System.out.println();
+			System.out.println();
+			System.out.println("dietDiary:"+dietDiary);
+			System.out.println();
+			System.out.println();
+			
 			int affectedRows = -1;
 			
-			int foodId = dietDiary.getDiaryID();
-			Date createdate = dietDiary.getCreateDate();
-			
 			FoodItemVO sourceFoodItem = new FoodItemVO();
-			sourceFoodItem.setFoodID(foodId);
+			sourceFoodItem.setDiaryID(dietDiary.getDiaryID());
 			
-			ArrayList<FoodItemVO> foodItems = this.foodItemDao.selectByFoodId(sourceFoodItem);
-			FoodItemVO firstFoodItem = foodItems.get(0);
+			ArrayList<FoodItemVO> queriedFoodItems = this.foodItemDao.selectByDiaryId(sourceFoodItem);
 			
-			FoodVO food = foodDao.selectByFoodId(foodId);
+			System.out.println();
+			System.out.println();
+			System.out.println("queriedFoodItems:"+queriedFoodItems);
+			System.out.println();
+			System.out.println();
 			
-			NutritionVO nutrition = nutritionDao.getNutritionFromFood(food);
-			
-			int diaryId = firstFoodItem.getDiaryID();
-			Double grams = firstFoodItem.getGrams();	
-			DietDiaryVO newDietDiary = new DietDiaryVO();
-			newDietDiary.setDiaryID(diaryId);
-			newDietDiary.setCreateDate(createdate);
-			
-			ArrayList<DietDiaryVO> targetDietDiaries = dietDiaryDao.selectByDiaryIdAndDate(newDietDiary);
-			if(targetDietDiaries.isEmpty()){
-				return -3;
+			if(queriedFoodItems==null) {
+				System.out.println("In DietDiaryServiceImpl class, updateDietDiary method was finished to called.");
+				System.out.println("-----------------------------------------------------");
+				return -2;
 			}
-			DietDiaryVO firstDietDiary = targetDietDiaries.get(0); 
 			
-			nutrition = nutritionHandler.multiply(nutrition, grams);
+			if(queriedFoodItems.isEmpty()) {
+				System.out.println("In DietDiaryServiceImpl class, updateDietDiary method was finished to called.");
+				System.out.println("-----------------------------------------------------");
+				return -4;
+			}
+			
+			NutritionVO totalNutrition = new NutritionVO();
+			
+			for(FoodItemVO queriedFoodItem: queriedFoodItems) {
+				Double queriedGrams = queriedFoodItem.getGrams();
+				FoodVO newFood = new FoodVO();
+				newFood.setFoodID(queriedFoodItem.getFoodID());
+				
+				ArrayList<FoodVO> queriedFoods = this.foodDao.selectByFoodId(newFood);
+				if(queriedFoods == null) {
+					continue;
+				}
+				if(queriedFoods.isEmpty()) {
+					continue;
+				}
+							
+				for(FoodVO queriedFood: queriedFoods) {
+					NutritionVO unitNutrition = this.nutritionHandler.getNutritionFromFood(queriedFood);
+					NutritionVO weightedNutrition = this.nutritionHandler.multiply(unitNutrition, queriedGrams);
+					totalNutrition = this.nutritionHandler.add(totalNutrition, weightedNutrition); 
+				}
+			}
+			
+			DietDiaryVO newDietDiary = this.nutritionHandler.returnNutritionVO(totalNutrition);
+			newDietDiary.setDiaryID(dietDiary.getDiaryID());
+			newDietDiary.setCreateDate(dietDiary.getCreateDate());
+			newDietDiary.setUserID(dietDiary.getUserID());
+			
+			System.out.println();
+			System.out.println();
+			System.out.println("newDietDiary:"+newDietDiary);
+			System.out.println();
+			System.out.println();
+			
+			affectedRows = this.dietDiaryDao.updateByDiaryId(newDietDiary);
 					
-			DietDiaryVO updatedDietDiary = this.plusNutrition(firstDietDiary, nutrition);
-			affectedRows = this.dietDiaryDao.updateByDiaryId(updatedDietDiary);
+			System.out.println();
+			System.out.println();
+			System.out.println("affectedRows:"+affectedRows);
+			System.out.println();
+			System.out.println();
 			
 			return affectedRows;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		System.out.println("In DietDiaryServiceImpl class, updateDietDiary method was finished to called.");
+		System.out.println("-----------------------------------------------------");
 		return -1;
 	}
 

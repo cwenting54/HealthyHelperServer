@@ -54,8 +54,14 @@ public class UpdateDietDiaryController extends HttpServlet{
 		System.out.println();
 		System.out.println();
 		
-		affectedRows = this.dietDiaryService.updateDietDiary(targetDietDiary.getDiaryID(), targetDietDiary.getCreateDate());
+		affectedRows = this.dietDiaryService.updateDietDiary(targetDietDiary);
 	
+		System.out.println();
+		System.out.println();
+		System.out.println("affectedRows:"+affectedRows);
+		System.out.println();
+		System.out.println();
+		
 		resp.getWriter().write(gson.toJson(affectedRows));
 		
         System.out.println("`doPost` method in class with annotation `@WebServlet(\"/dietDiary/update/updateDietDiary\")` was finished to called.");

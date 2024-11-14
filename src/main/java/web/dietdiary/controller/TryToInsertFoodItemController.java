@@ -16,7 +16,7 @@ import web.dietdiary.service.impl.FoodItemService;
 import web.dietdiary.service.impl.FoodItemServiceImpl;
 import web.dietdiary.vo.FoodItemVO;
 
-@WebServlet("/dietDiary/foodItem/tryToInsertFoodItem")
+@WebServlet("/dietDiary/foodItem/insert/tryToInsertFoodItem")
 public class TryToInsertFoodItemController extends HttpServlet{
 	private static final long serialVersionUID = 1L;
 	

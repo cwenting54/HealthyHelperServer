@@ -8,6 +8,22 @@ public class NutritionVO {
 	private Double sugar;
 	private Double sodium;
 	private Double calories;
+	
+	public NutritionVO(Double fat, Double carbon, Double protein, Double fiber, Double sugar, Double sodium,
+			Double calories) {
+		this.fat = fat;
+		this.carbon = carbon;
+		this.protein = protein;
+		this.fiber = fiber;
+		this.sugar = sugar;
+		this.sodium = sodium;
+		this.calories = calories;
+	}
+	
+	public NutritionVO() {
+		this(0.0,0.0,0.0,0.0,0.0,0.0,0.0);
+	}
+	
 	public Double getFat() {
 		return fat;
 	}
@@ -50,5 +66,4 @@ public class NutritionVO {
 	public void setCalories(Double calories) {
 		this.calories = calories;
 	}
-
 }
