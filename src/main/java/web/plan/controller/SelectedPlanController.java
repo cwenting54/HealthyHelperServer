@@ -52,14 +52,27 @@ public class SelectedPlanController extends HttpServlet {
 		
 		try {
 			PlanWithCategory planWithCategory = gson.fromJson(req.getReader(), PlanWithCategory.class);
+			System.out.println(planWithCategory.getUserId());
+			System.out.println(planWithCategory.getUserDietPlanId());
 			PlanWithCategory selectplan = checkPlanService.GetSelectedPlan(planWithCategory.getUserId(), planWithCategory.getUserDietPlanId());
 			if(selectplan == null) {
 				System.out.println("doPost: selectPlanfailed");
 				writeText(resp, "doPost: selectPlanfailed");
 			}	
-			String jsonStr = gson.toJson(selectplan);
-			System.out.println("doPost: " + jsonStr);
-			writeText(resp, jsonStr);
+//			String jsonStr = gson.toJson(selectplan);
+			JsonObject respbody = new JsonObject();
+			respbody.addProperty("userDietPlanId", selectplan.getUserDietPlanId());
+			respbody.addProperty("categoryId", selectplan.getCategoryID());
+			respbody.addProperty("userId", selectplan.getUserId());
+			respbody.addProperty("startDatetime", selectplan.getStartDateTime().toString());
+			respbody.addProperty("endDatetime", selectplan.getEndDateTime().toString());
+			respbody.addProperty("finishstate", selectplan.getFinishstate());
+			respbody.addProperty("fatgoal", selectplan.getFatgoal());
+			respbody.addProperty("carbongoal", selectplan.getCarbongoal());
+			respbody.addProperty("proteingoal", selectplan.getProteingoal());
+			respbody.addProperty("Caloriesgoal", selectplan.getCaloriesgoal());
+			System.out.println("doPost: " + respbody.toString());
+			writeText(resp, respbody.toString());
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("postErr: " + e.toString());
