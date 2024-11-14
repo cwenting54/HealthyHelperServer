@@ -18,4 +18,6 @@ public interface DietDiaryDao {
 	ArrayList<DietDiaryVO> selectByDateAndUserId(DietDiaryVO dietDiary);
 
 	ArrayList<DietDiaryVO> selectByDiaryIdAndDate(DietDiaryVO dietDiary);
+	
+	ArrayList<DietDiaryVO> selectByFoodId(DietDiaryVO dietDiary);
 }

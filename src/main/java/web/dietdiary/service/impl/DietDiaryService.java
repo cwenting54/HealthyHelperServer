@@ -1,6 +1,5 @@
 package web.dietdiary.service.impl;
 
-import java.sql.Date;
 import java.util.ArrayList;
 
 import web.dietdiary.vo.DietDiaryVO;
@@ -14,7 +13,6 @@ public interface DietDiaryService {
 	public ArrayList<DietDiaryVO> searchByDateAndTimeAndUserId(DietDiaryVO dietDiary);
 		
 	public DietDiaryVO plusNutrition(DietDiaryVO dietDiary, NutritionVO nutrition);
-	public int updateDietDiary(int foodId, Date date);
 	public int insert(DietDiaryVO dietDiary);
 	
 	public ArrayList<DietDiaryVO> sort(ArrayList<DietDiaryVO> dietDiaries, int mode,boolean isAscending);

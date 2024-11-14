@@ -217,9 +217,30 @@ public class DietDiaryDaoImpl implements DietDiaryDao {
 
 			preparedStatement.setInt(1, dietDiary.getUserID());
 			preparedStatement.setDate(2, dietDiary.getCreateDate());
+			
 			ResultSet resultSet = preparedStatement.executeQuery();
-			return resultSetToObjects(resultSet);
+			ArrayList<DietDiaryVO> queriedDietDiaries =  resultSetToObjects(resultSet);
+			
+			return queriedDietDiaries;
 		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public ArrayList<DietDiaryVO> selectByFoodId(DietDiaryVO dietDiary) {
+		String sqlCommand = "SELECT * FROM fooddiary WHERE" + " diaryID = ? ;";
+		try (Connection connection = this.getConnection();
+				PreparedStatement preparedStatement = connection.prepareStatement(sqlCommand);) {	
+			
+			preparedStatement.setInt(1,dietDiary.getDiaryID());
+			
+			ResultSet resultSet = preparedStatement.executeQuery();
+			ArrayList<DietDiaryVO> queriedDietDiaries = resultSetToObjects(resultSet);
+			
+			return queriedDietDiaries;
+		}catch (Exception e) {
 			e.printStackTrace();
 		}
 		return null;
