@@ -19,8 +19,8 @@ import web.dietdiary.service.impl.DietDiaryServiceImpl;
 import web.dietdiary.util.gson.GsonForSqlDateAndSqlTime;
 import web.dietdiary.vo.DietDiaryVO;
 
-@WebServlet("/dietDiary/diary/update/byDiaryId")
-public class UpdateDietDiaryByDiaryIdController extends HttpServlet{
+@WebServlet("/dietDiary/diary/update/byDiaryIdAndMealCategoryId")
+public class UpdateDietDiaryByDiaryIdAndMealCategoryIdController extends HttpServlet{
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -42,7 +42,7 @@ public class UpdateDietDiaryByDiaryIdController extends HttpServlet{
         resp.setCharacterEncoding("UTF-8");
         
         System.out.println("-----------------------------------------");
-        System.out.println("`doPost` method in class with annotation `@WebServlet(\"/dietDiary/diary/update/byDiaryId\")` was called.");
+        System.out.println("`doPost` method in class with annotation `@WebServlet(\"/dietDiary/diary/update/byDiaryIdAndMealCategoryId\")` was called.");
         
 		Gson gson = GsonForSqlDateAndSqlTime.gson;
 		DietDiaryVO targetDietDiary = gson.fromJson(req.getReader(), DietDiaryVO.class);
@@ -64,7 +64,7 @@ public class UpdateDietDiaryByDiaryIdController extends HttpServlet{
 		
 		resp.getWriter().write(gson.toJson(affectedRows));
 		
-        System.out.println("`doPost` method in class with annotation `@WebServlet(\"/dietDiary/diary/update/byDiaryId\")` was finished to called.");
+        System.out.println("`doPost` method in class with annotation `@WebServlet(\"/dietDiary/diary/update/byDiaryIdAndMealCategoryId\")` was finished to called.");
 		System.out.println("-----------------------------------------");
 		
 		return;

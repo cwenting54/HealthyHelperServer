@@ -143,10 +143,10 @@ public class DietDiaryServiceImpl implements DietDiaryService {
 	}
 
 	@Override
-	public int updateDietDiary(DietDiaryVO dietDiary) {
+	public int updateDietDiaryInfoByDiaryId(DietDiaryVO dietDiary) {
 		try {
 			System.out.println("-----------------------------------------------------");
-			System.out.println("In DietDiaryServiceImpl class, updateDietDiary method was called.");
+			System.out.println("In DietDiaryServiceImpl class, updateDietDiaryInfoByDiaryId method was called.");
 			
 			System.out.println();
 			System.out.println();
@@ -168,13 +168,13 @@ public class DietDiaryServiceImpl implements DietDiaryService {
 			System.out.println();
 			
 			if(queriedFoodItems==null) {
-				System.out.println("In DietDiaryServiceImpl class, updateDietDiary method was finished to called.");
+				System.out.println("In DietDiaryServiceImpl class, updateDietDiaryInfoByDiaryId method was finished to called.");
 				System.out.println("-----------------------------------------------------");
 				return -2;
 			}
 			
 			if(queriedFoodItems.isEmpty()) {
-				System.out.println("In DietDiaryServiceImpl class, updateDietDiary method was finished to called.");
+				System.out.println("In DietDiaryServiceImpl class, updateDietDiaryInfoByDiaryId method was finished to called.");
 				System.out.println("-----------------------------------------------------");
 				return -4;
 			}
@@ -220,11 +220,102 @@ public class DietDiaryServiceImpl implements DietDiaryService {
 			System.out.println();
 			System.out.println();
 			
+			System.out.println("In DietDiaryServiceImpl class, updateDietDiaryInfoByDiaryId method was finished to called.");
+			System.out.println("-----------------------------------------------------");
 			return affectedRows;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println("In DietDiaryServiceImpl class, updateDietDiary method was finished to called.");
+		System.out.println("In DietDiaryServiceImpl class, updateDietDiaryInfoByDiaryId method was finished to called.");
+		System.out.println("-----------------------------------------------------");
+		return -1;
+	}
+	
+	@Override
+	public int updateDietDiaryInfoByDiaryIdAndMealCategoryId(DietDiaryVO dietDiary) {
+		try {
+			System.out.println("-----------------------------------------------------");
+			System.out.println("In DietDiaryServiceImpl class, updateDietDiaryInfoByDiaryIdAndMealCategoryId method was called.");
+			
+			System.out.println();
+			System.out.println();
+			System.out.println("dietDiary:"+dietDiary);
+			System.out.println();
+			System.out.println();
+			
+			int affectedRows = -1;
+			
+			FoodItemVO sourceFoodItem = new FoodItemVO();
+			sourceFoodItem.setDiaryID(dietDiary.getDiaryID());
+			
+			ArrayList<FoodItemVO> queriedFoodItems = this.foodItemDao.selectByDiaryId(sourceFoodItem);
+			
+			System.out.println();
+			System.out.println();
+			System.out.println("queriedFoodItems:"+queriedFoodItems);
+			System.out.println();
+			System.out.println();
+			
+			if(queriedFoodItems==null) {
+				System.out.println("In DietDiaryServiceImpl class, updateDietDiaryInfoByDiaryIdAndMealCategoryId method was finished to called.");
+				System.out.println("-----------------------------------------------------");
+				return -2;
+			}
+			
+			if(queriedFoodItems.isEmpty()) {
+				System.out.println("In DietDiaryServiceImpl class, updateDietDiaryInfoByDiaryIdAndMealCategoryId method was finished to called.");
+				System.out.println("-----------------------------------------------------");
+				return -4;
+			}
+			
+			NutritionVO totalNutrition = new NutritionVO();
+			
+			for(FoodItemVO queriedFoodItem: queriedFoodItems) {
+				Double queriedGrams = queriedFoodItem.getGrams();
+				FoodVO newFood = new FoodVO();
+				newFood.setFoodID(queriedFoodItem.getFoodID());
+				
+				ArrayList<FoodVO> queriedFoods = this.foodDao.selectByFoodId(newFood);
+				if(queriedFoods == null) {
+					continue;
+				}
+				if(queriedFoods.isEmpty()) {
+					continue;
+				}
+							
+				for(FoodVO queriedFood: queriedFoods) {
+					NutritionVO unitNutrition = this.nutritionHandler.getNutritionFromFood(queriedFood);
+					NutritionVO weightedNutrition = this.nutritionHandler.multiply(unitNutrition, queriedGrams);
+					totalNutrition = this.nutritionHandler.add(totalNutrition, weightedNutrition); 
+				}
+			}
+			
+			DietDiaryVO newDietDiary = this.nutritionHandler.returnNutritionVO(totalNutrition);
+			newDietDiary.setDiaryID(dietDiary.getDiaryID());
+			newDietDiary.setCreateDate(dietDiary.getCreateDate());
+			newDietDiary.setUserID(dietDiary.getUserID());
+			
+			System.out.println();
+			System.out.println();
+			System.out.println("newDietDiary:"+newDietDiary);
+			System.out.println();
+			System.out.println();
+			
+			affectedRows = this.dietDiaryDao.updateByDiaryId(newDietDiary);
+					
+			System.out.println();
+			System.out.println();
+			System.out.println("affectedRows:"+affectedRows);
+			System.out.println();
+			System.out.println();
+			
+			System.out.println("In DietDiaryServiceImpl class, updateDietDiaryInfoByDiaryIdAndMealCategoryId method was finished to called.");
+			System.out.println("-----------------------------------------------------");
+			return affectedRows;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		System.out.println("In DietDiaryServiceImpl class, updateDietDiaryInfoByDiaryIdAndMealCategoryId method was finished to called.");
 		System.out.println("-----------------------------------------------------");
 		return -1;
 	}

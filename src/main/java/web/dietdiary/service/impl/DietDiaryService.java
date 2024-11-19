@@ -19,5 +19,6 @@ public interface DietDiaryService {
 	public ArrayList<DietDiaryVO> sortByDate(ArrayList<DietDiaryVO> dietDiaries,boolean isAscending);
 	
 	public ArrayList<DietDiaryVO> selectByUserIdAndDate(DietDiaryVO dietDiary);
-	int updateDietDiary(DietDiaryVO dietDiary);
+	int updateDietDiaryInfoByDiaryId(DietDiaryVO dietDiary);
+	int updateDietDiaryInfoByDiaryIdAndMealCategoryId(DietDiaryVO dietDiary);
 }
